@@ -1,41 +1,31 @@
 const express = require('express');
-
-// Connexion à la base de données
-const mysql = require('mysql2');
-const dbConfig = require('./config/db.config');
-
-const db = mysql.createConnection({
-    host: dbConfig.HOST,
-    user: dbConfig.USER,
-    password: dbConfig.PASSWORD,
-    database: dbConfig.DATABASE
- 
-  });
-
-  db.connect(function(err) {
-    if (err) throw err;
-    console.log("Connecté à la base de données MySQL!");
-  });
+const path = require('path');
+const auth = require('./middleware/auth');
+// Routes 
+const userRoutes = require('./routes/user');
+const postRoutes = require('./routes/post');
+//const likeRoutes = require('./routes/like');
+const commentRoutes = require('./routes/comment');
 
 const app = express();
 
+// headers pour intéragir avec l'API
 app.use((req, res, next) => {
-  console.log('Requête reçue !');
-  next();
+    res.setHeader('Access-Control-Allow-Origin', '*'); // Accéder à notre API depuis n'importe quelle origine 
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'); // Ajouter les headers mentionnés aux requêtes envoyées vers notre API
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS'); // Envoyer des requêtes avec les méthodes mentionnées 
+    next();
 });
 
-app.use((req, res, next) => {
-  res.status(201);
-  next();
-});
+app.use(express.json());
 
-app.use((req, res, next) => {
-  res.json({ message: 'Votre requête a bien été reçue !' });
-  next();
-});
-
-app.use((req, res, next) => {
-  console.log('Réponse envoyée avec succès !');
-});
+app.use('/images', express.static(path.join(__dirname, 'images'))); // Gestion de l'ajout de photo
+app.use('/api/users', auth, userRoutes);
+app.use('/api/posts', auth, postRoutes);
+//app.use('/api/likes', auth, likeRoutes);
+app.use('/api/comments', auth, commentRoutes);
+//DB 
+const db = require("./models");
+db.sequelize.sync();
 
 module.exports = app;
