@@ -67,7 +67,7 @@ exports.signup = (req, res, next) => {
 
 // FONCTION LOGIN
 exports.login = (req, res) => {
-    User.findOne({
+    db.users.findOne({
             where: {
                 email: req.body.email // recherche de l'utilisateur en fonction de son email
             }
