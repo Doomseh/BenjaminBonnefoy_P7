@@ -22,7 +22,9 @@ exports.createPost = (req, res, next) => {
     const post = new Post({
         ...postObject,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-        createdAt: Date.now()
+        createdAt: Date.now(),
+        usersliked: [],
+        likes: 0
     });
     // Enregistrement de l'objet post dans la base de données
     post.save()
@@ -107,7 +109,7 @@ exports.deletePost = (req, res, next) => {
     Post.findOne({
             _id: req.params.id // Utilisation de la méthone findOne() pour trouver la sauce correspondant au paramètre de la requête
         })
-        .then(post=> {
+        .then(post => {
             const filename = post.imageUrl.split('/images/')[1]; // Récupération du fichier image de la sauce
             fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
                 Post.deleteOne({
@@ -122,6 +124,68 @@ exports.deletePost = (req, res, next) => {
             });
         })
         .catch(error => res.status(500).json({
+            error
+        }));
+};
+
+// FONCTION LIKE POST
+exports.postLike = (req, res, next) => {
+    const userId = req.body.userId;
+    const likes = req.body.like;
+    Post.findOne({
+            _id: req.params.id
+        })
+        .then(post => {
+            switch (likes) { // Utilisation d'un switch pour les différents cas possible
+                case 1: // Ajout du like
+                    Post.updateOne({
+                            _id: req.params.id
+                        }, {
+                            $push: {
+                                userLiked: userId // Ajout du userID au tableau des userLiked
+                            },
+                            $inc: {
+                                likes: +1 // Incrémentation de 1 aux nombres de likes
+                            }
+                        })
+
+                        .then(() => {
+                            post.save();
+                            res.status(200).json({
+                                message: 'Le post à été apprécié'
+                            })
+                        })
+                        .catch(error => res.status(400).json({
+                            error
+                        }));
+                    break;
+
+                case 0: // Suppression du like
+                    if (post.usersLiked.includes(userId)) { // Vérification si l'utilisateur a déjà like le post
+                        Post.updateOne({
+                                _id: req.params.id
+                            }, {
+                                $pull: {
+                                    usersLiked: userId // Suppression de l'userID du tableau des usersLiked
+                                },
+                                $inc: {
+                                    likes: -1 // Décrémentation de 1 du nombres de likes
+                                }
+                            })
+                            .then(() => {
+                                post.save();
+                                res.status(200).json({
+                                    message: 'Like supprimé'
+                                })
+                            })
+                            .catch(error => res.status(400).json({
+                                error
+                            }));
+                    }
+                    break;
+            }
+        })
+        .catch(error => res.status(400).json({
             error
         }));
 };

@@ -1,40 +1,35 @@
-module.exports = (sequelize, Sequelize) => {
-    const User = sequelize.define("user", {
-        userId: {
-            type: Sequelize.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            require: true
-        },
-        email: {
-            type: Sequelize.STRING,
-            unique: true,
-        },
-        firstname: {
-            type: Sequelize.STRING,
-            require: true
-        },
-        lastname: {
-            type: Sequelize.STRING,
-            require: true
-        },
-        password: {
-            type: Sequelize.STRING,
-            require: true
-        },
-        imageUrl: {
-            type: Sequelize.STRING
-        },
-        isAdmin: {
-            type: Sequelize.BOOLEAN,
-            defaultValue: 0
-        },
-        createdAt: {
-            type: Sequelize.DATE
-        },
-    }, {
-        timestamps: false
-    })
-
-    return User;
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
+    email: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      unique: true
+    },
+    firstname: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    lastname: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    password: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    imageUrl: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    isAdmin: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+      defaultValue: 0
+    },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    }
+  });
+  return User;
 };

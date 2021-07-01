@@ -4,7 +4,6 @@ const auth = require('./middleware/auth');
 // Routes 
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
-//const likeRoutes = require('./routes/like');
 const commentRoutes = require('./routes/comment');
 
 const app = express();
@@ -20,9 +19,8 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images'))); // Gestion de l'ajout de photo
-app.use('/api/users', auth, userRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/posts', auth, postRoutes);
-//app.use('/api/likes', auth, likeRoutes);
 app.use('/api/comments', auth, commentRoutes);
 //DB 
 const db = require("./models");

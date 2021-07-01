@@ -3,62 +3,66 @@ const jwt = require('jsonwebtoken');
 const db = require("../models");
 const fs = require('fs');
 const regexPassword = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/;
-const User = db.user;
-const Comment = db.comments;
-const Post = db.post;
+const Comment = require("../models/comment");
+
 
 // FONCTION SIGN UP
 exports.signup = (req, res, next) => {
+    // éléments de la requète
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
+    const email = req.body.email;
+    const password = req.body.password;
+    
 
-    // Verification des champs vide
-    if (!req.body.email && !req.body.firstname && !req.body.lastname && !req.body.password && !req.body.pseudo) {
-        res.status(400).send({
-            message: "Veuillez remplir l'ensemble des champs du formulaire"
+    // vérification que tous les champs sont remplis
+
+    if (firstname === null || lastname === null ||
+        email === null || password === null) {
+        return res.status(400).json({
+            'error': "Veuillez remplir l'ensemble des champs du formulaire"
         });
     }
-
-    User.findOne({
+    // vérification si l'user existe dans DB
+    db.users.findOne({
             where: {
-                email: req.body.email // recherche de l'utilisateur en fonction de son email
+                email: email
             }
         })
-        .then((user) => {
-            // si l'utilisateur n'existe pas
-            if (!user) {
-                if (regexPassword.test(req.body.password)) {
-                    bcrypt.hash(password, 10)
-                        .then(hash => {
-
-                            // Création du nouvel utilisateur
-                            const user = {
-                                email: req.body.email,
-                                firstname: req.body.firstname,
-                                lastname: req.body.lastname,
-                                password: hash,
-                                imageUrl: "http://localhost:3000/images/user.png",
-                                isAdmin: 0,
-                                createdAt: new Date()
-                            };
-
-                            // Sauvegarde dans la base de données
-                            user.save()
-                                .then(() => res.status(201).json({
-                                    message: 'Utilisateur créé !'
-                                }))
-                                .catch(error => res.status(400).json({
-                                    error
-                                }));
-                        })
-                }
-            } else if (user) {
+        .then((userFound) => {
+            // si l'utilisateur n'existe pas la DB
+            if (!userFound) {
+                // Hash du mot de passe avec bcrypt
+                bcrypt.hash(password, 10, (err, hash) => { 
+                    // Création du nouvel utilisateur
+                    const user = new db.users({
+                        firstname: firstname,
+                        lastname: lastname,
+                        email: email,
+                        password: hash
+                    })
+                    // Sauvegarde dans la base de données
+                    user.save()
+                        .then(() => res.status(201).json({
+                            message: 'Utilisateur créé !'
+                        }))
+                        .catch(error => res.status(400).json({
+                            error
+                        }));
+                })
+                    
+            } else if (userFound) {
                 return res.status(409).json({
                     error: "L'utilisateur existe déjà !"
                 })
             }
         })
-        .catch(error => res.status(500).json({
-            error
-        }));
+        .catch(error => {
+            console.log(error)
+            res.status(500).json({
+                error: error
+            })
+        });
 };
 
 // FONCTION LOGIN
@@ -189,7 +193,7 @@ exports.deleteUser = (req, res, next) => {
 
 // FONCTION POUR MODIFIER UN UTILISATEUR
 exports.modifyUser = (req, res, next) => {
-    
+
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
 
@@ -199,7 +203,7 @@ exports.modifyUser = (req, res, next) => {
             error: "Tout les champs doivent être remplis !"
         });
     }
-    
+
     const userObject = req.file ? {
         ...req.body.user,
         imageUrl: req.file.filename
