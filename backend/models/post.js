@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     likes: {
       allowNull: false,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     createdAt: {
       allowNull: false,

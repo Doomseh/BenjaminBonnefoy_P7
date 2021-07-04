@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require("../models");
 const fs = require('fs');
+const jwtUtils = require('../utils/jwt.utils');
 const regexPassword = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/;
 const Comment = require("../models/comment");
 
@@ -88,13 +89,7 @@ exports.login = (req, res) => {
                     res.status(200).json({
                         userId: user.id,
                         isAdmin: user.isAdmin,
-                        token: jwt.sign({
-                                userId: user.id
-                            },
-                            'RANDOM_TOKEN_SECRET', {
-                                expiresIn: '24h'
-                            }
-                        )
+                        token: jwtUtils.generateTokenForUser(user)
                     });
                 })
                 .catch(error => res.status(500).json({

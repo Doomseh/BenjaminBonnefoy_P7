@@ -1,50 +1,62 @@
 const db = require("../models");
 const fs = require('fs');
+const jwtUtils = require('../utils/jwt.utils');
 const Post = db.post;
 
 // FONCTION CREATION D'UN POST
 exports.createPost = (req, res, next) => {
+    const headerAuth = req.headers['authorization'];
+    const userId = jwtUtils.getUserId(headerAuth);
+
     const title = req.body.title;
-    const content = req.body.content;
+    const message = req.body.message;
 
     // vérification que tous les champs sont remplis
 
-    if (title === null || title === '' || content === null || content === '') {
+    if (title === null || message === null) {
 
         return res.status(400).json({
             error: "Veuillez remplir les champs 'titre' et 'contenu' pour créer un article"
         });
     }
 
-    const postObject = req.body;
+    db.users.findOne({
+            where: {
+                id: userId
+            }
+        })
+        .then((userFound) => {
 
-    // Création d'un nouvel objet article
-    const post = new Post({
-        ...postObject,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-        createdAt: Date.now(),
-        usersliked: [],
-        likes: 0
-    });
-    // Enregistrement de l'objet post dans la base de données
-    post.save()
-        .then(() => res.status(201).json({
-            message: 'Publication créé !'
-        }))
-        .catch(error => res.status(400).json({
+            const post = new db.posts({
+                userId: userFound.id,
+                title: title,
+                message: message,
+                //postUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+                likes: 0,
+            });
+
+            post.save()
+                .then(() => res.status(201).json({
+                    message: 'Publication créé !'
+                }))
+                .catch(error => res.status(400).json({
+                    error
+                }));
+        })
+        .catch(error => res.status(404).json({
             error
         }));
+
 }
 
 // FONCTION RECUPERER UN POST
 exports.findOnePost = (req, res, next) => {
-    Post.findOne({
+    db.posts.findOne({
             where: {
                 id: req.params.id
             }
         })
         .then(post => {
-            console.log(post);
             res.status(200).json(post)
         })
         .catch(error => res.status(404).json({
@@ -54,15 +66,14 @@ exports.findOnePost = (req, res, next) => {
 
 // FONCTION RECUPERER TOUT LES POSTS
 exports.findAllPosts = (req, res, next) => {
-    Post.findAll({
+    db.posts.findAll({
             order: [
                 ['createdAt', 'DESC'],
             ]
         })
         .then(posts => {
-            console.log(posts);
             res.status(200).json({
-                data: articles
+                data: posts
             });
         })
         .catch(error => res.status(400).json({
@@ -75,11 +86,11 @@ exports.findAllPosts = (req, res, next) => {
 exports.modifyPost = (req, res, next) => {
 
     const title = req.body.title;
-    const content = req.body.content;
+    const message = req.body.message;
 
     // vérification que tous les champs sont remplis
 
-    if (title === null || title === '' || content === null || content === '') {
+    if (title === null || message === null) {
         return res.status(400).json({
             error: "Veuillez remplir les champs 'Titre' et 'Contenu' pour créer un article"
         });
@@ -87,7 +98,7 @@ exports.modifyPost = (req, res, next) => {
 
     const postObject = req.body;
 
-    Post.update({
+    db.posts.update({
             ...postObject,
             id: req.params.id
         }, {
@@ -96,32 +107,36 @@ exports.modifyPost = (req, res, next) => {
             }
         })
         .then(() => res.status(200).json({
-            message: 'Post modifié !'
+            message: 'Publication modifié !'
         }))
         .catch(error => res.status(400).json({
             error
         }));
 };
 
-// FONCTION SUPPRIMER UN ARTICLE
+// FONCTION SUPPRIMER UN POST
 
 exports.deletePost = (req, res, next) => {
-    Post.findOne({
-            _id: req.params.id // Utilisation de la méthone findOne() pour trouver la sauce correspondant au paramètre de la requête
+    db.posts.findOne({
+            where: {
+                id: req.params.id // Utilisation de la méthone findOne() pour trouver le post correspondant au paramètre de la requête
+            }
         })
         .then(post => {
-            const filename = post.imageUrl.split('/images/')[1]; // Récupération du fichier image de la sauce
-            fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
-                Post.deleteOne({
-                        _id: req.params.id // Utilisation de la méthone deleteOne() pour supprimer la sauce correspondant au paramètre de la requête
+           // const filename = post.imageUrl.split('/images/')[1]; // Récupération du fichier image de la sauce
+           // fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
+                db.posts.destroy({
+                        where: {
+                            id: req.params.id // Utilisation de la méthone deleteOne() pour supprimer le post correspondant au paramètre de la requête
+                         } 
                     })
                     .then(() => res.status(200).json({
-                        message: 'Post supprimé !'
+                        message: 'Publication supprimé !'
                     }))
                     .catch(error => res.status(400).json({
-                        error
+                        error: console.log(error)
                     }));
-            });
+           // });
         })
         .catch(error => res.status(500).json({
             error
@@ -132,13 +147,13 @@ exports.deletePost = (req, res, next) => {
 exports.postLike = (req, res, next) => {
     const userId = req.body.userId;
     const likes = req.body.like;
-    Post.findOne({
+    db.posts.findOne({
             _id: req.params.id
         })
         .then(post => {
             switch (likes) { // Utilisation d'un switch pour les différents cas possible
                 case 1: // Ajout du like
-                    Post.updateOne({
+                    db.posts.updateOne({
                             _id: req.params.id
                         }, {
                             $push: {
@@ -162,7 +177,7 @@ exports.postLike = (req, res, next) => {
 
                 case 0: // Suppression du like
                     if (post.usersLiked.includes(userId)) { // Vérification si l'utilisateur a déjà like le post
-                        Post.updateOne({
+                        db.posts.updateOne({
                                 _id: req.params.id
                             }, {
                                 $pull: {
