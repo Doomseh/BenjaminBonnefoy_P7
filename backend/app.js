@@ -5,6 +5,7 @@ const auth = require('./middleware/auth');
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 const commentRoutes = require('./routes/comment');
+const db = require("./models");
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/posts', auth, postRoutes);
 app.use('/api/comments', auth, commentRoutes);
 //DB 
-const db = require("./models");
+
 db.sequelize.sync();
 
 module.exports = app;

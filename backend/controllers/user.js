@@ -13,7 +13,7 @@ exports.signup = (req, res, next) => {
     const lastname = req.body.lastname;
     const email = req.body.email;
     const password = req.body.password;
-    
+
 
     // vérification que tous les champs sont remplis
 
@@ -33,7 +33,7 @@ exports.signup = (req, res, next) => {
             // si l'utilisateur n'existe pas la DB
             if (!userFound) {
                 // Hash du mot de passe avec bcrypt
-                bcrypt.hash(password, 10, (err, hash) => { 
+                bcrypt.hash(password, 10, (err, hash) => {
                     // Création du nouvel utilisateur
                     const user = new db.users({
                         firstname: firstname,
@@ -50,7 +50,7 @@ exports.signup = (req, res, next) => {
                             error
                         }));
                 })
-                    
+
             } else if (userFound) {
                 return res.status(409).json({
                     error: "L'utilisateur existe déjà !"
@@ -109,7 +109,7 @@ exports.login = (req, res) => {
 // FONCTION RECUPERER UN UTILISATEUR PAR SON ID
 exports.findOneUser = (req, res, next) => {
 
-    User.findOne({
+    db.users.findOne({
             where: {
                 id: req.params.id
             }
@@ -124,68 +124,59 @@ exports.findOneUser = (req, res, next) => {
 
 // FONCTION SUPPRIMER UN UTILISATEUR
 exports.deleteUser = (req, res, next) => {
-    Like.destroy({
+
+  /*  db.comments.destroy({
             where: {
                 userId: req.params.id
             }
         })
         .then(() =>
-            Comment.destroy({
+            db.posts.findAll({
                 where: {
                     userId: req.params.id
                 }
             })
-            .then(() =>
-                Article.findAll({
+            .then(
+                (post) => {
+                    post.forEach(
+                        (post) => {
+                            db.comments.destroy({
+                                where: {
+                                    postId: post.id
+                                }
+                            })
+
+                            db.posts.destroy({
+                                where: {
+                                    id: post.id
+                                }
+                            })
+                        }
+                    )
+                }
+            )
+            .then(() => */
+                db.users.findOne({
                     where: {
-                        userId: req.params.id
+                        id: req.params.id
                     }
                 })
-                .then(
-                    (articles) => {
-                        articles.forEach(
-                            (article) => {
-                                Comment.destroy({
-                                    where: {
-                                        articleId: article.id
-                                    }
-                                })
-                                Like.destroy({
-                                    where: {
-                                        articleId: article.id
-                                    }
-                                })
-                                Article.destroy({
-                                    where: {
-                                        id: article.id
-                                    }
-                                })
-                            }
-                        )
-                    }
-                )
-                .then(() =>
-                    User.findOne({
-                        where: {
-                            id: req.params.id
-                        }
+                .then(user => {
+                    const filename = user.imageUrl;
+                    fs.unlink(`images/${filename}`, () => {
+                        db.users.destroy({
+                                where: {
+                                    id: req.params.id
+                                }
+                            })
+                            .then(() => res.status(200).json({
+                                message: 'Utilisateur supprimé !'
+                            }))
                     })
-                    .then(user => {
-                        const filename = user.imageUrl;
-                        fs.unlink(`images/${filename}`, () => {
-                            User.destroy({
-                                    where: {
-                                        id: req.params.id
-                                    }
-                                })
-                                .then(() => res.status(200).json({
-                                    message: 'Utilisateur supprimé !'
-                                }))
-                        })
-                    })
-                )
-            )
-        )
+                })
+           // )
+       // )
+
         .catch(error => res.status(400).json({
             error
         }));
@@ -211,7 +202,7 @@ exports.modifyUser = (req, res, next) => {
         ...req.body
     };
 
-    User.update({
+    db.users.update({
             ...userObject,
             id: req.params.id
         }, {
