@@ -1,27 +1,23 @@
 const db = require("../models");
+const jwtUtils = require("../utils/jwt.utils")
 
 // FONCTION CREER UN COMMENTAIRE
 exports.createComment = (req, res, next) => {
 
-    // Création d'un nouvel objet commentaire
-    const commentObject = req.body;
+    const headerAuth = req.headers['authorization'];
+    const user_Id = jwtUtils.getUserId(headerAuth);
+
     // Création d'un nouvel objet commentaire
     const comment = new db.comments({
-        ...commentObject,
-        createdAt: new Date()
+        message: req.body.message,
+        userId: user_Id,
+        postId: req.body.postId
     });
     // Enregistrement de l'objet commentaire dans la base de données
     comment.save()
-        .then(() => {
-            Comment.findAll({
-                    where: {
-                        postId: req.body.postId
-                    }
-                })
-                .then((comments) => {
-                    res.status(200).json(comments);
-                })
-        })
+        .then(() => res.status(201).json({
+            message: 'Commentaire créé !'
+        }))
         .catch(error => res.status(400).json({
             error
         }));
@@ -29,15 +25,72 @@ exports.createComment = (req, res, next) => {
 
 // FONCTION SUPRIMMER UN COMMENTAIRE
 exports.deleteComment = (req, res, next) => {
-    db.comments.destroy({
+
+    const headerAuth = req.headers['authorization'];
+    const user_Id = jwtUtils.getUserId(headerAuth);
+    db.comments.findOne({
             where: {
-                id: req.params.id
+                id: req.params.id // Utilisation de la méthone findOne() pour trouver le post correspondant au paramètre de la requête
             }
         })
-        .then(() => res.status(200).json({
-            message: 'Commentaire supprimé !'
-        }))
-        .catch(error => res.status(400).json({
+        .then(comment => {
+            if (comment.userId == user_Id) {
+                db.comments.destroy({
+                        where: {
+                            id: req.params.id
+                        }
+                    })
+                    .then(() => res.status(200).json({
+                        message: 'Commentaire supprimé !'
+                    }))
+                    .catch(error => res.status(400).json({
+                        error
+                    }));
+            } else {
+                res.status(401).json({
+                    error: 'Invalid user ID!'
+                });
+            }
+        })
+        .catch(error => res.status(500).json({
+            error
+        }));
+};
+
+// FONCTION SUPRIMMER UN COMMENTAIRE
+exports.modifyComment = (req, res, next) => {
+
+    const headerAuth = req.headers['authorization'];
+    const user_Id = jwtUtils.getUserId(headerAuth);
+
+    db.comments.findOne({
+            where: {
+                id: req.params.id // Utilisation de la méthone findOne() pour trouver le post correspondant au paramètre de la requête
+            }
+        })
+        .then(comment => {
+            if (comment.userId == user_Id) {
+                db.comments.update({
+                        message: req.body.message,
+                        id: req.params.id
+                    }, {
+                        where: {
+                            id: req.params.id
+                        }
+                    })
+                    .then(() => res.status(200).json({
+                        message: 'Commentaire modifié !'
+                    }))
+                    .catch(error => res.status(400).json({
+                        error
+                    }));
+            } else {
+                res.status(401).json({
+                    error: 'Invalid user ID!'
+                });
+            }
+        })
+        .catch(error => res.status(500).json({
             error
         }));
 };
@@ -50,7 +103,6 @@ exports.findOneComment = (req, res, next) => {
             }
         })
         .then(comment => {
-            console.log(comment);
             res.status(200).json(comment)
         })
         .catch(error => res.status(404).json({
@@ -61,12 +113,11 @@ exports.findOneComment = (req, res, next) => {
 // FONCTION RECUPERER TOUT LES COMMENTAIRES
 exports.findAllComments = (req, res, next) => {
     db.comments.findAll({
-            where: {
-                postId: req.params.id
-            }
+            order: [
+                ['createdAt', 'DESC'],
+            ],
         })
         .then(comments => {
-            console.log(comments);
             res.status(200).json({
                 data: comments
             });
