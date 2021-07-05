@@ -1,17 +1,19 @@
-const db = require("../models");
 const fs = require('fs');
+// Récupération des models et des utils de gestion du TOKEN
+const db = require("../models");
 const jwtUtils = require('../utils/jwt.utils');
 
 // FONCTION CREATION D'UN POST
 exports.createPost = (req, res, next) => {
 
+    // Récupération de l'userId présent dans le TOKEN
     const headerAuth = req.headers['authorization'];
     const user_Id = jwtUtils.getUserId(headerAuth);
 
     const title = req.body.title;
     const message = req.body.message;
 
-    // vérification que tous les champs sont remplis
+    // Vérification que tous les champs soient remplis
 
     if (title === null || message === null) {
 
@@ -19,14 +21,15 @@ exports.createPost = (req, res, next) => {
             error: "Veuillez remplir les champs 'titre' et 'contenu' pour créer un article"
         });
     }
-
+    // Recherche de l'utilisateur par son ID
     db.users.findOne({
             where: {
                 id: user_Id
             }
         })
+        // Si l'utilisateur est trouvé :
         .then((userFound) => {
-
+            // Creation du nouveau post
             const post = new db.posts({
                 userId: userFound.id,
                 title: title,
@@ -34,7 +37,7 @@ exports.createPost = (req, res, next) => {
                 //postUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
                 likes: 0,
             });
-
+            // Sauvarge du post dans la base de donnée
             post.save()
                 .then(() => res.status(201).json({
                     message: 'Publication créé !'
@@ -86,13 +89,14 @@ exports.findAllPosts = (req, res, next) => {
 
 exports.modifyPost = (req, res, next) => {
 
+    // Récupération de l'userId présent dans le TOKEN
     const headerAuth = req.headers['authorization'];
     const user_Id = jwtUtils.getUserId(headerAuth);
 
     const title = req.body.title;
     const message = req.body.message;
 
-    // vérification que tous les champs sont remplis
+    // Vérification que tous les champs soient remplis
 
     if (title === null || message === null) {
         return res.status(400).json({
@@ -102,13 +106,16 @@ exports.modifyPost = (req, res, next) => {
 
     const postObject = req.body;
 
+    // Utilisation de la méthone findOne() pour trouver le post correspondant au paramètre de la requête
     db.posts.findOne({
             where: {
-                id: req.params.id // Utilisation de la méthone findOne() pour trouver le post correspondant au paramètre de la requête
+                id: req.params.id 
             }
         })
         .then(post => {
+            // Condition pour vérifier si l'utisateur est celui qui a créé le post ou non
             if (post.userId == user_Id) {
+                // Utilisation de la méthone update() pour modifier le post correspondant au paramètre de la requête
                 db.posts.update({
                         ...postObject,
                         id: req.params.id
@@ -138,23 +145,28 @@ exports.modifyPost = (req, res, next) => {
 
 exports.deletePost = (req, res, next) => {
 
+    // Récupération de l'userId présent dans le TOKEN
     const headerAuth = req.headers['authorization'];
     const user_Id = jwtUtils.getUserId(headerAuth);
 
+    // Utilisation de la méthone findOne() pour trouver le post correspondant au paramètre de la requête
     db.posts.findOne({
             where: {
-                id: req.params.id // Utilisation de la méthone findOne() pour trouver le post correspondant au paramètre de la requête
+                id: req.params.id 
             }
         })
         .then(post => {
             console.log(post.userId)
             // const filename = post.imageUrl.split('/images/')[1]; // Récupération du fichier image de la sauce
             // fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
+
+            // Condition pour vérifier si l'utisateur est celui qui a créé le post ou non
             if (post.userId == user_Id) {
 
+                // Utilisation de la méthone deleteOne() pour supprimer le post correspondant au paramètre de la requête
                 db.posts.destroy({
                         where: {
-                            id: req.params.id // Utilisation de la méthone deleteOne() pour supprimer le post correspondant au paramètre de la requête
+                            id: req.params.id 
                         }
                     })
                     .then(() => res.status(200).json({

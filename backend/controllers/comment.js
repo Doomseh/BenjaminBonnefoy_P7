@@ -1,19 +1,21 @@
+// Récupération des models et des utils de gestion du TOKEN
 const db = require("../models");
 const jwtUtils = require("../utils/jwt.utils")
 
 // FONCTION CREER UN COMMENTAIRE
 exports.createComment = (req, res, next) => {
 
+    // Récupération de l'userId présent dans le TOKEN
     const headerAuth = req.headers['authorization'];
     const user_Id = jwtUtils.getUserId(headerAuth);
 
-    // Création d'un nouvel objet commentaire
+    // Création d'un nouveau commentaire
     const comment = new db.comments({
         message: req.body.message,
         userId: user_Id,
         postId: req.body.postId
     });
-    // Enregistrement de l'objet commentaire dans la base de données
+    // Sauvegarde du commentaire dans la base de données
     comment.save()
         .then(() => res.status(201).json({
             message: 'Commentaire créé !'
@@ -26,14 +28,18 @@ exports.createComment = (req, res, next) => {
 // FONCTION SUPRIMMER UN COMMENTAIRE
 exports.deleteComment = (req, res, next) => {
 
+    // Récupération de l'userId présent dans le TOKEN
     const headerAuth = req.headers['authorization'];
     const user_Id = jwtUtils.getUserId(headerAuth);
+
+    // Utilisation de la méthone findOne() pour trouver le commentaire correspondant au paramètre de la requête
     db.comments.findOne({
             where: {
-                id: req.params.id // Utilisation de la méthone findOne() pour trouver le post correspondant au paramètre de la requête
+                id: req.params.id 
             }
         })
         .then(comment => {
+            // Condition pour vérifier si l'utisateur est celui qui a créé le commentaire ou non
             if (comment.userId == user_Id) {
                 db.comments.destroy({
                         where: {
@@ -60,15 +66,18 @@ exports.deleteComment = (req, res, next) => {
 // FONCTION SUPRIMMER UN COMMENTAIRE
 exports.modifyComment = (req, res, next) => {
 
+    // Récupération de l'userId présent dans le TOKEN
     const headerAuth = req.headers['authorization'];
     const user_Id = jwtUtils.getUserId(headerAuth);
 
+    // Utilisation de la méthone findOne() pour trouver le commentaire correspondant au paramètre de la requête
     db.comments.findOne({
             where: {
-                id: req.params.id // Utilisation de la méthone findOne() pour trouver le post correspondant au paramètre de la requête
+                id: req.params.id 
             }
         })
         .then(comment => {
+            // Condition pour vérifier si l'utisateur est celui qui a créé le commentaire ou non
             if (comment.userId == user_Id) {
                 db.comments.update({
                         message: req.body.message,

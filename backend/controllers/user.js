@@ -1,10 +1,10 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const db = require("../models");
 const fs = require('fs');
+// Récupération des models et des utils de gestion du TOKEN
+const db = require("../models");
 const jwtUtils = require('../utils/jwt.utils');
 const regexPassword = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/;
-const Comment = require("../models/comment");
+
 
 
 // FONCTION SIGN UP
@@ -21,17 +21,17 @@ exports.signup = (req, res, next) => {
     if (firstname === null || lastname === null ||
         email === null || password === null) {
         return res.status(400).json({
-            'error': "Veuillez remplir l'ensemble des champs du formulaire"
+            error: "Veuillez remplir l'ensemble des champs du formulaire"
         });
     }
-    // vérification si l'user existe dans DB
+    // Vérification si l'user existe dans DB en fonction de son email
     db.users.findOne({
             where: {
                 email: email
             }
         })
         .then((userFound) => {
-            // si l'utilisateur n'existe pas la DB
+            // Si l'utilisateur n'existe pas :
             if (!userFound) {
                 // Hash du mot de passe avec bcrypt
                 bcrypt.hash(password, 10, (err, hash) => {
@@ -51,7 +51,7 @@ exports.signup = (req, res, next) => {
                             error
                         }));
                 })
-
+                // Si l'utilisateur existe :
             } else if (userFound) {
                 return res.status(409).json({
                     error: "L'utilisateur existe déjà !"
@@ -68,18 +68,22 @@ exports.signup = (req, res, next) => {
 
 // FONCTION LOGIN
 exports.login = (req, res) => {
+
+    // Recherche de l'utilisateur en fonction de son email
     db.users.findOne({
             where: {
-                email: req.body.email // recherche de l'utilisateur en fonction de son email
+                email: req.body.email
             }
         })
         .then(user => {
-            if (!user) { // Utilisateur pas erregistré
+            // Si l'utilisateur n'est pas erregistré :
+            if (!user) {
                 return res.status(401).json({
                     error: 'Utilisateur non trouvé !'
                 });
             }
-            bcrypt.compare(req.body.password, user.password) // comparaison avec le mot de passe crypter en BDD
+            // Si l'utilisateur est erregistré :
+            bcrypt.compare(req.body.password, user.password) // Comparaison des mots de passe crypter
                 .then(valid => {
                     if (!valid) {
                         return res.status(401).json({
@@ -89,7 +93,7 @@ exports.login = (req, res) => {
                     res.status(200).json({
                         userId: user.id,
                         isAdmin: user.isAdmin,
-                        token: jwtUtils.generateTokenForUser(user)
+                        token: jwtUtils.generateTokenForUser(user) // Génération d'un TOKEN d'authentification
                     });
                 })
                 .catch(error => res.status(500).json({
@@ -120,57 +124,57 @@ exports.findOneUser = (req, res, next) => {
 // FONCTION SUPPRIMER UN UTILISATEUR
 exports.deleteUser = (req, res, next) => {
 
-  /*  db.comments.destroy({
+    /*  db.comments.destroy({
+              where: {
+                  userId: req.params.id
+              }
+          })
+          .then(() =>
+              db.posts.findAll({
+                  where: {
+                      userId: req.params.id
+                  }
+              })
+              .then(
+                  (post) => {
+                      post.forEach(
+                          (post) => {
+                              db.comments.destroy({
+                                  where: {
+                                      postId: post.id
+                                  }
+                              })
+
+                              db.posts.destroy({
+                                  where: {
+                                      id: post.id
+                                  }
+                              })
+                          }
+                      )
+                  }
+              )
+              .then(() => */
+    db.users.findOne({
             where: {
-                userId: req.params.id
+                id: req.params.id
             }
         })
-        .then(() =>
-            db.posts.findAll({
-                where: {
-                    userId: req.params.id
-                }
-            })
-            .then(
-                (post) => {
-                    post.forEach(
-                        (post) => {
-                            db.comments.destroy({
-                                where: {
-                                    postId: post.id
-                                }
-                            })
-
-                            db.posts.destroy({
-                                where: {
-                                    id: post.id
-                                }
-                            })
+        .then(user => {
+            const filename = user.imageUrl;
+            fs.unlink(`images/${filename}`, () => {
+                db.users.destroy({
+                        where: {
+                            id: req.params.id
                         }
-                    )
-                }
-            )
-            .then(() => */
-                db.users.findOne({
-                    where: {
-                        id: req.params.id
-                    }
-                })
-                .then(user => {
-                    const filename = user.imageUrl;
-                    fs.unlink(`images/${filename}`, () => {
-                        db.users.destroy({
-                                where: {
-                                    id: req.params.id
-                                }
-                            })
-                            .then(() => res.status(200).json({
-                                message: 'Utilisateur supprimé !'
-                            }))
                     })
-                })
-           // )
-       // )
+                    .then(() => res.status(200).json({
+                        message: 'Utilisateur supprimé !'
+                    }))
+            })
+        })
+        // )
+        // )
 
         .catch(error => res.status(400).json({
             error
@@ -183,7 +187,7 @@ exports.modifyUser = (req, res, next) => {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
 
-    // vérification que tous les champs sont remplis
+    // Vérification que tous les champs soient remplis
     if (firstname === null || lastname === null) {
         return res.status(400).json({
             error: "Tout les champs doivent être remplis !"
@@ -196,7 +200,7 @@ exports.modifyUser = (req, res, next) => {
     } : {
         ...req.body
     };
-
+    // Modification avec la méthode update()
     db.users.update({
             ...userObject,
             id: req.params.id

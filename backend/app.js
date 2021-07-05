@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
-const auth = require('./middleware/auth');
-// Routes 
+
+// Recupération des routes
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 const commentRoutes = require('./routes/comment');
@@ -19,12 +19,14 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-app.use('/images', express.static(path.join(__dirname, 'images'))); // Gestion de l'ajout de photo
+app.use('/images', express.static(path.join(__dirname, 'images'))); 
+
+// Déclaration des routes
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
-//DB 
 
+// Synchronisation avec la base de donnée
 db.sequelize.sync();
 
 module.exports = app;

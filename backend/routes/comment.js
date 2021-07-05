@@ -1,10 +1,9 @@
 const express = require('express');
-
 const router = express.Router();
+// Récupération du controller comment
 const commentCtrl = require('../controllers/comment');
 
-
-// Routes
+// Déclaration des routes avec le controller
 router.get('/', commentCtrl.findAllComments);
 router.get('/:id', commentCtrl.findOneComment);
 router.post('/', commentCtrl.createComment);

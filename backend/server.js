@@ -1,6 +1,7 @@
 const http = require('http');
 const app = require('./app');
 
+// Fonction pour renvoyer un port valide
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
@@ -12,9 +13,10 @@ const normalizePort = val => {
   }
   return false;
 };
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || 3000);
 app.set('port', port);
 
+// Fonction pour rechercher et gerer les différentes erreurs
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
     throw error;
@@ -37,6 +39,7 @@ const errorHandler = error => {
 
 const server = http.createServer(app);
 
+// Enregistrement d'un écouteur d'évènement pour renvoyer les informations dans la console
 server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();

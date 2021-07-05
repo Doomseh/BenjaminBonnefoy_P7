@@ -1,8 +1,11 @@
+// Gestion du TOKEN d'authentification
 const jwt = require('jsonwebtoken');
+require('dotenv').config()
 
-const JWT_SIGN_SECRET = 'RANDOM_TOKEN_SECRET';
+const JWT_SIGN_SECRET = process.env.TOKEN;
 
 module.exports = {
+    // FONCTION génération d'un TOKEN
     generateTokenForUser: function (userData) {
         return jwt.sign({
                 userId: userData.id
@@ -11,9 +14,11 @@ module.exports = {
                 expiresIn: '24h'
             })
     },
+    // FONCTION pour recupérer le TOKEN et retirer le "Bearer"
     parseAuthorization: function (authorization) {
         return (authorization != null) ? authorization.replace('Bearer ', '') : null;
     },
+    // FONCTION pour récupérer le user ID dans le TOKEN
     getUserId: function (authorization) {
         let userId = -1;
         let token = module.exports.parseAuthorization(authorization);
