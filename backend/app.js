@@ -21,8 +21,8 @@ app.use(express.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images'))); // Gestion de l'ajout de photo
 app.use('/api/users', userRoutes);
-app.use('/api/posts', auth, postRoutes);
-app.use('/api/comments', auth, commentRoutes);
+app.use('/api/posts', postRoutes);
+app.use('/api/comments', commentRoutes);
 //DB 
 
 db.sequelize.sync();

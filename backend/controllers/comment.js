@@ -1,5 +1,4 @@
 const db = require("../models");
-const Comment = db.comment;
 
 // FONCTION CREER UN COMMENTAIRE
 exports.createComment = (req, res, next) => {
@@ -7,7 +6,7 @@ exports.createComment = (req, res, next) => {
     // Création d'un nouvel objet commentaire
     const commentObject = req.body;
     // Création d'un nouvel objet commentaire
-    const comment = new Comment({
+    const comment = new db.comments({
         ...commentObject,
         createdAt: new Date()
     });
@@ -30,7 +29,7 @@ exports.createComment = (req, res, next) => {
 
 // FONCTION SUPRIMMER UN COMMENTAIRE
 exports.deleteComment = (req, res, next) => {
-    Comment.destroy({
+    db.comments.destroy({
             where: {
                 id: req.params.id
             }
@@ -45,7 +44,7 @@ exports.deleteComment = (req, res, next) => {
 
 // FONCTION RECUPERER UN COMMENTAIRE
 exports.findOneComment = (req, res, next) => {
-    Comment.findOne({
+    db.comments.findOne({
             where: {
                 id: req.params.id
             }
@@ -61,7 +60,7 @@ exports.findOneComment = (req, res, next) => {
 
 // FONCTION RECUPERER TOUT LES COMMENTAIRES
 exports.findAllComments = (req, res, next) => {
-    Comment.findAll({
+    db.comments.findAll({
             where: {
                 postId: req.params.id
             }

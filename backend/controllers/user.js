@@ -184,7 +184,7 @@ exports.modifyUser = (req, res, next) => {
     const lastname = req.body.lastname;
 
     // vérification que tous les champs sont remplis
-    if (firstname === null || firstname === '' || lastname === null || lastname === '') {
+    if (firstname === null || lastname === null) {
         return res.status(400).json({
             error: "Tout les champs doivent être remplis !"
         });

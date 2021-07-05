@@ -1,12 +1,12 @@
 const db = require("../models");
 const fs = require('fs');
 const jwtUtils = require('../utils/jwt.utils');
-const Post = db.post;
 
 // FONCTION CREATION D'UN POST
 exports.createPost = (req, res, next) => {
+
     const headerAuth = req.headers['authorization'];
-    const userId = jwtUtils.getUserId(headerAuth);
+    const user_Id = jwtUtils.getUserId(headerAuth);
 
     const title = req.body.title;
     const message = req.body.message;
@@ -22,7 +22,7 @@ exports.createPost = (req, res, next) => {
 
     db.users.findOne({
             where: {
-                id: userId
+                id: user_Id
             }
         })
         .then((userFound) => {
@@ -66,10 +66,11 @@ exports.findOnePost = (req, res, next) => {
 
 // FONCTION RECUPERER TOUT LES POSTS
 exports.findAllPosts = (req, res, next) => {
+
     db.posts.findAll({
             order: [
                 ['createdAt', 'DESC'],
-            ]
+            ],
         })
         .then(posts => {
             res.status(200).json({
@@ -77,13 +78,16 @@ exports.findAllPosts = (req, res, next) => {
             });
         })
         .catch(error => res.status(400).json({
-            error
+            error: console.log(error)
         }));
 };
 
 // FONCTION MODIFIER UN ARTICLE
 
 exports.modifyPost = (req, res, next) => {
+
+    const headerAuth = req.headers['authorization'];
+    const user_Id = jwtUtils.getUserId(headerAuth);
 
     const title = req.body.title;
     const message = req.body.message;
@@ -98,37 +102,57 @@ exports.modifyPost = (req, res, next) => {
 
     const postObject = req.body;
 
-    db.posts.update({
-            ...postObject,
-            id: req.params.id
-        }, {
-            where: {
-                id: req.params.id
-            }
-        })
-        .then(() => res.status(200).json({
-            message: 'Publication modifié !'
-        }))
-        .catch(error => res.status(400).json({
-            error
-        }));
-};
-
-// FONCTION SUPPRIMER UN POST
-
-exports.deletePost = (req, res, next) => {
     db.posts.findOne({
             where: {
                 id: req.params.id // Utilisation de la méthone findOne() pour trouver le post correspondant au paramètre de la requête
             }
         })
         .then(post => {
-           // const filename = post.imageUrl.split('/images/')[1]; // Récupération du fichier image de la sauce
-           // fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
+            if (post.userId == user_Id) {
+                db.posts.update({
+                        ...postObject,
+                        id: req.params.id
+                    }, {
+                        where: {
+                            id: req.params.id
+                        }
+                    })
+                    .then(() => res.status(200).json({
+                        message: 'Publication modifié !'
+                    }))
+                    .catch(error => res.status(400).json({
+                        error
+                    }));
+            } else {
+                res.status(401).json({
+                    error: 'Invalid user ID!'
+                });
+            }
+        })
+};
+
+// FONCTION SUPPRIMER UN POST
+
+exports.deletePost = (req, res, next) => {
+
+    const headerAuth = req.headers['authorization'];
+    const user_Id = jwtUtils.getUserId(headerAuth);
+
+    db.posts.findOne({
+            where: {
+                id: req.params.id // Utilisation de la méthone findOne() pour trouver le post correspondant au paramètre de la requête
+            }
+        })
+        .then(post => {
+            console.log(post.userId)
+            // const filename = post.imageUrl.split('/images/')[1]; // Récupération du fichier image de la sauce
+            // fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
+            if (post.userId == user_Id) {
+
                 db.posts.destroy({
                         where: {
                             id: req.params.id // Utilisation de la méthone deleteOne() pour supprimer le post correspondant au paramètre de la requête
-                         } 
+                        }
                     })
                     .then(() => res.status(200).json({
                         message: 'Publication supprimé !'
@@ -136,14 +160,20 @@ exports.deletePost = (req, res, next) => {
                     .catch(error => res.status(400).json({
                         error: console.log(error)
                     }));
-           // });
+                // });
+            } else {
+                res.status(401).json({
+                    error: 'Invalid user ID!'
+                });
+            }
         })
         .catch(error => res.status(500).json({
             error
         }));
 };
 
-// FONCTION LIKE POST
+// FONCTION LIKE POST 
+/*
 exports.postLike = (req, res, next) => {
     const userId = req.body.userId;
     const likes = req.body.like;
@@ -203,4 +233,4 @@ exports.postLike = (req, res, next) => {
         .catch(error => res.status(400).json({
             error
         }));
-};
+}; */
