@@ -30,7 +30,10 @@ function Profile() {
                         <input type="text" id="created" disabled="disabled" className="form-Input" value="22/10/2002"/>
                     </div>
                 </div>
-                <button className="btnUpdate">Modifier le profil</button>
+                <div className="profil-Block borderTop">
+                    <button className="btnUpdate">Modifier le profil</button>
+                    <button className="btnDelete">Supprimer votre profil</button>
+                </div>
             </form>
         </div>
     )

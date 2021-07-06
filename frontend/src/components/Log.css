@@ -17,8 +17,7 @@
     margin: 20px;
     color: black;
     font-weight: bold;
-    font-size: 25px;
-    
+    font-size: 25px; 
 }
 
 .form-Input {
@@ -26,6 +25,8 @@
     height: 40px;
     margin: 10px;
     border-radius: 10px;
+    font-size: 20px;
+    text-align: center;
 }
 
 .btnLog {
@@ -38,4 +39,8 @@
     font-weight: bold;
     font-size: 25px;
     cursor: pointer;
+}
+
+.borderTop {
+    border-top: 2px solid #3C3C3C;
 }
