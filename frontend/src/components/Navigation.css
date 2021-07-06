@@ -1,0 +1,33 @@
+.navBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px;
+    background: white;
+    box-shadow: 0px 0px 8px rgb(252, 252, 252);
+}
+
+.navUl {
+    display: flex;
+    margin-right: 20px;
+}
+
+.navList {
+    list-style: none;  
+    padding: 10px 25px; 
+    font-size: 20px;
+}
+
+.navLink {
+    text-decoration: none;
+    color: black;
+    margin: 0px 10px;
+    display: flex;
+    align-items: center;
+}
+
+.navLinkActive {
+    background: #FFD7D7;
+    border-radius: 30px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
+}
