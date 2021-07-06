@@ -16,8 +16,8 @@ function Accueil() {
             </svg>
 
             <div className="component">
-                <button className="authButton" onClick={() => history.push("/signup")}>Inscription</button>
-                <button className="authButton" onClick={() => history.push("/login")}>Connexion</button>
+                <button className="authButton" onClick={() => history.push("/Inscription")}>Inscription</button>
+                <button className="authButton" onClick={() => history.push("/Connexion")}>Connexion</button>
             </div>
         </div> 
     )

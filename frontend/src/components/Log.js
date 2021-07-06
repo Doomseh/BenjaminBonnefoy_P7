@@ -1,6 +1,10 @@
 import "./Log.css";
+import { useHistory } from "react-router-dom";
 
-function logForm({btnName}) {
+function Logform({btnName}) {
+
+    let history = useHistory();
+
     return (
         <form className="form">
             <div className="form-Block">
@@ -11,9 +15,9 @@ function logForm({btnName}) {
                 <label htmlFor="password">Mot de passe</label>
                 <input type="password" id="password" className="form-Input"/>
             </div>
-            <button className="btnLog">{btnName}</button>
+            <button className="btnLog" onClick={() => history.push("/Profile")}>{btnName}</button>
         </form>
     )
 }
 
-export default logForm;
+export default Logform;
