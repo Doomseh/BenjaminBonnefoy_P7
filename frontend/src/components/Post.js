@@ -1,7 +1,11 @@
 import "./Post.css";
 import test from "../assets/test.png";
+import { useHistory } from "react-router-dom";
 
 function Post({ id, userId, title, message, createdAt }) {
+
+    let history = useHistory();
+
     return (
         <div className="post">
             <h2 className="post-title">{title}</h2>
@@ -11,6 +15,7 @@ function Post({ id, userId, title, message, createdAt }) {
                 <p className="post-name">{userId}</p>
                 <p className="post-time">Publié le : {createdAt}</p>
             </div>
+            <button className="btnComment" onClick={() => history.push("/post?id=" + id)}>Commentez</button>
         </div>
     )
 }

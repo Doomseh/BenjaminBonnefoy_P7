@@ -1,6 +1,6 @@
-import {NavLink} from 'react-router-dom'
-import "./Navigation.css"
-import logoNav from "../assets/left-groupomania.png"
+import {NavLink} from 'react-router-dom';
+import "./Navigation.css";
+import logoNav from "../assets/left-groupomania.png";
 
 function Navigation() {
     return (
