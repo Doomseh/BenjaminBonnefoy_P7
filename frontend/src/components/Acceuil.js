@@ -6,7 +6,8 @@ function Accueil() {
     let history = useHistory();
 
     return (
-        <div className="component">   
+        
+        <div className="component">
             <h1 className="title">Bienvenue sur le réseau social de Groupomania !</h1>
 
             <svg width="450" height="217" viewBox="0 0 450 217" fill="none" xmlns="http://www.w3.org/2000/svg" className="test">

@@ -3,6 +3,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Navigation from "./components/Navigation";
 import Profile from "./components/Profile";
+import Wall from "./components/Wall";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route path="/Inscription" exact component={Signup} />
           <Route path="/Connexion" exact component={Login} />
           <Route path="/Profile" exact component={Profile} />
+          <Route path="/Wall" exact component={Wall} />
         </Switch>
     </Router>
   </div>)
