@@ -82,7 +82,7 @@ body {
   text-align: center;
 }
 .form .btnLog {
-  width: 80%;
+  width: 60%;
   height: 40px;
   margin: 10px 0px 30px 0px;
   border-radius: 10px;
@@ -152,6 +152,9 @@ body {
     justify-content: space-around;
     padding: 0;
     margin: 0px 0px 10px 0px;
+  }
+  .nav-link {
+    margin: 0;
   }
 }
 .post {

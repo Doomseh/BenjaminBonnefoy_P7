@@ -1,16 +1,35 @@
 import logoWhite from "../assets/groupomania-w.png";
-import Log from "./Log";
 import {useLocation} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function Signup() {
 
+    const history = useHistory();
     const location = useLocation().pathname;
     const btnName = location.substring(1);
 
     return (
         <div className="component">
             <h1 className="title">Inscrivez vous !</h1>
-            <Log btnName={btnName}/>
+            <form className="form">
+                <div className="form-block">
+                    <label htmlFor="email">Email :</label>
+                    <input type="email" id="email" className="form-input"/>
+                </div>
+                <div className="form-block">
+                    <label htmlFor="lastname">Nom :</label>
+                    <input type="text" id="lastname" className="form-input"/>
+                </div>
+                <div className="form-block">
+                    <label htmlFor="firstname">Prénom :</label>
+                    <input type="text" id="firstname" className="form-input"/>
+                </div>
+                <div className="form-block">
+                    <label htmlFor="password">Mot de passe :</label>
+                    <input type="password" id="password" className="form-input"/>
+                </div>
+                <button className="btnLog" onClick={() => history.push("/profile")}>{btnName}</button>
+            </form>
             <img src={logoWhite} alt="Logo de l'Entreprise Groupomania" className="logImg"></img>
         </div>
     ) 

@@ -2,7 +2,7 @@ import { useHistory } from "react-router-dom";
 
 function Logform({btnName}) {
 
-    let history = useHistory();
+    const history = useHistory();
 
     return (
         <form className="form">
