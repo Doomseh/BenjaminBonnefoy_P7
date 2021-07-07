@@ -3,7 +3,9 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Navigation from "./components/Navigation";
 import Profile from "./components/Profile";
-import Publications from "./components/Publications";
+import Publication from "./components/Publication"
+import NewPost from "./components/NewPost"
+import Home from "./components/Home";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 function App() {
@@ -14,8 +16,10 @@ function App() {
           <Route path="/" exact component={Accueil} />
           <Route path="/Inscription" exact component={Signup} />
           <Route path="/Connexion" exact component={Login} />
-          <Route path="/Profile" exact component={Profile} />
-          <Route path="/Publications" exact component={Publications} />
+          <Route path="/profile" exact component={Profile} />
+          <Route path="/home" exact component={Home} />
+          <Route path="/newpost" exact component={NewPost} />
+          <Route path="/post" exact component={Publication} />
         </Switch>
     </Router>
   </div>)

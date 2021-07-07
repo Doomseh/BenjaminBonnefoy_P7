@@ -14,7 +14,7 @@ function Logform({btnName}) {
                 <label htmlFor="password">Mot de passe :</label>
                 <input type="password" id="password" className="form-Input"/>
             </div>
-            <button className="btnLog" onClick={() => history.push("/Profile")}>{btnName}</button>
+            <button className="btnLog" onClick={() => history.push("/profile")}>{btnName}</button>
         </form>
     )
 }

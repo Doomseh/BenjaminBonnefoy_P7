@@ -6,15 +6,15 @@ function Post({ id, userId, title, message, createdAt }) {
 
     return (
         <Link to={linkId} className="post-Link">
-        <div className="post">
-            <h2 className="post-title">{title}</h2>
-            <img src={test} alt="" className="post-img"></img>
-            <p className="post-message">{message}</p>
-            <div className="post-user">
-                <p className="post-name">{userId}</p>
-                <p className="post-time">Publié le : {createdAt}</p>
+            <div className="post">
+                <h2 className="post-title">{title}</h2>
+                <img src={test} alt="" className="post-img"></img>
+                <p className="post-message">{message}</p>
+                <div className="post-user">
+                    <p className="post-time">Publié le : {createdAt}</p>
+                    <p className="post-name">Par : {userId}</p>
+                </div>
             </div>
-        </div>
         </Link>
     )
 }

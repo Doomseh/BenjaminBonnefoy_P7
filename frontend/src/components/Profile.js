@@ -20,7 +20,7 @@ function Profile() {
                 <div className="profil-Block">
                     <div className="profil-Button">
                         <img src={userImg} alt="" className="profil-img"></img>
-                        <button className="btnImg">Ajouter une image</button>
+                        <input type="file" id="file" className="input-file"></input>
                     </div>
                     <div className="form-Block">
                         <label htmlFor="account">Type de compte :</label>
