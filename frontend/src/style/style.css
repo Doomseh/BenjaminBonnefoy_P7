@@ -1,0 +1,236 @@
+.component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  padding-bottom: 80px;
+}
+
+.title {
+  font-size: 55px;
+  text-align: center;
+  text-shadow: 0px 1px 3px white;
+  color: white;
+}
+
+.accueil-img {
+  height: 300px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.authButton {
+  font-size: 25px;
+  font-weight: bold;
+  width: 350px;
+  padding: 20px;
+  margin: 10px;
+  background-color: white;
+  cursor: pointer;
+  box-shadow: 0px 0px 8px white;
+  border-radius: 30px;
+}
+
+.test {
+  height: 300px;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #3C3C3C;
+}
+
+.form {
+  margin: 20px 0px 40px 0px;
+  background-color: #FFD7D7;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  box-shadow: 0px 0px 12px black;
+}
+
+.form-Block {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  color: black;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.form-Input {
+  width: 100%;
+  height: 40px;
+  margin: 10px;
+  border-radius: 10px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.btnLog {
+  width: 80%;
+  height: 40px;
+  margin: 10px 0px 30px 0px;
+  border-radius: 10px;
+  background-color: #798C9F;
+  color: white;
+  font-weight: bold;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.borderTop {
+  border-top: 2px solid #3C3C3C;
+}
+
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px;
+  background: white;
+  box-shadow: 0px 0px 8px #fcfcfc;
+}
+
+.navUl {
+  display: flex;
+  margin-right: 20px;
+}
+
+.navList {
+  list-style: none;
+  padding: 10px 25px;
+  font-size: 20px;
+}
+
+.navLink {
+  text-decoration: none;
+  color: black;
+  margin: 0px 10px;
+  display: flex;
+  align-items: center;
+}
+
+.navLinkActive {
+  background: #FFD7D7;
+  border-radius: 30px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
+}
+
+.post {
+  background-color: #D6E1EB;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  color: black;
+  box-shadow: inset 0px 0px 8px black;
+  box-shadow: 0px 0px 4px #fafafa;
+}
+
+.post-user {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 20px;
+  opacity: 0.6;
+  border-top: 2px solid black;
+}
+
+.post-title {
+  text-decoration: underline;
+  margin: 20px 0px 10px 0px;
+}
+
+.post-message {
+  width: 80%;
+}
+
+.post-img {
+  max-width: 80%;
+  border-radius: 10px;
+}
+
+.btnComment {
+  height: 50px;
+  width: 30%;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0px 0px 4px black;
+  border: none;
+  cursor: pointer;
+  margin: 10px 0px 30px;
+}
+
+.profil {
+  background-color: #D6E1EB;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 8px black;
+  box-shadow: 0px 0px 8px #fafafa;
+}
+
+.profil-img {
+  border: 2px solid black;
+  border-radius: 10px;
+  height: 150px;
+  width: 150px;
+  margin: 10px;
+}
+
+.profil-Block {
+  display: flex;
+  width: 80%;
+  padding-bottom: 20px;
+}
+
+.profil-Button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.btnImg {
+  height: 50px;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 10px;
+  background-color: #FFD7D7;
+}
+
+.btnUpdate, .btnDelete {
+  margin: 30px;
+  width: 50%;
+  height: 50px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.btnUpdate {
+  background-color: #FFD7D7;
+}
+
+.btnDelete {
+  background-color: darkred;
+  color: white;
+}
+
+/*# sourceMappingURL=style.css.map */

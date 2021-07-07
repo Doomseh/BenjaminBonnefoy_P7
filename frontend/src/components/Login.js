@@ -1,4 +1,3 @@
-import "./Log.css";
 import logoWhite from "../assets/groupomania-w.png";
 import Log from "./Log";
 import {useLocation} from "react-router-dom";

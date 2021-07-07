@@ -1,4 +1,3 @@
-import "./Log.css";
 import { useHistory } from "react-router-dom";
 
 function Logform({btnName}) {

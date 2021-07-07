@@ -1,4 +1,3 @@
-import "./Post.css";
 import test from "../assets/test.png";
 import { useHistory } from "react-router-dom";
 

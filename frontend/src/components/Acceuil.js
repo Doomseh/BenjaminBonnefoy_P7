@@ -1,4 +1,3 @@
-import "./Acceuil.css";
 import { useHistory } from "react-router-dom";
 
 function Accueil() {

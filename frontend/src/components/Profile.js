@@ -1,4 +1,3 @@
-import "./Profile.css";
 import userImg from "../assets/DABEUIH.png";
 
 function Profile() {

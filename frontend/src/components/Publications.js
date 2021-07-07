@@ -1,6 +1,6 @@
 import Post from "./Post";
 
-function Wall() {
+function Publications() {
     return (
         <div className="component">
             <h1 className="title">Posts</h1>
@@ -9,4 +9,4 @@ function Wall() {
     )
 }
 
-export default Wall;
+export default Publications;
