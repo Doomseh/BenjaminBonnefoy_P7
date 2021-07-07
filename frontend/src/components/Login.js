@@ -11,7 +11,7 @@ function Login() {
         <div className="component">
             <h1 className="title">Connectez vous !</h1>
             <Log btnName={btnName}/>
-            <img src={logoWhite} alt="Logo de l'Entreprise Groupomania"></img>
+            <img src={logoWhite} alt="Logo de l'Entreprise Groupomania" className="logImg"></img>
         </div>
     )
 }

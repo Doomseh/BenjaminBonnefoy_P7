@@ -3,15 +3,15 @@ function NewPost() {
         <div className="newpost">
             <h1 className="title">Ajouter une publication</h1>
             <form className="newpost-form">
-                <div className="form-Block">
+                <div className="form-block">
                     <label htmlFor="title">Titre :</label>
-                    <input type="text" id="title" className="form-Input"/>
+                    <input type="text" id="title" className="form-input"/>
                 </div>
-                <div className="form-Block">
+                <div className="form-block">
                     <label htmlFor="message">Message :</label>
-                    <textarea id="message" className="form-Input newpost-area"/>
+                    <textarea id="message" className="form-input newpost-area"/>
                 </div>
-                <div className="form-Block">
+                <div className="form-block">
                     <input type="file" accept="image/*" id="fileUrl"/>
                 </div>
                 <button className="newpost-btn">Envoyer</button>

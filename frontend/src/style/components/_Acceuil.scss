@@ -31,3 +31,16 @@
     border-radius: 30px;
 }
 
+@media screen and (max-width: 640px) {
+    .component {
+        width: 100%;
+    }
+    .title {
+        font-size: 30px;
+        margin-bottom: 0;
+    }
+    .authButton {
+        width: 90%;
+    }
+}
+

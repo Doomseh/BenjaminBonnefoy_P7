@@ -5,7 +5,7 @@ function Post({ id, userId, title, message, createdAt }) {
     let linkId = "post?id=" + id
 
     return (
-        <Link to={linkId} className="post-Link">
+        <Link to={linkId} className="post-link">
             <div className="post">
                 <h2 className="post-title">{title}</h2>
                 <img src={test} alt="" className="post-img"></img>
