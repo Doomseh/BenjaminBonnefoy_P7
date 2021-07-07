@@ -3,16 +3,16 @@ import logoNav from "../assets/left-groupomania.png";
 
 function Navigation() {
     return (
-        <header className="navBar">
-            <NavLink to="/" className="navLink">
+        <header className="nav">
+            <NavLink to="/" className="nav-Link">
                 <img src={logoNav} alt="Logo de l'Entreprise Groupomania"></img>
             </NavLink> 
-            <ul className="navUl">
-                <NavLink to="/Inscription" className="navLink" activeClassName="navLinkActive">
-                    <li className="navList">Inscription</li>
+            <ul className="nav-ul">
+                <NavLink to="/Inscription" className="nav-Link" activeClassName="nav-Link-Active">
+                    <li className="nav-List">Inscription</li>
                 </NavLink>
-                <NavLink to="/Connexion" className="navLink" activeClassName="navLinkActive">
-                    <li className="navList">Connexion</li>
+                <NavLink to="/Connexion" className="nav-Link" activeClassName="nav-Link-Active">
+                    <li className="nav-List">Connexion</li>
                 </NavLink>
             </ul>
         </header>

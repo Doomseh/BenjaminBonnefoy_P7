@@ -1,11 +1,11 @@
 import test from "../assets/test.png";
-import { useHistory } from "react-router-dom";
+import {Link} from 'react-router-dom';
 
 function Post({ id, userId, title, message, createdAt }) {
-
-    let history = useHistory();
+    let linkId = "post?id=" + id
 
     return (
+        <Link to={linkId} className="post-Link">
         <div className="post">
             <h2 className="post-title">{title}</h2>
             <img src={test} alt="" className="post-img"></img>
@@ -14,8 +14,8 @@ function Post({ id, userId, title, message, createdAt }) {
                 <p className="post-name">{userId}</p>
                 <p className="post-time">Publié le : {createdAt}</p>
             </div>
-            <button className="btnComment" onClick={() => history.push("/post?id=" + id)}>Commentez</button>
         </div>
+        </Link>
     )
 }
 
