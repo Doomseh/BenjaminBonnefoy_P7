@@ -25,15 +25,9 @@
         align-items: center;
         width: 100%;
     }
-    .btnImg {
-        height: 50px;
-        font-weight: bold;
-        font-size: 20px;
-        border-radius: 10px;
-        background-color: #FFD7D7;
-    }
     .btnUpdate {
-        background-color: #FFD7D7;
+        background-color: $btn-color;
+        color: white;
     }
     .btnDelete {
         background-color: darkred;
@@ -41,7 +35,7 @@
     }
     
     .borderTop {
-        border-top: 2px solid #3C3C3C;
+        border-top: 2px solid $dark-gray;
     }
     .input-file {
         color: black;

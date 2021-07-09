@@ -1,5 +1,5 @@
 .comment {
-    background-color: #D6E1EB;
+    background-color: $bloc-color;
     width: 80%;
     margin: 20px;
     border-radius: 10px;
@@ -11,7 +11,8 @@
         align-items: center;
     }
     &-btn {
-        background-color: #FFD7D7;
+        background-color: $btn-color;
+        color: white;
         padding: 10px;
         border-radius: 10px;
         margin-right: 10px;

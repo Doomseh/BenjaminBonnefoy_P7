@@ -21,10 +21,11 @@
         display: flex;
         align-items: center;
         &-active {
-            background: #FFD7D7;
+            background: $dark-gray;
+            color: white;
             border-radius: 30px;
-            box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
-        }
+            box-shadow: 0px 0px 8px black
+        }   
     }
 }
 
