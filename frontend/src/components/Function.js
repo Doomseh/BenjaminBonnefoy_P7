@@ -71,3 +71,9 @@ exports.logUser = (e) => {
             });
     }
 }
+
+exports.logOut = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    window.location.href = "http://localhost:4800"
+}
