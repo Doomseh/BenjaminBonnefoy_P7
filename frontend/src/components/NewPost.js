@@ -1,4 +1,8 @@
+const token = localStorage.getItem("token");
+
 function NewPost() {
+
+    if (!token) return <div className="error">Vous n'êtes pas connecté !</div>
     return (
         <div className="newpost">
             <h1 className="title">Ajouter une publication</h1>

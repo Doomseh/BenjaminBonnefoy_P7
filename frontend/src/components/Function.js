@@ -63,7 +63,7 @@ exports.logUser = (e) => {
                 try {
                     const res = await response.json()
                     localStorage.setItem("token", res.token);
-                    console.log(res.token)
+                    localStorage.setItem("userId", res.userId);
                     window.location.href = "http://localhost:4800/home"
                 } catch (e) {
                     console.log(e)

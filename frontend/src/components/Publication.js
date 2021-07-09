@@ -1,6 +1,8 @@
 import Post from "./Post";
+const token = localStorage.getItem("token");
 
 function Publication() {
+    if (!token) return <div className="error">Vous n'êtes pas connecté !</div>
     return (
         <div className="component">
             <h1 className="title">Publication</h1>

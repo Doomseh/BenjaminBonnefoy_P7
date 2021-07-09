@@ -1,10 +1,16 @@
 import userImg from "../assets/DABEUIH.png";
 import useSWR from "swr";
+const token = localStorage.getItem("token");
+const userId = localStorage.getItem("userId")
+console.log(userId)
+
+
 
 function Profile() {
-    const { data, error } = useSWR('http://localhost:3000/api/users/3')
+
+    const { data, error } = useSWR('http://localhost:3000/api/users/' + userId)
     console.log(data)    
-    
+    if (!token) return <div className="error">Vous n'êtes pas connecté !</div>
     if (error) return <div className="component title">failed to load</div>
     if (!data) return <div className="component title">Utilisateur non trouvé...</div>
     const account = data.isAdmin === true ? "Admin" : "Utilisateur";

@@ -13,7 +13,7 @@ function Navigation() {
         <header className="nav">
             {isLogged 
             ?   <NavLink to="/home" className="nav-link">
-                    <img src={logoNav} alt="Logo de l'Entreprise Groupomania"></img>
+                    <img src={logoNav} alt="Logo de l'Entreprise Groupomania" className="test"></img>
                 </NavLink> 
 
             :   <NavLink to="/" className="nav-link">
@@ -25,7 +25,7 @@ function Navigation() {
                     <NavLink to="/newpost" className="nav-link" activeClassName="nav-link-active">
                         <li className="nav-list">Ajouter une publication</li>
                     </NavLink>
-                    <NavLink to="/Inscription" className="nav-link" activeClassName="nav-link-active">
+                    <NavLink to="/profile" className="nav-link" activeClassName="nav-link-active">
                         <li className="nav-list">Profil</li>
                     </NavLink>
                     <NavLink to="/home" className="nav-link" onClick={logOut}>
