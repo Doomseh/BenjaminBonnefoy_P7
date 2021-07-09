@@ -45,7 +45,10 @@ exports.signup = (req, res, next) => {
                     // Sauvegarde dans la base de données
                     user.save()
                         .then(() => res.status(201).json({
-                            message: 'Utilisateur créé !'
+                            message: 'Utilisateur créé !',
+                            userId: user.id,
+                            isAdmin: user.isAdmin,
+                            token: jwtUtils.generateTokenForUser(user)
                         }))
                         .catch(error => res.status(400).json({
                             error

@@ -1,17 +1,17 @@
 import logoWhite from "../assets/groupomania-w.png";
 import {useLocation} from "react-router-dom";
-import { useHistory } from "react-router-dom";
+const fnc = require('../components/Function')
 
 function Signup() {
 
-    const history = useHistory();
     const location = useLocation().pathname;
     const btnName = location.substring(1);
+    const postUser = fnc.postUser    
 
     return (
         <div className="component">
             <h1 className="title">Inscrivez vous !</h1>
-            <form className="form">
+            <form className="form" id="signupForm">
                 <div className="form-block">
                     <label htmlFor="email">Email :</label>
                     <input type="email" id="email" className="form-input"/>
@@ -28,11 +28,13 @@ function Signup() {
                     <label htmlFor="password">Mot de passe :</label>
                     <input type="password" id="password" className="form-input"/>
                 </div>
-                <button className="btnLog" onClick={() => history.push("/profile")}>{btnName}</button>
+                <button className="btnLog" id="btnSignup" onClick={postUser}>{btnName}</button>
             </form>
             <img src={logoWhite} alt="Logo de l'Entreprise Groupomania" className="logImg"></img>
         </div>
-    ) 
+    )
+
+    
 }
 
 export default Signup;
