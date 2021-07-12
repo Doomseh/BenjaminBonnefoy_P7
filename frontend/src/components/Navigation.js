@@ -2,6 +2,7 @@ import {NavLink} from 'react-router-dom';
 import logoNav from "../assets/left-groupomania.png";
 const fnc = require('../components/Function')
 const token = localStorage.getItem("token");
+const userId = localStorage.getItem("userId");
 const isLogged = token != null ? true : false
 console.log(isLogged)
 
@@ -25,7 +26,7 @@ function Navigation() {
                     <NavLink to="/newpost" className="nav-link" activeClassName="nav-link-active">
                         <li className="nav-list">Ajouter une publication</li>
                     </NavLink>
-                    <NavLink to="/profile" className="nav-link" activeClassName="nav-link-active">
+                    <NavLink to={"/profile?id=" + userId} className="nav-link" activeClassName="nav-link-active">
                         <li className="nav-list">Profil</li>
                     </NavLink>
                     <NavLink to="/home" className="nav-link" onClick={logOut}>

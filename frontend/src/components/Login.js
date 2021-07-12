@@ -1,6 +1,6 @@
 import logoWhite from "../assets/groupomania-w.png";
 import {useLocation} from "react-router-dom";
-const fnc = require('../components/Function')
+const fnc = require('../components/Function');
 
 function Login() {
 

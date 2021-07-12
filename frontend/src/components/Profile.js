@@ -1,15 +1,15 @@
 import userImg from "../assets/DABEUIH.png";
 import useSWR from "swr";
 const token = localStorage.getItem("token");
-const userId = localStorage.getItem("userId")
-console.log(userId)
-
-
+const userId = localStorage.getItem("userId");
+const fnc = require('../components/Function');
 
 function Profile() {
 
     const { data, error } = useSWR('http://localhost:3000/api/users/' + userId)
-    console.log(data)    
+    console.log(data) 
+    const modifyUser = fnc.modifyUser;  
+
     if (!token) return <div className="error">Vous n'êtes pas connecté !</div>
     if (error) return <div className="component title">failed to load</div>
     if (!data) return <div className="component title">Utilisateur non trouvé...</div>
@@ -19,7 +19,7 @@ function Profile() {
         
         <div className="component">
             <h1 className="title">Votre profil</h1>
-            <form className="profil">
+            <form className="profil" id="profilForm">
                 <div className="form-block">
                     <label htmlFor="email">Email :</label>
                     <input type="text" disabled="disabled" className="form-input" defaultValue={data.email}/>
@@ -45,7 +45,7 @@ function Profile() {
                     </div>
                 </div>
                 <div className="profil-block borderTop">
-                    <button className="btnUpdate">Modifier le profil</button>
+                    <button className="btnUpdate" onClick={modifyUser}>Modifier le profil</button>
                     <button className="btnDelete">Supprimer votre profil</button>
                 </div>
             </form>
