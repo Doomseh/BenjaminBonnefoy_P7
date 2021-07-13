@@ -8,7 +8,9 @@ module.exports = {
     // FONCTION génération d'un TOKEN
     generateTokenForUser: function (userData) {
         return jwt.sign({
-                userId: userData.id
+                userId: userData.id,
+                isAdmin: userData.isAdmin,
+                userName: userData.firstname
             },
             JWT_SIGN_SECRET, {
                 expiresIn: '24h'
@@ -29,5 +31,17 @@ module.exports = {
             }
         }
         return userId;
+    },
+    // FONCTION pour récupérer le prénom dans le TOKEN
+    getUserName: function (authorization) {
+        let userName = -1;
+        let token = module.exports.parseAuthorization(authorization);
+        if (token != null) {
+            let jwtToken = jwt.verify(token, JWT_SIGN_SECRET);
+            if (jwtToken != null) {
+                userName = jwtToken.userName
+            }
+        }
+        return userName;
     }
 }

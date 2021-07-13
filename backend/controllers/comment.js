@@ -8,10 +8,12 @@ exports.createComment = (req, res, next) => {
     // Récupération de l'userId présent dans le TOKEN
     const headerAuth = req.headers['authorization'];
     const user_Id = jwtUtils.getUserId(headerAuth);
+    const user_Name = jwtUtils.getUserName(headerAuth)
 
     // Création d'un nouveau commentaire
     const comment = new db.comments({
         message: req.body.message,
+        userName: user_Name,
         userId: user_Id,
         postId: req.body.postId
     });
@@ -135,3 +137,24 @@ exports.findAllComments = (req, res, next) => {
             error
         }));
 };
+
+// FONCTION RECUPERER TOUT LES COMMENTAIRES D'UN POST
+exports.findPostComments = (req, res, next) => {
+    db.comments.findAll({
+            order: [
+                ['createdAt', 'DESC'],
+            ],
+            where: {
+                postId: req.params.id
+            }
+        })
+        .then(comments => {
+            res.status(200).json({
+                data: comments
+            });
+        })
+        .catch(error => res.status(400).json({
+            error
+        }));
+};
+

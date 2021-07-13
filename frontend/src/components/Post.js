@@ -20,7 +20,7 @@ function Post({ id, title, message, userId, postUrl , createdAt, button}) {
                 : null}
                 <div className="post-user">
                     <p className="post-time">Publié le : {created}</p>
-                    {<p className="post-name">Par : {data.firstname} {data.lastname}</p>}
+                    <p className="post-name">Par : {data.firstname} {data.lastname}</p>
                 </div>
             </div>
         </div>

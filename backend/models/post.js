@@ -3,10 +3,6 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      references: {
-        model: 'Users',
-        key: 'id'
-      }
     },
     title: {
       allowNull: false,
@@ -19,14 +15,6 @@ module.exports = (sequelize, DataTypes) => {
     postUrl: {
       allowNull: true,
       type: DataTypes.STRING
-    },
-    likes: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-    },
-    createdAt: {
-      allowNull: false,
-      type: DataTypes.DATE
     }
   });
   return Post;

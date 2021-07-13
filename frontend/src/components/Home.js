@@ -4,7 +4,6 @@ const token = localStorage.getItem("token");
 
 function Home() {
     const { data, error } = useSWR("http://localhost:3000/api/posts/");
-    
     const renderPosts = (posts) => {
         return posts.map(({ id, title, message, userId, postUrl ,createdAt }) => <Post key={id} id={id} title={title} message={message} userId={userId} postUrl={postUrl} createdAt={createdAt} button={true}/>
     )}
