@@ -204,6 +204,7 @@ body {
   flex-direction: column;
   align-items: center;
   border-radius: 10px;
+  margin-bottom: 60px;
   color: black;
   box-shadow: inset 0px 0px 8px black;
   box-shadow: 0px 0px 4px #fafafa;
@@ -234,20 +235,46 @@ body {
 }
 .post-message {
   width: 80%;
+  padding: 20px 0px;
 }
 .post-img {
   max-width: 80%;
   border-radius: 10px;
   box-shadow: 0px 0px 4px black;
 }
+.post-button {
+  width: 60%;
+  height: 40px;
+  margin: 10px 0px 30px 0px;
+  border-radius: 10px;
+  background-color: #502F7E;
+  color: white;
+  font-weight: bold;
+  font-size: 25px;
+  cursor: pointer;
+}
 
 @media screen and (max-width: 640px) {
   .post {
     margin-top: 20px;
     width: 100%;
+    margin-bottom: 20px;
   }
   .post-link {
     width: 90%;
+  }
+  .post-name, .post-time {
+    font-size: 15px;
+    text-align: center;
+  }
+  .post-message {
+    text-align: center;
+  }
+  .post-title {
+    font-size: 20px;
+  }
+  .post-button {
+    font-size: 15px;
   }
 }
 .profil {

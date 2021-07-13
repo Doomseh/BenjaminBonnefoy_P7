@@ -11,8 +11,8 @@ function Profile() {
     const modifyUser = fnc.modifyUser;  
 
     if (!token) return <div className="error">Vous n'êtes pas connecté !</div>
-    if (error) return <div className="component title">failed to load</div>
-    if (!data) return <div className="component title">Utilisateur non trouvé...</div>
+    if (error) return <div className="error">Failed to load</div>
+    if (!data) return <div className="error">Utilisateur non trouvé...</div>
     const account = data.isAdmin === true ? "Admin" : "Utilisateur";
     const created = data.createdAt.slice(0,10);
     return (

@@ -5,6 +5,7 @@
     flex-direction: column;
     align-items: center;
     border-radius: 10px;
+    margin-bottom: 60px;
     color: black;
     box-shadow: inset 0px 0px 8px rgb(0, 0, 0);
     box-shadow:  0px 0px 4px rgb(250, 250, 250);
@@ -34,11 +35,23 @@
     }
     &-message {
         width: 80%;
+        padding: 20px 0px;
     }
     &-img {
         max-width: 80%;
         border-radius: 10px;
         box-shadow:  0px 0px 4px rgb(0, 0, 0);
+    }
+    &-button {
+        width: 60%;
+        height: 40px;
+        margin: 10px 0px 30px 0px;
+        border-radius: 10px;
+        background-color: $btn-color;
+        color: white;
+        font-weight: bold;
+        font-size: 25px;
+        cursor: pointer; 
     }
 }
 
@@ -46,8 +59,22 @@
     .post {
         margin-top: 20px;
         width: 100%;
+        margin-bottom: 20px;
         &-link {
             width: 90%;
+        }
+        &-name, &-time {
+            font-size: 15px;
+            text-align: center;
+        }
+        &-message {
+            text-align: center;
+        }
+        &-title {
+            font-size: 20px;
+        }
+        &-button {
+            font-size: 15px;
         }
     }
 }
