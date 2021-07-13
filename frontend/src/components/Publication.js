@@ -15,7 +15,7 @@ function Publication() {
     return (
         <div className="component">
             <h1 className="title">Publication</h1>
-            <Post key={data.id} id={data.id} title={data.title} message={data.message} userId={data.userId} postUrl={data.postUrl} createdAt={data.createdAt} />
+            <Post id={data.id} title={data.title} message={data.message} userId={data.userId} postUrl={data.postUrl} createdAt={data.createdAt} />
             <Commentaire postId={data.id} />
         </div>
     )

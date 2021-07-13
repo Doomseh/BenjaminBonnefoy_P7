@@ -28,8 +28,18 @@ exports.postUser = (e) => {
                 },
                 body: JSON.stringify(newUser)
 
-            }).then(res => res.json())
-            .then(res => console.log(res))       
+            })
+            .then(async (response) => {
+                try {
+                    const res = await response.json()
+                    console.log(res)
+                    localStorage.setItem("token", res.token);
+                    localStorage.setItem("userId", res.userId);
+                    window.location.href = "http://localhost:4800/profile?id=" + res.userId
+                } catch (e) {
+                    console.log(e)
+                }
+            });   
     }
 }
 
@@ -166,5 +176,49 @@ exports.newPost = (e) => {
                 }
             });
 
+    }
+}
+
+// FONCTION POUR AJOUTER UN COMMENTAIRE
+exports.newComment = (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    const url = new URL(window.location);
+    const postId = url.searchParams.get("id");
+    const message = document.getElementById("comment").value;
+    console.log(postId)
+    
+
+    if (message.value === "") {
+
+        alert("Vous n'avez pas écrit de commentaire");
+
+    } else {
+
+        const newComment = {
+            "message": message,
+            "postId": postId
+        };
+
+        const myHeaders = new Headers({
+            "Accept": "application/json",
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + token
+        });
+
+        fetch("http://localhost:3000/api/comments/", {
+                method: "POST",
+                headers: myHeaders,
+                body: JSON.stringify(newComment)
+
+            }).then(async (response) => {
+                try {
+                    const res = await response.json()
+                    console.log(res)
+                    window.location.href = "http://localhost:4800/post?id=" + postId
+                } catch (e) {
+                    console.log(e)
+                }
+            });
     }
 }
