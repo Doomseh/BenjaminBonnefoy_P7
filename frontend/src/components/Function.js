@@ -103,9 +103,11 @@ exports.modifyUser = (e) => {
 
     } else {
 
+        const img = document.getElementById("file")
         const user = {
             "firstname": firstname.value,
-            "lastname": lastname.value
+            "lastname": lastname.value,
+            "imageUrl": img
         };
 
         const myHeaders = new Headers({
@@ -117,7 +119,7 @@ exports.modifyUser = (e) => {
         fetch("http://localhost:3000/api/users/" + userId, {
                 method: "PUT",
                 headers: myHeaders,
-                body: JSON.stringify(user)
+                body: JSON.stringify(user) 
 
             }).then(async (response) => {
                 try {

@@ -39,6 +39,7 @@ exports.signup = (req, res, next) => {
                     const user = new db.users({
                         firstname: firstname,
                         lastname: lastname,
+                        imageUrl: "http://localhost:3000/images/user.png",
                         email: email,
                         password: hash
                     })

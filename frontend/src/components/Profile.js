@@ -1,4 +1,3 @@
-import userImg from "../assets/DABEUIH.png";
 import useSWR from "swr";
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
@@ -7,7 +6,7 @@ const fnc = require('../components/Function');
 function Profile() {
 
     const { data, error } = useSWR('http://localhost:3000/api/users/' + userId)
-    console.log(data) 
+     
     const modifyUser = fnc.modifyUser;
     const deleteAccount = fnc.deleteAccount; 
 
@@ -35,7 +34,7 @@ function Profile() {
                 </div>
                 <div className="profil-block">
                     <div className="profil-button">
-                        <img src={userImg} alt="" className="profil-img"></img>
+                        <img src={data.imageUrl} alt="" className="profil-img"></img>
                         <input type="file" id="file" className="input-file"></input>
                     </div>
                     <div className="form-block">
