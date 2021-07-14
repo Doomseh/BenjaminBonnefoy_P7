@@ -103,11 +103,9 @@ exports.modifyUser = (e) => {
 
     } else {
 
-        const img = document.getElementById("file")
         const user = {
             "firstname": firstname.value,
             "lastname": lastname.value,
-            "imageUrl": img
         };
 
         const myHeaders = new Headers({
