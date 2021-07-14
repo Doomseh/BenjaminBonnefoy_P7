@@ -74,9 +74,13 @@ exports.logUser = (e) => {
             }).then(async (response) => {
                 try {
                     const res = await response.json()
+                    if (res.error) {
+                        alert(res.error)
+                    } else {
                     localStorage.setItem("token", res.token);
                     localStorage.setItem("userId", res.userId);
                     window.location.href = "http://localhost:4800/home"
+                    }
                 } catch (e) {
                     console.log(e)
                 }
@@ -126,6 +130,33 @@ exports.modifyUser = (e) => {
             });
 
     }
+}
+// FONCTION POUR LA SUPPRESSION DU COMPTE
+exports.deleteAccount = (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    const url = new URL(window.location);
+    const userId = url.searchParams.get("id");
+
+    const myHeaders = new Headers({
+        "Accept": "application/json",
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + token
+    });
+
+    fetch("http://localhost:3000/api/users/" + userId, {
+                method: "DELETE",
+                headers: myHeaders,
+                
+            }).then(async (response) => {
+                try {
+                    const res = await response.json()
+                    console.log(res)
+                    this.logOut(e);
+                } catch (e) {
+                    console.log(e)
+                }
+            });
 }
 
 // FONCTION POUR LA DECONNEXION

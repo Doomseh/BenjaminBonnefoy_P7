@@ -8,7 +8,8 @@ function Profile() {
 
     const { data, error } = useSWR('http://localhost:3000/api/users/' + userId)
     console.log(data) 
-    const modifyUser = fnc.modifyUser;  
+    const modifyUser = fnc.modifyUser;
+    const deleteAccount = fnc.deleteAccount; 
 
     if (!token) return <div className="error">Vous n'êtes pas connecté !</div>
     if (error) return <div className="error">Failed to load</div>
@@ -46,7 +47,7 @@ function Profile() {
                 </div>
                 <div className="profil-block borderTop">
                     <button className="btnUpdate" onClick={modifyUser}>Modifier le profil</button>
-                    <button className="btnDelete">Supprimer votre profil</button>
+                    <button className="btnDelete" onClick={deleteAccount}>Supprimer votre profil</button>
                 </div>
             </form>
         </div>

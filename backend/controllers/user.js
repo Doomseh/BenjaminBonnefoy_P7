@@ -127,58 +127,38 @@ exports.findOneUser = (req, res, next) => {
 // FONCTION SUPPRIMER UN UTILISATEUR
 exports.deleteUser = (req, res, next) => {
 
-    /*  db.comments.destroy({
-              where: {
-                  userId: req.params.id
-              }
-          })
-          .then(() =>
-              db.posts.findAll({
-                  where: {
-                      userId: req.params.id
-                  }
-              })
-              .then(
-                  (post) => {
-                      post.forEach(
-                          (post) => {
-                              db.comments.destroy({
-                                  where: {
-                                      postId: post.id
-                                  }
-                              })
-
-                              db.posts.destroy({
-                                  where: {
-                                      id: post.id
-                                  }
-                              })
-                          }
-                      )
-                  }
-              )
-              .then(() => */
-    db.users.findOne({
+    db.comments.destroy({
             where: {
-                id: req.params.id
+                userId: req.params.id
             }
         })
-        .then(user => {
-            const filename = user.imageUrl;
-            fs.unlink(`images/${filename}`, () => {
-                db.users.destroy({
-                        where: {
-                            id: req.params.id
-                        }
-                    })
-                    .then(() => res.status(200).json({
-                        message: 'Utilisateur supprimé !'
-                    }))
+        .then(() =>
+            db.posts.destroy({
+                where: {
+                    userId: req.params.id
+                }
             })
-        })
-        // )
-        // )
-
+            .then(() =>
+                db.users.findOne({
+                    where: {
+                        id: req.params.id
+                    }
+                })
+                .then(user => {
+                    const filename = user.imageUrl;
+                    fs.unlink(`images/${filename}`, () => {
+                        db.users.destroy({
+                                where: {
+                                    id: req.params.id
+                                }
+                            })
+                            .then(() => res.status(200).json({
+                                message: 'Utilisateur supprimé !'
+                            }))
+                    })
+                })
+            )
+        )
         .catch(error => res.status(400).json({
             error
         }));
