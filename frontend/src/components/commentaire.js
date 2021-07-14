@@ -1,17 +1,27 @@
 import useSWR from "swr";
+const user_Id = parseInt(localStorage.getItem("userId"));
 const fnc = require('../components/Function');
 
 function Commentaire({postId}) {
-    const { data, error } = useSWR("http://localhost:3000/api/comments/post/" + postId);
-    
+    const { data, error } = useSWR("http://localhost:3000/api/comments/post/" + postId);  
 
     const newComment = fnc.newComment;  
 
     const renderComments = (comments) => {
-        return comments.map(({ id,  message, createdAt, userName }) =>  <div className="comment-user" key={id}>
-                                                                            <p className="comment-name">{userName}</p>
-                                                                            <p className="comment-text">{message}</p>
-                                                                        </div>
+        return comments.map(({ id,  message, createdAt, userName, userId }) =>  
+        <div className="comment-user" key={id}>
+            <div className="comment-info">
+                <p className="comment-name">{userName}</p>
+                <p className="comment-date">Le : {createdAt.slice(0,10)}</p>
+            </div>
+            <p className="comment-text">{message}</p>
+            {user_Id === userId 
+            ?   <div className="comment-button">
+                    <button className="comment-update">Modifier</button>
+                    <button className="comment-delete">Supprimer</button>
+                </div> 
+            : null }
+        </div>
     )}
 
     if (error) return <div className="error">Failed to load</div>

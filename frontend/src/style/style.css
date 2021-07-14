@@ -62,7 +62,7 @@ body {
   font-size: 55px;
   text-align: center;
   color: black;
-  background-color: #D6E1EB;
+  background-color: white;
   border-radius: 20px;
   text-shadow: 0px 1px 4px black;
   box-shadow: inset 0px 0px 8px black;
@@ -70,7 +70,10 @@ body {
 
 @media screen and (max-width: 640px) {
   .error {
-    font-size: 40px;
+    font-size: 30px;
+    padding: 10px;
+    margin: 20px;
+    background-color: white;
   }
 }
 .form {
@@ -204,7 +207,7 @@ body {
   flex-direction: column;
   align-items: center;
   border-radius: 10px;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
   color: black;
   box-shadow: inset 0px 0px 8px black;
   box-shadow: 0px 0px 4px #fafafa;
@@ -217,7 +220,7 @@ body {
   text-decoration: none;
 }
 .post-user {
-  width: 80%;
+  width: 90%;
   display: flex;
   justify-content: space-between;
   font-weight: bold;
@@ -227,7 +230,9 @@ body {
 }
 .post-title {
   border: 2px solid white;
+  max-width: 80%;
   border-radius: 20px;
+  background-color: white;
   padding: 10px 20px;
   margin: 20px 0px;
   box-shadow: 0px 0px 8px black;
@@ -242,9 +247,9 @@ body {
   border-radius: 10px;
   box-shadow: 0px 0px 4px black;
 }
-.post-button {
+.post-see {
   width: 60%;
-  height: 40px;
+  height: 50px;
   margin: 10px 0px 30px 0px;
   border-radius: 10px;
   background-color: #502F7E;
@@ -252,6 +257,26 @@ body {
   font-weight: bold;
   font-size: 25px;
   cursor: pointer;
+}
+.post-block {
+  display: flex;
+  width: 80%;
+}
+.post-update, .post-delete {
+  margin: 5px 20px;
+  width: 50%;
+  height: 50px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+}
+.post-update {
+  background-color: #502F7E;
+}
+.post-delete {
+  background-color: darkred;
 }
 
 @media screen and (max-width: 640px) {
@@ -272,8 +297,18 @@ body {
   }
   .post-title {
     font-size: 20px;
+    padding: 5px;
+    width: 90%;
+    word-wrap: break-word;
+    text-align: center;
   }
-  .post-button {
+  .post-see {
+    font-size: 15px;
+  }
+  .post-block {
+    width: 95%;
+  }
+  .post-update, .post-delete {
     font-size: 15px;
   }
 }
@@ -434,9 +469,20 @@ body {
   margin: 20px;
   box-shadow: 0px 3px 8px black;
 }
+.comment-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px 0px 10px;
+  align-items: center;
+}
 .comment-name {
-  margin: 10px;
   font-weight: bold;
+  margin: 0;
+}
+.comment-date {
+  margin: 0;
+  font-weight: bold;
+  opacity: 0.6;
 }
 .comment-text {
   margin: 10px;
@@ -444,6 +490,26 @@ body {
   border-radius: 5px;
   padding: 10px;
   background-color: lightgray;
+}
+.comment-button {
+  display: flex;
+  justify-content: space-around;
+}
+.comment-delete, .comment-update {
+  margin: 0px 20px 5px 20px;
+  width: 30%;
+  height: 30px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 15px;
+  color: white;
+  cursor: pointer;
+}
+.comment-update {
+  background-color: #502F7E;
+}
+.comment-delete {
+  background-color: darkred;
 }
 
 @media screen and (max-width: 640px) {
@@ -466,6 +532,9 @@ body {
   }
   .comment-user {
     margin-top: 0;
+  }
+  .comment-delete, .comment-update {
+    width: 40%;
   }
 }
 

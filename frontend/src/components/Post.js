@@ -16,7 +16,7 @@ function Post({ id, title, message, userId, postUrl , createdAt, button}) {
                 <img src={test} alt="" className="post-img">{postUrl}</img>
                 <p className="post-message">{message}</p>
                 {button 
-                ? <button className="post-button" onClick={() => window.location.href = "http://localhost:4800/post?id=" + id}>Voir la publication</button> 
+                ? <button className="post-see" onClick={() => window.location.href = "http://localhost:4800/post?id=" + id}>Voir la publication</button> 
                 : null}
                 <div className="post-user">
                     <p className="post-time">Publié le : {created}</p>
