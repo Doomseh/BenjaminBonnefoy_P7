@@ -5,6 +5,7 @@ import Navigation from "./components/navigation/navigation";
 import Profile from "./components/profile/profile";
 import Publication from "./components/publication/publication";
 import NewPost from "./components/newpost/newpost";
+import UpdatePost from "./components/newpost/updatePost";
 import Home from "./components/home/home";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/profile" exact component={Profile} />
           <Route path="/home" exact component={Home} />
           <Route path="/newpost" exact component={NewPost} />
+          <Route path="/updatePost" exact component={UpdatePost} />
           <Route path="/post" exact component={Publication} />
         </Switch>
     </Router>

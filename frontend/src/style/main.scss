@@ -1,9 +1,9 @@
 @import "components/Variables";
-@import "components/Acceuil.scss";
+@import "../components/accueil/Acceuil";
 @import "components/index.scss";
-@import "components/Log.scss";
-@import "components/Navigation.scss";
-@import "components/Post.scss";
-@import "components/Profile.scss";
-@import "components/NewPost";
-@import "components/Comment";
+@import "../components/login-signup/Log";
+@import "../components/navigation/Navigation";
+@import "../components/publication/Post";
+@import "../components/profile/Profile";
+@import "../components/newpost/NewPost";
+@import "../components/comment/Comment";

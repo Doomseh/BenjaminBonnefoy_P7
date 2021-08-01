@@ -21,7 +21,7 @@ function Publication() {
             <Post id={data.id} title={data.title} message={data.message} userId={data.userId} postUrl={data.postUrl} createdAt={data.createdAt} button={false}/>
             {user_Id === data.userId 
             ?   <div className="post-block">
-                    <button className="post-update">Modifier</button> 
+                    <button className="post-update" onClick={() => window.location.href = "http://localhost:4800/updatepost?id=" + urlId}>Modifier</button> 
                     <button className="post-delete" onClick={deletePost}>Supprimer</button>
                 </div> 
             : null}

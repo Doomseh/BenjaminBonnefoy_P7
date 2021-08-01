@@ -1,14 +1,16 @@
 const token = localStorage.getItem("token");
-const fnc = require('../../components/function');
+//const fnc = require('../../components/function');
 
-function NewPost() {
+function ModifyPost() {
 
-    const newPost = fnc.newPost;
+    //const newPost = fnc.newPost;
+
+
 
     if (!token) return <div className="error">Vous n'êtes pas connecté !</div>
     return (
         <div className="newpost">
-            <h1 className="title">Ajouter une publication</h1>
+            <h1 className="title">Modifier votre publication</h1>
             <form className="newpost-form" id="newpostForm">
                 <div className="form-block">
                     <label htmlFor="title">Titre :</label>
@@ -21,7 +23,7 @@ function NewPost() {
                 <div className="form-block">
                     <input type="file" accept="image/*" id="fileUrl"/>
                 </div>
-                <button className="newpost-btn" onClick={newPost}>Envoyer</button>     
+                <button className="newpost-btn">Modifier</button>        
             </form>
             <button className="post-delete newpost-cancel" onClick={() => window.location.href = "http://localhost:4800/home"}>Annuler</button>
         </div>
@@ -29,4 +31,4 @@ function NewPost() {
 }
 
 
-export default NewPost;
+export default ModifyPost;
