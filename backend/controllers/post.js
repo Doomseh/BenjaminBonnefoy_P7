@@ -169,6 +169,12 @@ exports.deletePost = (req, res, next) => {
                             id: req.params.id 
                         }
                     })
+                    .then(() => 
+                    db.comments.destroy({
+                        where: {
+                            postId: req.params.id
+                        }
+                    }))
                     .then(() => res.status(200).json({
                         message: 'Publication supprimé !'
                     }))

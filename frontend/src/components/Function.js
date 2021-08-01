@@ -131,6 +131,7 @@ exports.modifyUser = (e) => {
 
     }
 }
+
 // FONCTION POUR LA SUPPRESSION DU COMPTE
 exports.deleteAccount = (e) => {
     e.preventDefault();
@@ -252,4 +253,60 @@ exports.newComment = (e) => {
                 }
             });
     }
+}
+
+// FONCTION POUR LA SUPPRESSION DU COMMENTAIRE
+exports.deleteComment = (id) => {
+
+    const token = localStorage.getItem("token");
+    const url = new URL(window.location);
+    const postId = url.searchParams.get("id");
+
+    const myHeaders = new Headers({
+        "Accept": "application/json",
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + token
+    });
+
+    fetch("http://localhost:3000/api/comments/" + id, {
+                method: "DELETE",
+                headers: myHeaders,
+                
+            }).then(async (response) => {
+                try {
+                    const res = await response.json()
+                    console.log(res)
+                    window.location.href = "http://localhost:4800/post?id=" + postId
+                } catch (e) {
+                    console.log(e)
+                }
+            }); 
+}
+
+// FONCTION POUR LA SUPPRESSION DE LA PUBLICATION
+exports.deletePost = (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    const url = new URL(window.location);
+    const postId = url.searchParams.get("id");
+
+    const myHeaders = new Headers({
+        "Accept": "application/json",
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + token
+    });
+
+    fetch("http://localhost:3000/api/posts/" + postId, {
+                method: "DELETE",
+                headers: myHeaders,
+                
+            }).then(async (response) => {
+                try {
+                    const res = await response.json()
+                    console.log(res)
+                    window.location.href = "http://localhost:4800/home"
+                } catch (e) {
+                    console.log(e)
+                }
+            }); 
 }

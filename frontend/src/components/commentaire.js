@@ -5,7 +5,8 @@ const fnc = require('../components/Function');
 function Commentaire({postId}) {
     const { data, error } = useSWR("http://localhost:3000/api/comments/post/" + postId);  
 
-    const newComment = fnc.newComment;  
+    const newComment = fnc.newComment;
+    const deleteComment = fnc.deleteComment;  
 
     const renderComments = (comments) => {
         return comments.map(({ id,  message, createdAt, userName, userId }) =>  
@@ -18,7 +19,7 @@ function Commentaire({postId}) {
             {user_Id === userId 
             ?   <div className="comment-button">
                     <button className="comment-update">Modifier</button>
-                    <button className="comment-delete">Supprimer</button>
+                    <button className="comment-delete" onClick={() => deleteComment(id)}>Supprimer</button>
                 </div> 
             : null }
         </div>
