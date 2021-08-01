@@ -1,7 +1,7 @@
 import useSWR from "swr";
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
-const fnc = require('../components/Function');
+const fnc = require('../../components/function');
 
 function Profile() {
 

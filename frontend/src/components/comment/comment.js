@@ -1,6 +1,6 @@
 import useSWR from "swr";
 const user_Id = parseInt(localStorage.getItem("userId"));
-const fnc = require('../components/Function');
+const fnc = require('../../components/function');
 
 function Commentaire({postId}) {
     const { data, error } = useSWR("http://localhost:3000/api/comments/post/" + postId);  

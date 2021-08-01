@@ -1,5 +1,5 @@
 const token = localStorage.getItem("token");
-const fnc = require('../components/Function');
+const fnc = require('../../components/function');
 
 function NewPost() {
 

@@ -1,7 +1,7 @@
-import Post from "./Post";
-import Commentaire from "./commentaire";
+import Post from "./post";
+import Commentaire from "../comment/comment";
 import useSWR from "swr";
-const fnc = require('../components/Function');
+const fnc = require('../../components/function');
 const token = localStorage.getItem("token");
 const user_Id = parseInt(localStorage.getItem("userId"));
 const url = new URL(window.location);

@@ -1,6 +1,6 @@
 import {NavLink} from 'react-router-dom';
-import logoNav from "../assets/left-groupomania.png";
-const fnc = require('../components/Function')
+import logoNav from "../../assets/left-groupomania.png";
+const fnc = require('../../components/function');
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
 const isLogged = token != null ? true : false

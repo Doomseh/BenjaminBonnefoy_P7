@@ -1,4 +1,4 @@
-import test from "../assets/test.png";
+import test from "../../assets/test.png";
 import useSWR from "swr";
 
 function Post({ id, title, message, userId, postUrl , createdAt, button}) {
