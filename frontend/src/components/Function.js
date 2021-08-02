@@ -39,7 +39,7 @@ exports.postUser = (e) => {
                 } catch (e) {
                     console.log(e)
                 }
-            });   
+            });
     }
 }
 
@@ -67,24 +67,24 @@ exports.logUser = (e) => {
         })
 
         fetch("http://localhost:3000/api/users/login", {
-                method: "POST",
-                headers: myHeaders,
-                body: JSON.stringify(user)
+            method: "POST",
+            headers: myHeaders,
+            body: JSON.stringify(user)
 
-            }).then(async (response) => {
-                try {
-                    const res = await response.json()
-                    if (res.error) {
-                        alert(res.error)
-                    } else {
+        }).then(async (response) => {
+            try {
+                const res = await response.json()
+                if (res.error) {
+                    alert(res.error)
+                } else {
                     localStorage.setItem("token", res.token);
                     localStorage.setItem("userId", res.userId);
                     window.location.href = "http://localhost:4800/home"
-                    }
-                } catch (e) {
-                    console.log(e)
                 }
-            });
+            } catch (e) {
+                console.log(e)
+            }
+        });
     }
 }
 
@@ -115,19 +115,19 @@ exports.modifyUser = (e) => {
         });
 
         fetch("http://localhost:3000/api/users/" + userId, {
-                method: "PUT",
-                headers: myHeaders,
-                body: JSON.stringify(user) 
+            method: "PUT",
+            headers: myHeaders,
+            body: JSON.stringify(user)
 
-            }).then(async (response) => {
-                try {
-                    const res = await response.json()
-                    console.log(res)
-                    window.location.href = "http://localhost:4800/profile?id=" + userId
-                } catch (e) {
-                    console.log(e)
-                }
-            });
+        }).then(async (response) => {
+            try {
+                const res = await response.json()
+                console.log(res)
+                window.location.href = "http://localhost:4800/profile?id=" + userId
+            } catch (e) {
+                console.log(e)
+            }
+        });
 
     }
 }
@@ -146,18 +146,18 @@ exports.deleteAccount = (e) => {
     });
 
     fetch("http://localhost:3000/api/users/" + userId, {
-                method: "DELETE",
-                headers: myHeaders,
-                
-            }).then(async (response) => {
-                try {
-                    const res = await response.json()
-                    console.log(res)
-                    this.logOut(e);
-                } catch (e) {
-                    console.log(e)
-                }
-            });
+        method: "DELETE",
+        headers: myHeaders,
+
+    }).then(async (response) => {
+        try {
+            const res = await response.json()
+            console.log(res)
+            this.logOut(e);
+        } catch (e) {
+            console.log(e)
+        }
+    });
 }
 
 // FONCTION POUR LA DECONNEXION
@@ -194,19 +194,19 @@ exports.newPost = (e) => {
         });
 
         fetch("http://localhost:3000/api/posts/", {
-                method: "POST",
-                headers: myHeaders,
-                body: JSON.stringify(newpost)
+            method: "POST",
+            headers: myHeaders,
+            body: JSON.stringify(newpost)
 
-            }).then(async (response) => {
-                try {
-                    const res = await response.json()
-                    console.log(res)
-                    window.location.href = "http://localhost:4800/home"
-                } catch (e) {
-                    console.log(e)
-                }
-            });
+        }).then(async (response) => {
+            try {
+                const res = await response.json()
+                console.log(res)
+                window.location.href = "http://localhost:4800/home"
+            } catch (e) {
+                console.log(e)
+            }
+        });
 
     }
 }
@@ -219,7 +219,7 @@ exports.newComment = (e) => {
     const postId = url.searchParams.get("id");
     const message = document.getElementById("comment").value;
     console.log(postId)
-    
+
 
     if (message.value === "") {
 
@@ -239,19 +239,19 @@ exports.newComment = (e) => {
         });
 
         fetch("http://localhost:3000/api/comments/", {
-                method: "POST",
-                headers: myHeaders,
-                body: JSON.stringify(newComment)
+            method: "POST",
+            headers: myHeaders,
+            body: JSON.stringify(newComment)
 
-            }).then(async (response) => {
-                try {
-                    const res = await response.json()
-                    console.log(res)
-                    window.location.href = "http://localhost:4800/post?id=" + postId
-                } catch (e) {
-                    console.log(e)
-                }
-            });
+        }).then(async (response) => {
+            try {
+                const res = await response.json()
+                console.log(res)
+                window.location.href = "http://localhost:4800/post?id=" + postId
+            } catch (e) {
+                console.log(e)
+            }
+        });
     }
 }
 
@@ -269,18 +269,18 @@ exports.deleteComment = (id) => {
     });
 
     fetch("http://localhost:3000/api/comments/" + id, {
-                method: "DELETE",
-                headers: myHeaders,
-                
-            }).then(async (response) => {
-                try {
-                    const res = await response.json()
-                    console.log(res)
-                    window.location.href = "http://localhost:4800/post?id=" + postId
-                } catch (e) {
-                    console.log(e)
-                }
-            }); 
+        method: "DELETE",
+        headers: myHeaders,
+
+    }).then(async (response) => {
+        try {
+            const res = await response.json()
+            console.log(res)
+            window.location.href = "http://localhost:4800/post?id=" + postId
+        } catch (e) {
+            console.log(e)
+        }
+    });
 }
 
 // FONCTION POUR LA SUPPRESSION DE LA PUBLICATION
@@ -297,16 +297,56 @@ exports.deletePost = (e) => {
     });
 
     fetch("http://localhost:3000/api/posts/" + postId, {
-                method: "DELETE",
-                headers: myHeaders,
-                
-            }).then(async (response) => {
-                try {
-                    const res = await response.json()
-                    console.log(res)
-                    window.location.href = "http://localhost:4800/home"
-                } catch (e) {
-                    console.log(e)
-                }
-            }); 
+        method: "DELETE",
+        headers: myHeaders,
+
+    }).then(async (response) => {
+        try {
+            const res = await response.json()
+            console.log(res)
+            window.location.href = "http://localhost:4800/home"
+        } catch (e) {
+            console.log(e)
+        }
+    });
+}
+
+// FONCTION POUR LA MODIFICATION D'UNE PUBLICATION
+exports.updatePost = (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    const url = new URL(window.location);
+    const urlId = url.searchParams.get("id");
+    const updatePostForm = document.getElementById("updatePostForm");
+    
+    const title = updatePostForm.title;
+    const message = updatePostForm.message;
+
+
+    const updatepost = {
+        "title": title.value,
+        "message": message.value
+    };
+
+    const myHeaders = new Headers({
+        "Accept": "application/json",
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + token
+    });
+
+    fetch("http://localhost:3000/api/posts/" + urlId, {
+        method: "PUT",
+        headers: myHeaders,
+        body: JSON.stringify(updatepost)
+
+    }).then(async (response) => {
+        try {
+            const res = await response.json()
+            console.log(res)
+            window.location.href = "http://localhost:4800/post?id=" + urlId
+        } catch (e) {
+            console.log(e)
+        }
+    });
+
 }
