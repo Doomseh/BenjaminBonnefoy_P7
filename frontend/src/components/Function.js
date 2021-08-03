@@ -97,8 +97,11 @@ exports.modifyUser = (e) => {
     const profilForm = document.getElementById("profilForm");
     const firstname = profilForm.firstname;
     const lastname = profilForm.lastname;
+    const img = document.getElementById("file");
+    let file = img.files[0]
+    console.log(file)
 
-    if (firstname.value === firstname.defaultValue && lastname.value === lastname.defaultValue) {
+    if (firstname.value === firstname.defaultValue && lastname.value === lastname.defaultValue && file === undefined) {
 
         alert("Vous n'avez modifier aucune information");
 
@@ -113,14 +116,37 @@ exports.modifyUser = (e) => {
             "Accept": "application/json",
             "Content-type": "application/json",
             "Authorization": "Bearer " + token
-        });
+        });        
+        
+        const uploadImg = () => {
+            if (file !== undefined) {
+                const formData = new FormData();
+                formData.append("image", file)
+                fetch("http://localhost:3000/api/users/" + userId, {
+                    method: "PUT",
+                    headers: {"Authorization": "Bearer " + token},
+                    body: formData
+    
+                }).then(async (response) => {
+                    try {
+                        const res = await response.json()
+                        console.log(res)
+                    } catch (e) {
+                        console.log(e)
+                    }
+                });
+            }
+        }
+       
 
         fetch("http://localhost:3000/api/users/" + userId, {
             method: "PUT",
             headers: myHeaders,
             body: JSON.stringify(user)
 
-        }).then(async (response) => {
+        })
+        .then( uploadImg() )
+        .then(async (response) => {
             try {
                 const res = await response.json()
                 console.log(res)

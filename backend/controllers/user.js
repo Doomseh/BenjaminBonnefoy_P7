@@ -177,10 +177,10 @@ exports.modifyUser = (req, res, next) => {
             error: "Tout les champs doivent être remplis !"
         });
     }
-
+    
     const userObject = req.file ? {
         ...req.body.user,
-        imageUrl: req.file.filename
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : {
         ...req.body
     };
