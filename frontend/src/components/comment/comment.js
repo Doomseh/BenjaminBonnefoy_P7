@@ -1,5 +1,6 @@
 import useSWR from "swr";
 const user_Id = parseInt(localStorage.getItem("userId"));
+const isAdmin = localStorage.getItem("isAdmin");
 const fnc = require('../../components/function');
 
 function Commentaire({postId}) {
@@ -16,7 +17,7 @@ function Commentaire({postId}) {
                 <p className="comment-date">Le : {createdAt.slice(0,10)}</p>
             </div>
             <p className="comment-text">{message}</p>
-            {user_Id === userId 
+            {user_Id === userId || isAdmin === "true"
             ?   <div className="comment-button">
                     <button className="comment-update">Modifier</button>
                     <button className="comment-delete" onClick={() => deleteComment(id)}>Supprimer</button>

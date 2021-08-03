@@ -3,7 +3,7 @@ import Login from "./components/login-signup/Login";
 import Signup from "./components/login-signup/Signup";
 import Navigation from "./components/navigation/Navigation";
 import Profile from "./components/profile/Profile";
-import Publication from "./components/publication/Post";
+import Publication from "./components/publication/Publication";
 import NewPost from "./components/newpost/Newpost";
 import UpdatePost from "./components/newpost/UpdatePost";
 import Home from "./components/home/Home";

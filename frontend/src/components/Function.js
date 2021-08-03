@@ -79,6 +79,7 @@ exports.logUser = (e) => {
                 } else {
                     localStorage.setItem("token", res.token);
                     localStorage.setItem("userId", res.userId);
+                    localStorage.setItem("isAdmin", res.isAdmin);
                     window.location.href = "http://localhost:4800/home"
                 }
             } catch (e) {
