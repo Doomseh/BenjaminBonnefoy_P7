@@ -1,5 +1,5 @@
 import Post from "./post";
-import Commentaire from "../comment/comment";
+import Commentaire from "../comment/Comment";
 import useSWR from "swr";
 const fnc = require('../../components/function');
 const token = localStorage.getItem("token");

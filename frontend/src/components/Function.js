@@ -348,5 +348,4 @@ exports.updatePost = (e) => {
             console.log(e)
         }
     });
-
 }

@@ -1,12 +1,12 @@
-import Accueil from "./components/accueil/accueil";
-import Login from "./components/login-signup/login";
-import Signup from "./components/login-signup/signup";
-import Navigation from "./components/navigation/navigation";
-import Profile from "./components/profile/profile";
-import Publication from "./components/publication/publication";
-import NewPost from "./components/newpost/newpost";
-import UpdatePost from "./components/newpost/updatePost";
-import Home from "./components/home/home";
+import Accueil from "./components/accueil/Accueil";
+import Login from "./components/login-signup/Login";
+import Signup from "./components/login-signup/Signup";
+import Navigation from "./components/navigation/Navigation";
+import Profile from "./components/profile/Profile";
+import Publication from "./components/publication/Post";
+import NewPost from "./components/newpost/Newpost";
+import UpdatePost from "./components/newpost/UpdatePost";
+import Home from "./components/home/Home";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 function App() {

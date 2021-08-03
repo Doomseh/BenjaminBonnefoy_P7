@@ -1,10 +1,11 @@
 import useSWR from "swr";
 const token = localStorage.getItem("token");
+const user_Id = parseInt(localStorage.getItem("userId"));
 const url = new URL(window.location);
 const urlId = url.searchParams.get("id");
 const fnc = require('../../components/function');
 
-function ModifyPost() {
+function UpdatePost() {
 
     const updatePost = fnc.updatePost;
 
@@ -28,7 +29,9 @@ function ModifyPost() {
                 <div className="form-block">
                     <input type="file" accept="image/*" id="fileUrl"/>
                 </div>
-                <button className="newpost-btn" onClick={updatePost}>Modifier</button>        
+                {user_Id === data.userId 
+                ? <button className="newpost-btn" onClick={updatePost}>Modifier</button>
+                : <span className="error">Vous ne pouvez pas modifier cette publication</span>}      
             </form>
             <button className="post-delete newpost-cancel" onClick={() => window.location.href = "http://localhost:4800/home"}>Annuler</button>
         </div>
@@ -36,4 +39,4 @@ function ModifyPost() {
 }
 
 
-export default ModifyPost;
+export default UpdatePost;

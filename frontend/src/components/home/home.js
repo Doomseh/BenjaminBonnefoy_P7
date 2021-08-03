@@ -1,4 +1,4 @@
-import Post from "../publication/post";
+import Post from "../publication/Post";
 import useSWR from "swr";
 const token = localStorage.getItem("token");
 
