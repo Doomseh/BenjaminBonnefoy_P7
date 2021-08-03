@@ -497,6 +497,7 @@ body {
 .comment-button {
   display: flex;
   justify-content: space-around;
+  width: 100%;
 }
 .comment-delete, .comment-update {
   margin: 0px 20px 5px 20px;
@@ -513,6 +514,21 @@ body {
 }
 .comment-delete {
   background-color: darkred;
+}
+.comment .update-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 10px;
+}
+.comment .update-text {
+  width: 97%;
+  font-size: 17px;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 10px 0px 5px 0px;
+  padding: 10px;
+  background-color: white;
 }
 
 @media screen and (max-width: 640px) {
@@ -539,6 +555,71 @@ body {
   .comment-delete, .comment-update {
     width: 40%;
   }
+  .comment .update-text {
+    width: 93%;
+  }
+}
+.overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+}
+.overlay::before {
+  content: "";
+  background: darkgray;
+  opacity: 0.75;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 4;
+}
+.overlay .contain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+  max-width: 992px;
+  padding: 0px 16px;
+}
+.overlay-img {
+  width: 100%;
+  border: 16px solid white;
+}
+.overlay-button {
+  position: absolute;
+  z-index: 5;
+  width: 48px;
+  height: 48px;
+  background-color: white;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+.overlay-button-previous {
+  left: 0%;
+  top: 45%;
+}
+.overlay-button-next {
+  right: 0%;
+  top: 45%;
+}
+.overlay-button-close {
+  right: 0%;
+  top: -1%;
+}
+
+.none {
+  display: none;
 }
 
 /*# sourceMappingURL=style.css.map */

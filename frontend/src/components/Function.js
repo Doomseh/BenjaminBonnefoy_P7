@@ -222,7 +222,7 @@ exports.newComment = (e) => {
     console.log(postId)
 
 
-    if (message.value === "") {
+    if (message === "") {
 
         alert("Vous n'avez pas écrit de commentaire");
 
@@ -243,6 +243,45 @@ exports.newComment = (e) => {
             method: "POST",
             headers: myHeaders,
             body: JSON.stringify(newComment)
+
+        }).then(async (response) => {
+            try {
+                const res = await response.json()
+                console.log(res)
+                window.location.href = "http://localhost:4800/post?id=" + postId
+            } catch (e) {
+                console.log(e)
+            }
+        });
+    }
+}
+// FONCTION POUR MODIFIER UN COMMENTAIRE
+exports.updateComment = (id) => {
+    const token = localStorage.getItem("token");
+    const url = new URL(window.location);
+    const postId = url.searchParams.get("id");
+    const message = document.getElementById("updateComment");
+
+    if (message.value === message.defaultValue) {
+
+        alert("Vous n'avez pas modifier votre commentaire");
+
+    } else {
+
+        const updateComment = {
+            "message": message.value
+        };
+
+        const myHeaders = new Headers({
+            "Accept": "application/json",
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + token
+        });
+
+        fetch("http://localhost:3000/api/comments/" + id, {
+            method: "PUT",
+            headers: myHeaders,
+            body: JSON.stringify(updateComment)
 
         }).then(async (response) => {
             try {

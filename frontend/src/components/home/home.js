@@ -12,7 +12,7 @@ function Home() {
     if (!token) return <div className="error">Vous n'êtes pas connecté !</div>
         return (
             <div className="component">
-                <h1 className="title">Publications</h1>      
+                <h1 className="title">Fil d'actualité</h1>      
                 {renderPosts(data.data)}
             </div>
         )
