@@ -92,6 +92,7 @@ exports.modifyPost = (req, res, next) => {
     // Récupération de l'userId présent dans le TOKEN
     const headerAuth = req.headers['authorization'];
     const user_Id = jwtUtils.getUserId(headerAuth);
+    const isAdmin = jwtUtils.getIsAdmin(headerAuth);
 
     const title = req.body.title;
     const message = req.body.message;
@@ -114,7 +115,7 @@ exports.modifyPost = (req, res, next) => {
         })
         .then(post => {
             // Condition pour vérifier si l'utisateur est celui qui a créé le post ou non
-            if (post.userId == user_Id) {
+            if (post.userId == user_Id || isAdmin === true) {
                 // Utilisation de la méthone update() pour modifier le post correspondant au paramètre de la requête
                 db.posts.update({
                         ...postObject,
@@ -148,6 +149,7 @@ exports.deletePost = (req, res, next) => {
     // Récupération de l'userId présent dans le TOKEN
     const headerAuth = req.headers['authorization'];
     const user_Id = jwtUtils.getUserId(headerAuth);
+    const isAdmin = jwtUtils.getIsAdmin(headerAuth);
 
     // Utilisation de la méthone findOne() pour trouver le post correspondant au paramètre de la requête
     db.posts.findOne({
@@ -161,7 +163,7 @@ exports.deletePost = (req, res, next) => {
             // fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
 
             // Condition pour vérifier si l'utisateur est celui qui a créé le post ou non
-            if (post.userId == user_Id) {
+            if (post.userId == user_Id || isAdmin === true) {
 
                 // Utilisation de la méthone deleteOne() pour supprimer le post correspondant au paramètre de la requête
                 db.posts.destroy({

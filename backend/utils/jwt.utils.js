@@ -43,5 +43,17 @@ module.exports = {
             }
         }
         return userName;
+    },
+    // FONCTION pour récupérer le type de droit dans le TOKEN
+    getIsAdmin: function (authorization) {
+        let isAdmin = -1;
+        let token = module.exports.parseAuthorization(authorization);
+        if (token != null) {
+            let jwtToken = jwt.verify(token, JWT_SIGN_SECRET);
+            if (jwtToken != null) {
+                isAdmin = jwtToken.isAdmin
+            }
+        }
+        return isAdmin;
     }
 }

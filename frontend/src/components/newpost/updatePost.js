@@ -1,6 +1,7 @@
 import useSWR from "swr";
 const token = localStorage.getItem("token");
 const user_Id = parseInt(localStorage.getItem("userId"));
+const isAdmin = localStorage.getItem("isAdmin");
 const url = new URL(window.location);
 const urlId = url.searchParams.get("id");
 const fnc = require('../../components/function');
@@ -29,7 +30,7 @@ function UpdatePost() {
                 <div className="form-block">
                     <input type="file" accept="image/*" id="fileUrl"/>
                 </div>
-                {user_Id === data.userId 
+                {user_Id === data.userId || isAdmin === "true"
                 ? <button className="newpost-btn" onClick={updatePost}>Modifier</button>
                 : <span className="error">Vous ne pouvez pas modifier cette publication</span>}      
             </form>

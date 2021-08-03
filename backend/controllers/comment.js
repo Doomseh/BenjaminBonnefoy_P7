@@ -33,6 +33,7 @@ exports.deleteComment = (req, res, next) => {
     // Récupération de l'userId présent dans le TOKEN
     const headerAuth = req.headers['authorization'];
     const user_Id = jwtUtils.getUserId(headerAuth);
+    const isAdmin = jwtUtils.getIsAdmin(headerAuth);
 
     // Utilisation de la méthone findOne() pour trouver le commentaire correspondant au paramètre de la requête
     db.comments.findOne({
@@ -42,7 +43,7 @@ exports.deleteComment = (req, res, next) => {
         })
         .then(comment => {
             // Condition pour vérifier si l'utisateur est celui qui a créé le commentaire ou non
-            if (comment.userId == user_Id) {
+            if (comment.userId == user_Id || isAdmin === true) {
                 db.comments.destroy({
                         where: {
                             id: req.params.id
@@ -71,6 +72,7 @@ exports.modifyComment = (req, res, next) => {
     // Récupération de l'userId présent dans le TOKEN
     const headerAuth = req.headers['authorization'];
     const user_Id = jwtUtils.getUserId(headerAuth);
+    const isAdmin = jwtUtils.getIsAdmin(headerAuth);
 
     // Utilisation de la méthone findOne() pour trouver le commentaire correspondant au paramètre de la requête
     db.comments.findOne({
@@ -80,7 +82,7 @@ exports.modifyComment = (req, res, next) => {
         })
         .then(comment => {
             // Condition pour vérifier si l'utisateur est celui qui a créé le commentaire ou non
-            if (comment.userId == user_Id) {
+            if (comment.userId == user_Id || isAdmin === true) {
                 db.comments.update({
                         message: req.body.message,
                         id: req.params.id
