@@ -18,7 +18,7 @@ exports.signup = (req, res, next) => {
         email: Joi.string().email({minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr'] }}).required(),
         firstname: Joi.string().alphanum().min(3).max(30).required(),
         lastname: Joi.string().alphanum().min(3).max(30).required(),
-        password: Joi.string().pattern(regexPassword).required()
+        password: Joi.string().pattern(regexPassword).required().messages({'string.pattern.base': 'Votre mot de passe doit comprendre entre 8 et 15 caractères et contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial'})
     });
 
     // vérification que tous les champs sont remplis
@@ -26,7 +26,7 @@ exports.signup = (req, res, next) => {
     
     if (result.error) {
         const validateError = result.error.details[0].message
-        return res.status(400).json({ message : validateError})
+        return res.status(400).json({ error : validateError})
     }
     // Vérification si l'user existe dans DB en fonction de son email
     db.users.findOne({
@@ -86,7 +86,7 @@ exports.login = (req, res) => {
     
     if (result.error) {
         const validateError = result.error.details[0].message
-        return res.status(400).json({ message : validateError })
+        return res.status(400).json({ error : validateError })
     }
     // Recherche de l'utilisateur en fonction de son email
     db.users.findOne({

@@ -1,9 +1,11 @@
 import logoWhite from "../../assets/groupomania-w.png";
+import { useState } from "react";
 import {useLocation} from "react-router-dom";
 const fnc = require('../../components/function');
 
 function Login() {
 
+    const [errorMessage, setErrorMessage] = useState('')
     const location = useLocation().pathname;
     const btnName = location.substring(1);
     const logUser = fnc.logUser;
@@ -20,7 +22,8 @@ function Login() {
                     <label htmlFor="password">Mot de passe :</label>
                     <input type="password" id="password" className="form-input"/>
                 </div>
-                <button className="btnLog" onClick={logUser}>{btnName}</button>
+                {errorMessage ? <p className="submit-error">{errorMessage}</p> : null }
+                <button className="btnLog" onClick={(e) => { e.preventDefault(); logUser(setErrorMessage)}}>{btnName}</button>
             </form>
             <img src={logoWhite} alt="Logo de l'Entreprise Groupomania" className="logImg"></img>
         </div>

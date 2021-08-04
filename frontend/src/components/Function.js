@@ -1,6 +1,6 @@
 // FONCTION POUR L'INSCRIPTION
-exports.postUser = (e) => {
-    e.preventDefault();
+exports.postUser = (setErrorMessage) => {
+
     const signupForm = document.getElementById("signupForm");
     const email = signupForm.email;
     const firstname = signupForm.firstname;
@@ -31,7 +31,8 @@ exports.postUser = (e) => {
             })
             .then(async (response) => {
                 try {
-                    const res = await response.json()
+                    const res = await response.json();
+                    setErrorMessage(res.error);
                     console.log(res)
                     if (response.ok){
                         localStorage.setItem("token", res.token);
@@ -47,8 +48,8 @@ exports.postUser = (e) => {
 }
 
 // FONCTION POUR LA CONNEXION
-exports.logUser = (e) => {
-    e.preventDefault();
+exports.logUser = (setErrorMessage) => {
+    
     const signupForm = document.getElementById("signupForm");
     const email = signupForm.email;
     const password = signupForm.password;
@@ -77,15 +78,14 @@ exports.logUser = (e) => {
         }).then(async (response) => {
             try {
                 const res = await response.json()
+                setErrorMessage(res.error)
                 console.log(res)
                 if (response.ok) {
                     localStorage.setItem("token", res.token);
                     localStorage.setItem("userId", res.userId);
                     localStorage.setItem("isAdmin", res.isAdmin);
                     window.location.href = "http://localhost:4800/home"
-                } else {
-                    
-                }
+                } 
             } catch (e) {
                 console.log(e)
             }
