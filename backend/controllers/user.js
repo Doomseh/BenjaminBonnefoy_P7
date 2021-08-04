@@ -4,25 +4,22 @@ const Joi = require('joi');
 // Récupération des models et des utils de gestion du TOKEN
 const db = require("../models");
 const jwtUtils = require('../utils/jwt.utils');
-const regexPassword = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/;
-
-const userSchema = Joi.object({
-    email: Joi.string().email({minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr'] }}).required(),
-    firstname: Joi.string().alphanum().min(3).max(30).required(),
-    lastname: Joi.string().alphanum().min(3).max(30).required(),
-    password: Joi.string().pattern(regexPassword).required()
-})
-
-
 
 // FONCTION SIGN UP
 exports.signup = (req, res, next) => {
     // éléments de la requète
+    const regexPassword = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/;
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const email = req.body.email;
     const password = req.body.password;
 
+    const userSchema = Joi.object({
+        email: Joi.string().email({minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr'] }}).required(),
+        firstname: Joi.string().alphanum().min(3).max(30).required(),
+        lastname: Joi.string().alphanum().min(3).max(30).required(),
+        password: Joi.string().pattern(regexPassword).required()
+    });
 
     // vérification que tous les champs sont remplis
     const result = userSchema.validate({ email: email, firstname: firstname, lastname: lastname, password: password})
@@ -80,6 +77,17 @@ exports.signup = (req, res, next) => {
 // FONCTION LOGIN
 exports.login = (req, res) => {
 
+    const userSchema = Joi.object({
+        email: Joi.string().email({minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr'] }}).required(),
+        password: Joi.string().required()
+    });
+
+    const result = userSchema.validate({ email: req.body.email, password: req.body.password})
+    
+    if (result.error) {
+        const validateError = result.error.details[0].message
+        return res.status(400).json({ message : validateError })
+    }
     // Recherche de l'utilisateur en fonction de son email
     db.users.findOne({
             where: {

@@ -77,13 +77,14 @@ exports.logUser = (e) => {
         }).then(async (response) => {
             try {
                 const res = await response.json()
-                if (res.error) {
-                    alert(res.error)
-                } else {
+                console.log(res)
+                if (response.ok) {
                     localStorage.setItem("token", res.token);
                     localStorage.setItem("userId", res.userId);
                     localStorage.setItem("isAdmin", res.isAdmin);
                     window.location.href = "http://localhost:4800/home"
+                } else {
+                    
                 }
             } catch (e) {
                 console.log(e)
