@@ -1,9 +1,11 @@
+import { useState } from 'react';
 const token = localStorage.getItem("token");
 const fnc = require('../../components/function');
 
 function NewPost() {
 
     const newPost = fnc.newPost;
+    const [errorMessage, setErrorMessage] = useState('')
 
     if (!token) return <div className="error">Vous n'êtes pas connecté !</div>
     return (
@@ -21,7 +23,8 @@ function NewPost() {
                 <div className="form-block">
                     <input type="file" accept="image/*" id="fileUrl"/>
                 </div>
-                <button className="newpost-btn" onClick={newPost}>Envoyer</button>     
+                {errorMessage ? <p className="submit-error">{errorMessage}</p> : null }
+                <button className="newpost-btn" onClick={(e) => { e.preventDefault(); newPost(setErrorMessage) }}>Envoyer</button>     
             </form>
             <button className="post-delete newpost-cancel" onClick={() => window.location.href = "http://localhost:4800/home"}>Annuler</button>
         </div>

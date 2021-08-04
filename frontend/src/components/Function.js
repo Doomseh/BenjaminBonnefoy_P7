@@ -188,8 +188,8 @@ exports.logOut = (e) => {
 }
 
 // FONCTION POUR LA CREATION D'UNE PUBLICATION
-exports.newPost = (e) => {
-    e.preventDefault();
+exports.newPost = (setErrorMessage) => {
+    
     const token = localStorage.getItem("token");
     const newpostForm = document.getElementById("newpostForm");
     const title = newpostForm.title;
@@ -197,12 +197,6 @@ exports.newPost = (e) => {
     const img = document.getElementById("fileUrl");
     let file = img.files[0]
     console.log(file)
-
-    if (title.value === "" || message.value === "") {
-
-        alert("Tout les champs ne sont pas remplis");
-
-    } else {
 
         const newpost = {
             "title": title.value,
@@ -243,19 +237,23 @@ exports.newPost = (e) => {
         }).then(async (response) => {
             try {
                 const res = await response.json()
-                console.log(res)
-                uploadImg(res.postId)
-                try {
-                    window.location.href = "http://localhost:4800/home"
-                } catch (e) {
-                    console.log(e)
+                setErrorMessage(res.error)
+                console.log(res.error)
+                if (response.ok) {
+                    uploadImg(res.postId)
+                    try {
+                        window.location.href = "http://localhost:4800/home"
+                    } catch(e) {
+                        console.log(e)
+                    }
                 }
+                
             } catch (e) {
                 console.log(e)
             }
         });
 
-    }
+    
 }
 
 // FONCTION POUR AJOUTER UN COMMENTAIRE

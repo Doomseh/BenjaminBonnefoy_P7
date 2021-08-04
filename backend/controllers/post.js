@@ -1,7 +1,9 @@
 const fs = require('fs');
+const Joi = require('joi');
 // Récupération des models et des utils de gestion du TOKEN
 const db = require("../models");
 const jwtUtils = require('../utils/jwt.utils');
+const regexNoScript = /^[-_!?,;' a-zA-ZÀ-ÿ0-9]+$/
 
 // FONCTION CREATION D'UN POST
 exports.createPost = (req, res, next) => {
@@ -13,42 +15,46 @@ exports.createPost = (req, res, next) => {
     const title = req.body.title;
     const message = req.body.message;
 
+    const postSchema = Joi.object({
+        title: Joi.string().min(3).max(50).pattern(regexNoScript).required().messages({'string.pattern.base': "Certains caractères spéciaux ne peuvent pas être utiliser"}),
+        message: Joi.string().min(3).max(250).pattern(regexNoScript).required().messages({'string.pattern.base': "Certains caractères spéciaux ne peuvent pas être utiliser"}),
+    });
+
+    const result = postSchema.validate({ title: title, message: message })
     // Vérification que tous les champs soient remplis
-
-    if (title === null || message === null) {
-
-        return res.status(400).json({
-            error: "Veuillez remplir les champs 'titre' et 'contenu' pour créer un article"
-        });
+    if (result.error) {
+        const validateError = result.error.details[0].message
+        res.status(400).json({ error : validateError })
+    } else {
+    
+        // Recherche de l'utilisateur par son ID
+        db.users.findOne({
+                where: {
+                    id: user_Id
+                }
+            })
+            // Si l'utilisateur est trouvé :
+            .then((userFound) => {
+                // Creation du nouveau post
+                const post = new db.posts({
+                    userId: userFound.id,
+                    title: title,
+                    message: message,
+                });
+                // Sauvarge du post dans la base de donnée
+                post.save()
+                    .then((post) => res.status(201).json({
+                        postId: post.id,
+                        message: 'Publication créé !'
+                    }))
+                    .catch(error => res.status(400).json({
+                        error
+                    }));
+            })
+            .catch(error => res.status(404).json({
+                error
+            }));
     }
-    // Recherche de l'utilisateur par son ID
-    db.users.findOne({
-            where: {
-                id: user_Id
-            }
-        })
-        // Si l'utilisateur est trouvé :
-        .then((userFound) => {
-            // Creation du nouveau post
-            const post = new db.posts({
-                userId: userFound.id,
-                title: title,
-                message: message,
-            });
-            // Sauvarge du post dans la base de donnée
-            post.save()
-                .then((post) => res.status(201).json({
-                    postId: post.id,
-                    message: 'Publication créé !'
-                }))
-                .catch(error => res.status(400).json({
-                    error
-                }));
-        })
-        .catch(error => res.status(404).json({
-            error
-        }));
-
 }
 
 // FONCTION RECUPERER UN POST

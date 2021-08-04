@@ -26,52 +26,53 @@ exports.signup = (req, res, next) => {
     
     if (result.error) {
         const validateError = result.error.details[0].message
-        res.status(400).json({ error : validateError})
-    }
+        res.status(400).json({ error : validateError })
+    } else {
     // Vérification si l'user existe dans DB en fonction de son email
-    db.users.findOne({
-            where: {
-                email: email
-            }
-        })
-        .then((userFound) => {
-            // Si l'utilisateur n'existe pas :
-            if (!userFound) {
-                // Hash du mot de passe avec bcrypt
-                bcrypt.hash(password, 10, (err, hash) => {
-                    // Création du nouvel utilisateur
-                    const user = new db.users({
-                        firstname: firstname,
-                        lastname: lastname,
-                        imageUrl: "http://localhost:3000/images/user.png",
-                        email: email,
-                        password: hash
-                    })
-                    // Sauvegarde dans la base de données
-                    user.save()
-                        .then(() => res.status(201).json({
-                            message: 'Utilisateur créé !',
-                            userId: user.id,
-                            isAdmin: user.isAdmin,
-                            token: jwtUtils.generateTokenForUser(user)
-                        }))
-                        .catch(error => res.status(400).json({
-                            error
-                        }));
-                })
-                // Si l'utilisateur existe :
-            } else if (userFound) {
-                return res.status(409).json({
-                    error: "L'utilisateur existe déjà !"
-                })
-            }
-        })
-        .catch(error => {
-            console.log(error)
-            res.status(500).json({
-                error: error
+        db.users.findOne({
+                where: {
+                    email: email
+                }
             })
-        });
+            .then((userFound) => {
+                // Si l'utilisateur n'existe pas :
+                if (!userFound) {
+                    // Hash du mot de passe avec bcrypt
+                    bcrypt.hash(password, 10, (err, hash) => {
+                        // Création du nouvel utilisateur
+                        const user = new db.users({
+                            firstname: firstname,
+                            lastname: lastname,
+                            imageUrl: "http://localhost:3000/images/user.png",
+                            email: email,
+                            password: hash
+                        })
+                        // Sauvegarde dans la base de données
+                        user.save()
+                            .then(() => res.status(201).json({
+                                message: 'Utilisateur créé !',
+                                userId: user.id,
+                                isAdmin: user.isAdmin,
+                                token: jwtUtils.generateTokenForUser(user)
+                            }))
+                            .catch(error => res.status(400).json({
+                                error
+                            }));
+                    })
+                    // Si l'utilisateur existe :
+                } else if (userFound) {
+                    return res.status(409).json({
+                        error: "L'utilisateur existe déjà !"
+                    })
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                res.status(500).json({
+                    error: error
+                })
+            });
+    }
 };
 
 // FONCTION LOGIN
@@ -87,41 +88,42 @@ exports.login = (req, res) => {
     if (result.error) {
         const validateError = result.error.details[0].message
         res.status(400).json({ error : validateError })
-    }
-    // Recherche de l'utilisateur en fonction de son email
-    db.users.findOne({
-            where: {
-                email: req.body.email
-            }
-        })
-        .then(user => {
-            // Si l'utilisateur n'est pas erregistré :
-            if (!user) {
-                return res.status(401).json({
-                    error: 'Utilisateur non trouvé !'
-                });
-            }
-            // Si l'utilisateur est erregistré :
-            bcrypt.compare(req.body.password, user.password) // Comparaison des mots de passe crypter
-                .then(valid => {
-                    if (!valid) {
-                        return res.status(401).json({
-                            error: 'Mot de passe incorrect !'
-                        });
-                    }
-                    res.status(200).json({
-                        userId: user.id,
-                        isAdmin: user.isAdmin,
-                        token: jwtUtils.generateTokenForUser(user) // Génération d'un TOKEN d'authentification
+    } else {
+        // Recherche de l'utilisateur en fonction de son email
+        db.users.findOne({
+                where: {
+                    email: req.body.email
+                }
+            })
+            .then(user => {
+                // Si l'utilisateur n'est pas erregistré :
+                if (!user) {
+                    return res.status(401).json({
+                        error: 'Utilisateur non trouvé !'
                     });
-                })
-                .catch(error => res.status(500).json({
-                    error
-                }));
-        })
-        .catch(error => res.status(500).json({
-            error
-        }));
+                }
+                // Si l'utilisateur est erregistré :
+                bcrypt.compare(req.body.password, user.password) // Comparaison des mots de passe crypter
+                    .then(valid => {
+                        if (!valid) {
+                            return res.status(401).json({
+                                error: 'Mot de passe incorrect !'
+                            });
+                        }
+                        res.status(200).json({
+                            userId: user.id,
+                            isAdmin: user.isAdmin,
+                            token: jwtUtils.generateTokenForUser(user) // Génération d'un TOKEN d'authentification
+                        });
+                    })
+                    .catch(error => res.status(500).json({
+                        error
+                    }));
+            })
+            .catch(error => res.status(500).json({
+                error
+            }));
+    }
 };
 
 // FONCTION RECUPERER UN UTILISATEUR PAR SON ID
@@ -222,45 +224,46 @@ exports.modifyUser = (req, res, next) => {
     if (result.error) {
         const validateError = result.error.details[0].message
         res.status(400).json({ error : validateError })
-    }
+    } else {
 
-    db.users.findOne({
-        where: {
-            id: req.params.id 
-        }
-    }).then(user => {
+        db.users.findOne({
+            where: {
+                id: req.params.id 
+            }
+        }).then(user => {
 
-        const updateUser = () => {
-            // Modification avec la méthode update()
-            db.users.update({
-                ...userObject,
-                id: req.params.id
-            }, {
-                where: {
+            const updateUser = () => {
+                // Modification avec la méthode update()
+                db.users.update({
+                    ...userObject,
                     id: req.params.id
-                }
-            })
-            .then(() => res.status(200).json({
-                message: 'Utilisateur modifié !'
-            }))
-            .catch(error => res.status(400).json({
-                error
-            }));
-        }
-        
-        const filename = user.imageUrl.split('/images/')[1]; // Récupération du fichier image
+                }, {
+                    where: {
+                        id: req.params.id
+                    }
+                })
+                .then(() => res.status(200).json({
+                    message: 'Utilisateur modifié !'
+                }))
+                .catch(error => res.status(400).json({
+                    error
+                }));
+            }
+            
+            const filename = user.imageUrl.split('/images/')[1]; // Récupération du fichier image
 
-        // Condition pour ne pas supprimer l'image "user.png"
-        if (req.file && filename != "user.png") {
-            fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
+            // Condition pour ne pas supprimer l'image "user.png"
+            if (req.file && filename != "user.png") {
+                fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
+                    updateUser();
+                });
+            } else {
                 updateUser();
-            });
-        } else {
-            updateUser();
-        }
-    })
-    .catch(error => res.status(500).json({
-        error
-    }));
+            }
+        })
+        .catch(error => res.status(500).json({
+            error
+        }));
+    }
     
 };
