@@ -164,38 +164,44 @@ exports.deletePost = (req, res, next) => {
             }
         })
         .then(post => {
-            console.log(post.userId)
-            // const filename = post.imageUrl.split('/images/')[1]; // Récupération du fichier image de la sauce
-            // fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
-
+            
+            const delPost = () => {
+                // Utilisation de la méthone deleteOne() pour supprimer le post correspondant au paramètre de la requête
+                db.posts.destroy({
+                    where: {
+                        id: req.params.id 
+                    }
+                })
+                .then(() => 
+                db.comments.destroy({
+                    where: {
+                        postId: req.params.id
+                    }
+                }))
+                .then(() => res.status(200).json({
+                    message: 'Publication supprimé !'
+                }))
+                .catch(error => res.status(400).json({
+                    error: console.log(error)
+                }));
+            }
             // Condition pour vérifier si l'utisateur est celui qui a créé le post ou non
             if (post.userId == user_Id || isAdmin === true) {
 
-                // Utilisation de la méthone deleteOne() pour supprimer le post correspondant au paramètre de la requête
-                db.posts.destroy({
-                        where: {
-                            id: req.params.id 
-                        }
-                    })
-                    .then(() => 
-                    db.comments.destroy({
-                        where: {
-                            postId: req.params.id
-                        }
-                    }))
-                    .then(() => res.status(200).json({
-                        message: 'Publication supprimé !'
-                    }))
-                    .catch(error => res.status(400).json({
-                        error: console.log(error)
-                    }));
-                // });
+                if (post.postUrl) {
+                const filename = post.postUrl.split('/images/')[1]; // Récupération du fichier image
+                fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
+                delPost();
+                });
+            } else {
+                delPost();
+            }
             } else {
                 res.status(401).json({
                     error: 'Invalid user ID!'
                 });
-            }
-        })
+            }})
+        
         .catch(error => res.status(500).json({
             error
         }));
