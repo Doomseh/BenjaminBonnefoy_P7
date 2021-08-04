@@ -33,9 +33,12 @@ exports.postUser = (e) => {
                 try {
                     const res = await response.json()
                     console.log(res)
-                    localStorage.setItem("token", res.token);
-                    localStorage.setItem("userId", res.userId);
-                    window.location.href = "http://localhost:4800/profile?id=" + res.userId
+                    if (response.ok){
+                        localStorage.setItem("token", res.token);
+                        localStorage.setItem("userId", res.userId);
+                        window.location.href = "http://localhost:4800/profile?id=" + res.userId
+                    }
+                    
                 } catch (e) {
                     console.log(e)
                 }

@@ -1,9 +1,17 @@
 const bcrypt = require('bcrypt');
 const fs = require('fs');
+const Joi = require('joi');
 // Récupération des models et des utils de gestion du TOKEN
 const db = require("../models");
 const jwtUtils = require('../utils/jwt.utils');
 const regexPassword = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/;
+
+const userSchema = Joi.object({
+    email: Joi.string().email({minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr'] }}).required(),
+    firstname: Joi.string().alphanum().min(3).max(30).required(),
+    lastname: Joi.string().alphanum().min(3).max(30).required(),
+    password: Joi.string().pattern(regexPassword).required()
+})
 
 
 
@@ -17,12 +25,11 @@ exports.signup = (req, res, next) => {
 
 
     // vérification que tous les champs sont remplis
-
-    if (firstname === null || lastname === null ||
-        email === null || password === null) {
-        return res.status(400).json({
-            error: "Veuillez remplir l'ensemble des champs du formulaire"
-        });
+    const result = userSchema.validate({ email: email, firstname: firstname, lastname: lastname, password: password})
+    
+    if (result.error) {
+        const validateError = result.error.details[0].message
+        return res.status(400).json({ message : validateError})
     }
     // Vérification si l'user existe dans DB en fonction de son email
     db.users.findOne({
@@ -147,6 +154,7 @@ exports.deleteUser = (req, res, next) => {
                 })
                 .then(user => {
                     const filename = user.imageUrl.split('/images/')[1];
+                    // Condition pour ne pas supprimer l'image "user.png"
                     if (filename != "user.png") {
                         fs.unlink(`images/${filename}`, () => {
                             db.users.destroy({
@@ -221,9 +229,10 @@ exports.modifyUser = (req, res, next) => {
                 error
             }));
         }
-        
+
         const filename = user.imageUrl.split('/images/')[1]; // Récupération du fichier image
 
+        // Condition pour ne pas supprimer l'image "user.png"
         if (filename != "user.png") {
             fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
                 updateUser();

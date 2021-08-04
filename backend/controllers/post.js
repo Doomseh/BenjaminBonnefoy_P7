@@ -138,9 +138,11 @@ exports.modifyPost = (req, res, next) => {
                     error
                 }));
             }
+
             // Condition pour vérifier si l'utisateur est celui qui a créé le post ou non
             if (post.userId == user_Id || isAdmin === true) {
                 
+                // Condition pour vérifier si une image est présente
                 if (post.postUrl) {
                     const filename = post.postUrl.split('/images/')[1]; // Récupération du fichier image
                     fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
@@ -149,7 +151,7 @@ exports.modifyPost = (req, res, next) => {
                 } else {
                     updatePost();
                 }
-                
+
             } else {
                 res.status(401).json({
                     error: 'Invalid user ID!'
@@ -201,6 +203,7 @@ exports.deletePost = (req, res, next) => {
             // Condition pour vérifier si l'utisateur est celui qui a créé le post ou non
             if (post.userId == user_Id || isAdmin === true) {
 
+                // Condition pour vérifier si une image est présente
                 if (post.postUrl) {
                     const filename = post.postUrl.split('/images/')[1]; // Récupération du fichier image
                     fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
