@@ -197,19 +197,43 @@ exports.modifyUser = (req, res, next) => {
         firstname: firstname,
         lastname: lastname,
     };
-    // Modification avec la méthode update()
-    db.users.update({
-            ...userObject,
-            id: req.params.id
-        }, {
-            where: {
+
+    db.users.findOne({
+        where: {
+            id: req.params.id 
+        }
+    }).then(user => {
+
+        const updateUser = () => {
+            // Modification avec la méthode update()
+            db.users.update({
+                ...userObject,
                 id: req.params.id
-            }
-        })
-        .then(() => res.status(200).json({
-            message: 'Utilisateur modifié !'
-        }))
-        .catch(error => res.status(400).json({
-            error
-        }));
+            }, {
+                where: {
+                    id: req.params.id
+                }
+            })
+            .then(() => res.status(200).json({
+                message: 'Utilisateur modifié !'
+            }))
+            .catch(error => res.status(400).json({
+                error
+            }));
+        }
+        console.log(user)
+        const filename = user.imageUrl.split('/images/')[1]; // Récupération du fichier image
+
+        if (filename != "user.png") {
+            fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
+                updateUser();
+            });
+        } else {
+            updateUser();
+        }
+    })
+    .catch(error => res.status(500).json({
+        error
+    }));
+    
 };
