@@ -1,4 +1,5 @@
 import useSWR from "swr";
+import { useState } from "react";
 const token = localStorage.getItem("token");
 const user_Id = parseInt(localStorage.getItem("userId"));
 const isAdmin = localStorage.getItem("isAdmin");
@@ -9,6 +10,7 @@ const fnc = require('../../components/function');
 function UpdatePost() {
 
     const updatePost = fnc.updatePost;
+    const [errorMessage, setErrorMessage] = useState('')
 
     const { data, error } = useSWR("http://localhost:3000/api/posts/" + urlId);
     console.log(data)
@@ -30,8 +32,9 @@ function UpdatePost() {
                 <div className="form-block">
                     <input type="file" accept="image/*" id="fileUrl"/>
                 </div>
+                {errorMessage ? <p className="submit-error">{errorMessage}</p> : null }
                 {user_Id === data.userId || isAdmin === "true"
-                ? <button className="newpost-btn" onClick={updatePost}>Modifier</button>
+                ? <button className="newpost-btn" onClick={(e) => { e.preventDefault(); updatePost(setErrorMessage) }}>Modifier</button>
                 : <span className="error">Vous ne pouvez pas modifier cette publication</span>}      
             </form>
             <button className="post-delete newpost-cancel" onClick={() => window.location.href = "http://localhost:4800/home"}>Annuler</button>

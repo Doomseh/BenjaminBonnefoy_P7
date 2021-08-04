@@ -110,7 +110,9 @@ exports.modifyUser = (setErrorMessage) => {
         const uploadImg = () => {
             if (file !== undefined) {
                 const formData = new FormData();
-                formData.append("image", file)
+                formData.append("image", file);
+                formData.append("firstname", firstname.value);
+                formData.append("lastname", lastname.value);
                 fetch("http://localhost:3000/api/users/" + userId, {
                     method: "PUT",
                     headers: {"Authorization": "Bearer " + token},
@@ -212,7 +214,9 @@ exports.newPost = (setErrorMessage) => {
         const uploadImg = (id) => {
             if (file !== undefined) {
                 const formData = new FormData();
-                formData.append("image", file)
+                formData.append("image", file);
+                formData.append("title", title.value);
+                formData.append("message", title.message);
                 fetch("http://localhost:3000/api/posts/" + id, {
                     method: "PUT",
                     headers: {"Authorization": "Bearer " + token},
@@ -252,8 +256,113 @@ exports.newPost = (setErrorMessage) => {
                 console.log(e)
             }
         });
+}
 
+// FONCTION POUR LA SUPPRESSION DE LA PUBLICATION
+exports.deletePost = (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    const url = new URL(window.location);
+    const postId = url.searchParams.get("id");
+
+    const myHeaders = new Headers({
+        "Accept": "application/json",
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + token
+    });
+
+    fetch("http://localhost:3000/api/posts/" + postId, {
+        method: "DELETE",
+        headers: myHeaders,
+
+    }).then(async (response) => {
+        try {
+            const res = await response.json()
+            console.log(res)
+            window.location.href = "http://localhost:4800/home"
+        } catch (e) {
+            console.log(e)
+        }
+    });
+}
+
+// FONCTION POUR LA MODIFICATION D'UNE PUBLICATION
+exports.updatePost = (setErrorMessage) => {
     
+    const token = localStorage.getItem("token");
+    const url = new URL(window.location);
+    const urlId = url.searchParams.get("id");
+    const updatePostForm = document.getElementById("updatePostForm");
+    
+    const title = updatePostForm.title;
+    const message = updatePostForm.message;
+    const img = document.getElementById("fileUrl");
+    let file = img.files[0]
+
+    if (title.value === title.defaultValue && message.value === message.defaultValue && file === undefined) {
+
+        setErrorMessage("Vous n'avez modifier aucune information");
+
+    } else {
+        
+        const updatepost = {
+            "title": title.value,
+            "message": message.value
+        };
+
+        const myHeaders = new Headers({
+            "Accept": "application/json",
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + token
+        });
+
+        const uploadImg = () => {
+            if (file !== undefined) {
+                const formData = new FormData();
+                formData.append("image", file);
+                formData.append("title", title.value);
+                formData.append("message", title.message);
+                fetch("http://localhost:3000/api/posts/" + urlId, {
+                    method: "PUT",
+                    headers: {"Authorization": "Bearer " + token},
+                    body: formData
+
+                }).then(async (response) => {
+                    try {
+                        const res = await response.json();
+                        console.log(res)
+                    } catch (e) {
+                        console.log(e)
+                    }
+                });
+            }
+        }
+
+        fetch("http://localhost:3000/api/posts/" + urlId, {
+            method: "PUT",
+            headers: myHeaders,
+            body: JSON.stringify(updatepost)
+
+        })
+        .then(async (response) => {
+            try {
+                const res = await response.json()
+                console.log(res)
+                setErrorMessage(res.error)
+                
+                if (response.ok) {
+                    uploadImg();
+                    try {
+                        window.location.href = "http://localhost:4800/post?id=" + urlId
+                    } catch (e) {
+                        console.log(e)
+                    }
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        });
+    }
 }
 
 // FONCTION POUR AJOUTER UN COMMENTAIRE
@@ -367,98 +476,3 @@ exports.deleteComment = (id) => {
     });
 }
 
-// FONCTION POUR LA SUPPRESSION DE LA PUBLICATION
-exports.deletePost = (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem("token");
-    const url = new URL(window.location);
-    const postId = url.searchParams.get("id");
-
-    const myHeaders = new Headers({
-        "Accept": "application/json",
-        "Content-type": "application/json",
-        "Authorization": "Bearer " + token
-    });
-
-    fetch("http://localhost:3000/api/posts/" + postId, {
-        method: "DELETE",
-        headers: myHeaders,
-
-    }).then(async (response) => {
-        try {
-            const res = await response.json()
-            console.log(res)
-            window.location.href = "http://localhost:4800/home"
-        } catch (e) {
-            console.log(e)
-        }
-    });
-}
-
-// FONCTION POUR LA MODIFICATION D'UNE PUBLICATION
-exports.updatePost = (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem("token");
-    const url = new URL(window.location);
-    const urlId = url.searchParams.get("id");
-    const updatePostForm = document.getElementById("updatePostForm");
-    
-    const title = updatePostForm.title;
-    const message = updatePostForm.message;
-    const img = document.getElementById("fileUrl");
-    let file = img.files[0]
-
-    if (title.value === title.defaultValue && message.value === message.defaultValue && file === undefined) {
-
-        alert("Vous n'avez modifier aucune information");
-
-    } else {
-        
-        const updatepost = {
-            "title": title.value,
-            "message": message.value
-        };
-
-        const myHeaders = new Headers({
-            "Accept": "application/json",
-            "Content-type": "application/json",
-            "Authorization": "Bearer " + token
-        });
-
-        const uploadImg = () => {
-            if (file !== undefined) {
-                const formData = new FormData();
-                formData.append("image", file)
-                fetch("http://localhost:3000/api/posts/" + urlId, {
-                    method: "PUT",
-                    headers: {"Authorization": "Bearer " + token},
-                    body: formData
-
-                }).then(async (response) => {
-                    try {
-                        const res = await response.json()
-                        console.log(res)
-                    } catch (e) {
-                        console.log(e)
-                    }
-                });
-            }
-        }
-
-        fetch("http://localhost:3000/api/posts/" + urlId, {
-            method: "PUT",
-            headers: myHeaders,
-            body: JSON.stringify(updatepost)
-
-        }).then( uploadImg() )
-        .then(async (response) => {
-            try {
-                const res = await response.json()
-                console.log(res)
-                window.location.href = "http://localhost:4800/post?id=" + urlId
-            } catch (e) {
-                console.log(e)
-            }
-        });
-    }
-}
