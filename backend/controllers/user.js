@@ -221,7 +221,7 @@ exports.modifyUser = (req, res, next) => {
                 error
             }));
         }
-        console.log(user)
+        
         const filename = user.imageUrl.split('/images/')[1]; // Récupération du fichier image
 
         if (filename != "user.png") {

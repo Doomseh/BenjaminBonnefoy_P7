@@ -120,23 +120,36 @@ exports.modifyPost = (req, res, next) => {
             }
         })
         .then(post => {
-            // Condition pour vérifier si l'utisateur est celui qui a créé le post ou non
-            if (post.userId == user_Id || isAdmin === true) {
+
+            const updatePost = () => {
                 // Utilisation de la méthone update() pour modifier le post correspondant au paramètre de la requête
                 db.posts.update({
-                        ...postObject,
+                    ...postObject,
+                    id: req.params.id
+                }, {
+                    where: {
                         id: req.params.id
-                    }, {
-                        where: {
-                            id: req.params.id
-                        }
-                    })
-                    .then(() => res.status(200).json({
-                        message: 'Publication modifié !'
-                    }))
-                    .catch(error => res.status(400).json({
-                        error
-                    }));
+                    }
+                })
+                .then(() => res.status(200).json({
+                    message: 'Publication modifié !'
+                }))
+                .catch(error => res.status(400).json({
+                    error
+                }));
+            }
+            // Condition pour vérifier si l'utisateur est celui qui a créé le post ou non
+            if (post.userId == user_Id || isAdmin === true) {
+                
+                if (post.postUrl) {
+                    const filename = post.postUrl.split('/images/')[1]; // Récupération du fichier image
+                    fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
+                    updatePost();
+                    });
+                } else {
+                    updatePost();
+                }
+                
             } else {
                 res.status(401).json({
                     error: 'Invalid user ID!'
@@ -189,13 +202,14 @@ exports.deletePost = (req, res, next) => {
             if (post.userId == user_Id || isAdmin === true) {
 
                 if (post.postUrl) {
-                const filename = post.postUrl.split('/images/')[1]; // Récupération du fichier image
-                fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
-                delPost();
-                });
-            } else {
-                delPost();
-            }
+                    const filename = post.postUrl.split('/images/')[1]; // Récupération du fichier image
+                    fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
+                    delPost();
+                    });
+                } else {
+                    delPost();
+                }
+
             } else {
                 res.status(401).json({
                     error: 'Invalid user ID!'
