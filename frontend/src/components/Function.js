@@ -202,6 +202,9 @@ exports.newPost = (e) => {
     const newpostForm = document.getElementById("newpostForm");
     const title = newpostForm.title;
     const message = newpostForm.message;
+    const img = document.getElementById("fileUrl");
+    let file = img.files[0]
+    console.log(file)
 
     if (title.value === "" || message.value === "") {
 
@@ -220,6 +223,26 @@ exports.newPost = (e) => {
             "Authorization": "Bearer " + token
         });
 
+        const uploadImg = (id) => {
+            if (file !== undefined) {
+                const formData = new FormData();
+                formData.append("image", file)
+                fetch("http://localhost:3000/api/posts/" + id, {
+                    method: "PUT",
+                    headers: {"Authorization": "Bearer " + token},
+                    body: formData
+    
+                }).then(async (response) => {
+                    try {
+                        const res = await response.json()
+                        console.log(res)
+                    } catch (e) {
+                        console.log(e)
+                    }
+                });
+            }
+        }
+
         fetch("http://localhost:3000/api/posts/", {
             method: "POST",
             headers: myHeaders,
@@ -229,7 +252,12 @@ exports.newPost = (e) => {
             try {
                 const res = await response.json()
                 console.log(res)
-                window.location.href = "http://localhost:4800/home"
+                uploadImg(res.postId)
+                try {
+                    window.location.href = "http://localhost:4800/home"
+                } catch (e) {
+                    console.log(e)
+                }
             } catch (e) {
                 console.log(e)
             }

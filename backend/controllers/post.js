@@ -34,12 +34,11 @@ exports.createPost = (req, res, next) => {
                 userId: userFound.id,
                 title: title,
                 message: message,
-                //postUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-                likes: 0,
             });
             // Sauvarge du post dans la base de donnée
             post.save()
-                .then(() => res.status(201).json({
+                .then((post) => res.status(201).json({
+                    postId: post.id,
                     message: 'Publication créé !'
                 }))
                 .catch(error => res.status(400).json({
@@ -101,11 +100,16 @@ exports.modifyPost = (req, res, next) => {
 
     if (title === null || message === null) {
         return res.status(400).json({
-            error: "Veuillez remplir les champs 'Titre' et 'Contenu' pour créer un article"
+            error: "Veuillez remplir les champs 'Titre' et 'Message' pour créer un article"
         });
     }
 
-    const postObject = req.body;
+    const postObject = req.file ? {
+        ...req.body.post,
+        postUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : {
+        ...req.body
+    };
 
     // Utilisation de la méthone findOne() pour trouver le post correspondant au paramètre de la requête
     db.posts.findOne({

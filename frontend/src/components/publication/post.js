@@ -1,4 +1,3 @@
-import test from "../../assets/test.png";
 import useSWR from "swr";
 
 function Post({ id, title, message, userId, postUrl , createdAt, button}) {
@@ -13,7 +12,7 @@ function Post({ id, title, message, userId, postUrl , createdAt, button}) {
         <div className="post-link">
             <div className="post">
                 <h2 className="post-title">{title}</h2>
-                <img src={test} alt="" className="post-img">{postUrl}</img>
+                <img src={postUrl} alt="" className="post-img"></img>
                 <p className="post-message">{message}</p>
                 {button 
                 ? <button className="post-see" onClick={() => window.location.href = "http://localhost:4800/post?id=" + id}>Voir la publication</button> 
