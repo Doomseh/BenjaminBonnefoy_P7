@@ -1,4 +1,5 @@
 import useSWR from "swr";
+import { useState } from "react";
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
 const fnc = require('../../components/function');
@@ -6,7 +7,7 @@ const fnc = require('../../components/function');
 function Profile() {
 
     const { data, error } = useSWR('http://localhost:3000/api/users/' + userId)
-     
+    const [errorMessage, setErrorMessage] = useState('');
     const modifyUser = fnc.modifyUser;
     const deleteAccount = fnc.deleteAccount; 
 
@@ -44,8 +45,9 @@ function Profile() {
                         <input type="text" id="created" disabled="disabled" className="form-input" defaultValue={created}/>
                     </div>
                 </div>
+                {errorMessage ? <p className="submit-error">{errorMessage}</p> : null }
                 <div className="profil-block borderTop">
-                    <button className="btnUpdate" onClick={modifyUser}>Modifier le profil</button>
+                    <button className="btnUpdate" onClick={(e) => {e.preventDefault(); modifyUser(setErrorMessage)}}>Modifier le profil</button>
                     <button className="btnDelete" onClick={deleteAccount}>Supprimer votre profil</button>
                 </div>
             </form>

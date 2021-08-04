@@ -26,7 +26,7 @@ exports.signup = (req, res, next) => {
     
     if (result.error) {
         const validateError = result.error.details[0].message
-        return res.status(400).json({ error : validateError})
+        res.status(400).json({ error : validateError})
     }
     // Vérification si l'user existe dans DB en fonction de son email
     db.users.findOne({
@@ -86,7 +86,7 @@ exports.login = (req, res) => {
     
     if (result.error) {
         const validateError = result.error.details[0].message
-        return res.status(400).json({ error : validateError })
+        res.status(400).json({ error : validateError })
     }
     // Recherche de l'utilisateur en fonction de son email
     db.users.findOne({
@@ -198,12 +198,14 @@ exports.modifyUser = (req, res, next) => {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
 
-    // Vérification que tous les champs soient remplis
-    if (firstname === null || lastname === null)  {
-        return res.status(400).json({
-            error: "Tout les champs doivent être remplis !"
-        });
-    }
+    const userSchema = Joi.object({
+        
+        firstname: Joi.string().alphanum().min(3).max(30).required(),
+        lastname: Joi.string().alphanum().min(3).max(30).required(),
+        
+    });
+
+    
     
     const userObject = req.file ? {
         firstname: firstname,
@@ -213,6 +215,14 @@ exports.modifyUser = (req, res, next) => {
         firstname: firstname,
         lastname: lastname,
     };
+
+    // Vérification que tous les champs soient remplis et valide
+    const result = userSchema.validate({ firstname: firstname, lastname: lastname})
+    
+    if (result.error) {
+        const validateError = result.error.details[0].message
+        res.status(400).json({ error : validateError })
+    }
 
     db.users.findOne({
         where: {
@@ -237,11 +247,11 @@ exports.modifyUser = (req, res, next) => {
                 error
             }));
         }
-
+        
         const filename = user.imageUrl.split('/images/')[1]; // Récupération du fichier image
 
         // Condition pour ne pas supprimer l'image "user.png"
-        if (filename != "user.png") {
+        if (req.file && filename != "user.png") {
             fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
                 updateUser();
             });

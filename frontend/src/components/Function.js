@@ -7,12 +7,6 @@ exports.postUser = (setErrorMessage) => {
     const lastname = signupForm.lastname;
     const password = signupForm.password;
 
-
-    if (email.value === "" && firstname.value === "" && lastname.value === "" && password.value === "") {
-
-        alert("Tout les champs ne sont pas remplis");
-
-    } else {
         const newUser = {
             "email": email.value,
             "firstname": firstname.value,
@@ -44,7 +38,6 @@ exports.postUser = (setErrorMessage) => {
                     console.log(e)
                 }
             });
-    }
 }
 
 // FONCTION POUR LA CONNEXION
@@ -53,13 +46,7 @@ exports.logUser = (setErrorMessage) => {
     const signupForm = document.getElementById("signupForm");
     const email = signupForm.email;
     const password = signupForm.password;
-
-    if (email.value === "" && password.value === "") {
-
-        alert("Tout les champs ne sont pas remplis");
-
-    } else {
-
+    
         const user = {
             "email": email.value,
             "password": password.value
@@ -90,12 +77,10 @@ exports.logUser = (setErrorMessage) => {
                 console.log(e)
             }
         });
-    }
 }
 
 // FONCTION POUR LA MODIFICATION DU PROFIL
-exports.modifyUser = (e) => {
-    e.preventDefault();
+exports.modifyUser = (setErrorMessage) => {
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     const profilForm = document.getElementById("profilForm");
@@ -107,7 +92,7 @@ exports.modifyUser = (e) => {
 
     if (firstname.value === firstname.defaultValue && lastname.value === lastname.defaultValue && file === undefined) {
 
-        alert("Vous n'avez modifier aucune information");
+        setErrorMessage("Vous n'avez modifier aucune information !");
 
     } else {
 
@@ -153,8 +138,11 @@ exports.modifyUser = (e) => {
         .then(async (response) => {
             try {
                 const res = await response.json()
+                setErrorMessage(res.error)
                 console.log(res)
-                window.location.href = "http://localhost:4800/profile?id=" + userId
+                if (response.ok) {
+                    window.location.href = "http://localhost:4800/profile?id=" + userId
+                }
             } catch (e) {
                 console.log(e)
             }
