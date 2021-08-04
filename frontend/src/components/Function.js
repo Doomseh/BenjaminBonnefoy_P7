@@ -415,31 +415,60 @@ exports.updatePost = (e) => {
     
     const title = updatePostForm.title;
     const message = updatePostForm.message;
+    const img = document.getElementById("fileUrl");
+    let file = img.files[0]
 
+    if (title.value === title.defaultValue && message.value === message.defaultValue && file === undefined) {
 
-    const updatepost = {
-        "title": title.value,
-        "message": message.value
-    };
+        alert("Vous n'avez modifier aucune information");
 
-    const myHeaders = new Headers({
-        "Accept": "application/json",
-        "Content-type": "application/json",
-        "Authorization": "Bearer " + token
-    });
+    } else {
+        
+        const updatepost = {
+            "title": title.value,
+            "message": message.value
+        };
 
-    fetch("http://localhost:3000/api/posts/" + urlId, {
-        method: "PUT",
-        headers: myHeaders,
-        body: JSON.stringify(updatepost)
+        const myHeaders = new Headers({
+            "Accept": "application/json",
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + token
+        });
 
-    }).then(async (response) => {
-        try {
-            const res = await response.json()
-            console.log(res)
-            window.location.href = "http://localhost:4800/post?id=" + urlId
-        } catch (e) {
-            console.log(e)
+        const uploadImg = () => {
+            if (file !== undefined) {
+                const formData = new FormData();
+                formData.append("image", file)
+                fetch("http://localhost:3000/api/posts/" + urlId, {
+                    method: "PUT",
+                    headers: {"Authorization": "Bearer " + token},
+                    body: formData
+
+                }).then(async (response) => {
+                    try {
+                        const res = await response.json()
+                        console.log(res)
+                    } catch (e) {
+                        console.log(e)
+                    }
+                });
+            }
         }
-    });
+
+        fetch("http://localhost:3000/api/posts/" + urlId, {
+            method: "PUT",
+            headers: myHeaders,
+            body: JSON.stringify(updatepost)
+
+        }).then( uploadImg() )
+        .then(async (response) => {
+            try {
+                const res = await response.json()
+                console.log(res)
+                window.location.href = "http://localhost:4800/post?id=" + urlId
+            } catch (e) {
+                console.log(e)
+            }
+        });
+    }
 }

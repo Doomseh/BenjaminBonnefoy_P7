@@ -179,10 +179,12 @@ exports.modifyUser = (req, res, next) => {
     }
     
     const userObject = req.file ? {
-        ...req.body.user,
+        firstname: firstname,
+        lastname: lastname,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : {
-        ...req.body
+        firstname: firstname,
+        lastname: lastname,
     };
     // Modification avec la méthode update()
     db.users.update({
