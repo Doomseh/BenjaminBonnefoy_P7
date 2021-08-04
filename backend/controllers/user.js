@@ -146,17 +146,28 @@ exports.deleteUser = (req, res, next) => {
                     }
                 })
                 .then(user => {
-                    const filename = user.imageUrl;
-                    fs.unlink(`images/${filename}`, () => {
+                    const filename = user.imageUrl.split('/images/')[1];
+                    if (filename != "user.png") {
+                        fs.unlink(`images/${filename}`, () => {
+                            db.users.destroy({
+                                    where: {
+                                        id: req.params.id
+                                    }
+                                })
+                                .then(() => res.status(200).json({
+                                    message: 'Utilisateur supprimé !'
+                                }))
+                        });
+                    } else {
                         db.users.destroy({
-                                where: {
-                                    id: req.params.id
-                                }
-                            })
-                            .then(() => res.status(200).json({
-                                message: 'Utilisateur supprimé !'
-                            }))
-                    })
+                            where: {
+                                id: req.params.id
+                            }
+                        })
+                        .then(() => res.status(200).json({
+                            message: 'Utilisateur supprimé !'
+                        }))
+                    }
                 })
             )
         )
