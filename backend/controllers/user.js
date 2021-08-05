@@ -4,11 +4,12 @@ const Joi = require('joi');
 // Récupération des models et des utils de gestion du TOKEN
 const db = require("../models");
 const jwtUtils = require('../utils/jwt.utils');
+const regexNoScript = /^[-_' a-zA-ZÀ-ÿ]+$/;
+const regexPassword = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/;
 
 // FONCTION SIGN UP
 exports.signup = (req, res, next) => {
     // éléments de la requète
-    const regexPassword = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/;
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const email = req.body.email;
@@ -16,8 +17,8 @@ exports.signup = (req, res, next) => {
 
     const userSchema = Joi.object({
         email: Joi.string().email({minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr'] }}).required(),
-        firstname: Joi.string().alphanum().min(3).max(30).required(),
-        lastname: Joi.string().alphanum().min(3).max(30).required(),
+        firstname: Joi.string().pattern(regexNoScript).min(3).max(30).required().messages({'string.pattern.base': "Certains caractères spéciaux ne peuvent pas être utiliser"}),
+        lastname: Joi.string().pattern(regexNoScript).min(3).max(30).required().messages({'string.pattern.base': "Certains caractères spéciaux ne peuvent pas être utiliser"}),
         password: Joi.string().pattern(regexPassword).required().messages({'string.pattern.base': 'Votre mot de passe doit comprendre entre 8 et 15 caractères et contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial'})
     });
 
@@ -202,8 +203,8 @@ exports.modifyUser = (req, res, next) => {
 
     const userSchema = Joi.object({
         
-        firstname: Joi.string().alphanum().min(3).max(30).required(),
-        lastname: Joi.string().alphanum().min(3).max(30).required(),
+        firstname: Joi.string().pattern(regexNoScript).min(3).max(30).required().messages({'string.pattern.base': "Certains caractères spéciaux ne peuvent pas être utiliser"}),
+        lastname: Joi.string().pattern(regexNoScript).min(3).max(30).required().messages({'string.pattern.base': "Certains caractères spéciaux ne peuvent pas être utiliser"}),
         
     });
 

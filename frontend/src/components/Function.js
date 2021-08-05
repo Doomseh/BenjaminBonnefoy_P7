@@ -366,18 +366,16 @@ exports.updatePost = (setErrorMessage) => {
 }
 
 // FONCTION POUR AJOUTER UN COMMENTAIRE
-exports.newComment = (e) => {
-    e.preventDefault();
+exports.newComment = (setErrorMessage) => {
+
     const token = localStorage.getItem("token");
     const url = new URL(window.location);
     const postId = url.searchParams.get("id");
     const message = document.getElementById("comment").value;
-    console.log(postId)
-
 
     if (message === "") {
 
-        alert("Vous n'avez pas écrit de commentaire");
+        setErrorMessage("Vous n'avez pas écrit de commentaire");
 
     } else {
 
@@ -400,8 +398,11 @@ exports.newComment = (e) => {
         }).then(async (response) => {
             try {
                 const res = await response.json()
-                console.log(res)
-                window.location.href = "http://localhost:4800/post?id=" + postId
+                console.log(res.error)
+                setErrorMessage(res.error)
+                if (response.ok) {
+                    window.location.href = "http://localhost:4800/post?id=" + postId
+                }
             } catch (e) {
                 console.log(e)
             }
@@ -409,7 +410,7 @@ exports.newComment = (e) => {
     }
 }
 // FONCTION POUR MODIFIER UN COMMENTAIRE
-exports.updateComment = (id) => {
+exports.updateComment = (id, setErrorUpdateMessage) => {
     const token = localStorage.getItem("token");
     const url = new URL(window.location);
     const postId = url.searchParams.get("id");
@@ -417,7 +418,7 @@ exports.updateComment = (id) => {
 
     if (message.value === message.defaultValue) {
 
-        alert("Vous n'avez pas modifier votre commentaire");
+        setErrorUpdateMessage("Vous n'avez pas modifier votre commentaire");
 
     } else {
 
@@ -438,9 +439,12 @@ exports.updateComment = (id) => {
 
         }).then(async (response) => {
             try {
-                const res = await response.json()
+                const res = await response.json();
                 console.log(res)
-                window.location.href = "http://localhost:4800/post?id=" + postId
+                setErrorUpdateMessage(res.error);
+                if (response.ok) {
+                    window.location.href = "http://localhost:4800/post?id=" + postId
+                }
             } catch (e) {
                 console.log(e)
             }

@@ -1,4 +1,5 @@
 import useSWR from "swr";
+import { useState } from "react";
 const user_Id = parseInt(localStorage.getItem("userId"));
 const isAdmin = localStorage.getItem("isAdmin");
 const fnc = require('../../components/function');
@@ -8,7 +9,9 @@ function Commentaire({postId}) {
 
     const newComment = fnc.newComment;
     const deleteComment = fnc.deleteComment; 
-    const updateComment = fnc.updateComment; 
+    const updateComment = fnc.updateComment;
+    const [errorMessage, setErrorMessage] = useState('');
+    const [errorUpdateMessage, setErrorUpdateMessage] = useState(''); 
 
     const renderComments = (comments) => {
         return comments.map(({ id,  message, createdAt, userName, userId }) =>  
@@ -20,8 +23,9 @@ function Commentaire({postId}) {
             {user_Id === userId || isAdmin === "true"
             ?   <form className="update-form">
                     <input type="text" className="update-text" id="updateComment" defaultValue={message}/>
+                    {errorUpdateMessage ? <p className="submit-error">{errorUpdateMessage}</p> : null }
                     <div className="comment-button">
-                        <button className="comment-update" onClick={(e) => {e.preventDefault(); updateComment(id)}}>Modifier</button>
+                        <button className="comment-update" onClick={(e) => {e.preventDefault(); updateComment(id, setErrorUpdateMessage)}}>Modifier</button>
                         <button className="comment-delete" onClick={(e) => {e.preventDefault(); deleteComment(id)}}>Supprimer</button>
                     </div>
                 </form> 
@@ -35,8 +39,9 @@ function Commentaire({postId}) {
             <div className="comment">
                 <form className="comment-form">
                     <input type="text"  id="comment" className="form-input" placeholder="Écrivez un commentaire..."></input>
-                    <button className="comment-btn" onClick={newComment}>Envoyer</button>
+                    <button className="comment-btn" onClick={(e) => {e.preventDefault(); newComment(setErrorMessage)}}>Envoyer</button>
                 </form>
+                {errorMessage ? <p className="submit-error">{errorMessage}</p> : null }
                 <div className ="comment-block">
                     <h2 className="comment-title">Commentaires</h2>
                     {data.data.length ===  0  

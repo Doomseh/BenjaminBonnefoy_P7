@@ -3,7 +3,7 @@ const Joi = require('joi');
 // Récupération des models et des utils de gestion du TOKEN
 const db = require("../models");
 const jwtUtils = require('../utils/jwt.utils');
-const regexNoScript = /^[-_!?,;.' a-zA-ZÀ-ÿ0-9]+$/
+const regexNoScript = /^[-_!?()=+[\]",;.' a-zA-ZÀ-ÿ0-9]+$/
 
 // FONCTION CREATION D'UN POST
 exports.createPost = (req, res, next) => {
