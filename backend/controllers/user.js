@@ -30,6 +30,7 @@ exports.signup = (req, res, next) => {
         res.status(400).json({ error : validateError })
     } else {
     // Vérification si l'user existe dans DB en fonction de son email
+        
         db.users.findOne({
                 where: {
                     email: email

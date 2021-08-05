@@ -1,7 +1,9 @@
+require('dotenv').config();  
+
 module.exports = {
-    HOST: "localhost",
-    USER: "root",
-    PASSWORD: "dev-1992-doom",
-    DATABASE: "groupomania",
+    HOST: process.env.HOST,
+    USER: process.env.USER,
+    PASSWORD: process.env.PASSWORD,
+    DATABASE: process.env.DATABASE,
     dialect: "mysql"
 };
