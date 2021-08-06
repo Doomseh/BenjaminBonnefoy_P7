@@ -153,9 +153,27 @@ exports.deleteUser = (req, res, next) => {
             }
         })
         .then(() =>
-            db.posts.destroy({
+            db.posts.findOne({
                 where: {
                     userId: req.params.id
+                }
+            })
+            .then((post) => {
+                if (post.postUrl != null) {
+                    const filename = post.postUrl.split('/images/')[1];
+                    fs.unlink(`images/${filename}`, () => {
+                        db.posts.destroy({
+                                where: {
+                                    userId: req.params.id
+                                }
+                            })   
+                    });
+                } else {
+                    db.posts.destroy({
+                        where: {
+                            userId: req.params.id
+                        }
+                    })
                 }
             })
             .then(() =>

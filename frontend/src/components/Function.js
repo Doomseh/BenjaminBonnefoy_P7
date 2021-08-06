@@ -160,7 +160,9 @@ exports.modifyUser = (setErrorMessage) => {
                 console.log(res);
                 if (response.ok) {
                     // Redirection sur la page de Profil si tout s'est bien passé
-                    window.location.href = "http://localhost:4800/profile?id=" + userId
+                    setTimeout(function() {
+                        window.location.href = "http://localhost:4800/profile?id=" + userId
+                    }, 1000)  
                 }
             } catch (e) {
                 console.log(e)
@@ -275,7 +277,9 @@ exports.newPost = (setErrorMessage) => {
                 uploadImg(res.postId);
                 try {
                     // Redirection sur la page Home
-                    window.location.href = "http://localhost:4800/home"
+                    setTimeout(function() {
+                        window.location.href = "http://localhost:4800/home"
+                    }, 1000) 
                 } catch(e) {
                     console.log(e)
                 }
@@ -392,7 +396,9 @@ exports.updatePost = (setErrorMessage) => {
                     uploadImg();
                     try {
                         // Redirection sur la page de la publication créé
-                        window.location.href = "http://localhost:4800/post?id=" + postId
+                        setTimeout(function() {
+                            window.location.href = "http://localhost:4800/post?id=" + postId
+                        }, 1000) 
                     } catch (e) {
                         console.log(e)
                     }
