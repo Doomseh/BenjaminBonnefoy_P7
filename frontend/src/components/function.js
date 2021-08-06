@@ -208,8 +208,7 @@ exports.deleteAccount = (e) => {
 exports.logOut = (e) => {
     e.preventDefault();
     // Suppression des informations du localStorage pour se déconnecter et redirection à la page d'accueil
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
+    localStorage.clear();
     window.location.href = "http://localhost:4800"
 }
 

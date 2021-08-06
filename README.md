@@ -23,7 +23,7 @@ Ajouter un fichier .env dans le dossier ``backend`` Exemple :
     DATABASE=groupomania
 
 Si vous avez choisi d'autre valeurs lors de la création de la base de donnée il faudra renseigner vos valeurs.  
-Vous pouvez laisser le TOKEN avec cette valeur cela n'a pas d'impact avec la base de donnée.
+Vous pouvez laisser le TOKEN avec cette valeur cela n'a pas d'impact avec la base de donnée.  
 Lorsque vous lancerez le server Sequelize va créer tout les tables nécéssaires automatiquement.
 
 * ### 3  Installation des modules :
