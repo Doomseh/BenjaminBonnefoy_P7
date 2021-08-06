@@ -2,17 +2,17 @@
 
 ## Installation de l'application :
 
-1 * Créer une base de donnée mysql vierge et un utilisateur avec les droits créations :
+* ### 1 Créer une base de donnée mysql vierge et un utilisateur avec les droits créations :
 
 Exemple :
 
-``CREATE DATABASE groupomania;``
-``CREATE USER 'user'@'localhost' IDENTIFIER by 'mdp';``
-``GRANT ALL PRIVILEGES ON groupomania.* TO 'user'@'localhost';``
+    CREATE DATABASE groupomania;
+    CREATE USER 'user'@'localhost' IDENTIFIER by 'mdp';
+    GRANT ALL PRIVILEGES ON groupomania.* TO 'user'@'localhost';
 
 Vous pouvez changer les valeurs de : groupomania / user / mdp
 
-2 * Connecter la base de donnée :
+* ### 2 Connecter la base de donnée :
 
 Ajouter un fichier .env dans le dossier *backend* Exemple :
     
@@ -25,7 +25,7 @@ Ajouter un fichier .env dans le dossier *backend* Exemple :
 Si vous avez choisi d'autre valeurs lors de la création de la base de donnée il faudra renseigner vos valeurs.
 Vous pouvez laisser le TOKEN avec cette valeur cela n'a pas d'impact avec la base de donnée.
 
-3 * Installation des modules :
+* ### 3  Installation des modules :
 
 Dans le dossier backend lancer les commandes : ``npm install`` puis ``nodemon`` pour lancer le serveur.
 
@@ -33,7 +33,7 @@ Dans le dossier frontend lancer les commandes : ``npm install`` puis ``npm start
 
 Puis attendre le lancement automatique de votre navigateur sur l'adresse *`localhost:4800`*
 
-4 * Créer un compte administrateur sur l'application :
+## Créer un compte administrateur sur l'application :
 
 Une fois sur l'application inscrivez-vous.
 La base de donnée étant vierge vous serez donc le premier utilisateur avec l'id 1.
