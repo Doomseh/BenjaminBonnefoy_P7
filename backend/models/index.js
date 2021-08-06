@@ -7,7 +7,6 @@ const sequelize = new Sequelize(dbConfig.DATABASE, dbConfig.USER, dbConfig.PASSW
     dialect: dbConfig.dialect
 });
 
-
 const db = {};
 
 db.sequelize = sequelize;
