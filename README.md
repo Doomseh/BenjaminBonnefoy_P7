@@ -44,5 +44,6 @@ Dans l'invite de commandes mysql :
     USE groupomania
     UPDATE Users SET isAdmin=true WHERE id=1;
 
+Déconnectez et reconnectez vous.   
 Votre compte sera maintenant admin !
 
