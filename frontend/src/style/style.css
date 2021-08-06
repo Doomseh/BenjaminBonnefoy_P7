@@ -382,6 +382,10 @@ body {
     margin-top: 20px;
     width: 90%;
   }
+  .profil-img {
+    max-width: 200px;
+    max-height: 250px;
+  }
   .profil-block {
     flex-direction: column;
     align-items: center;

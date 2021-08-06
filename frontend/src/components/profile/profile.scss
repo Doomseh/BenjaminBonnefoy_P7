@@ -59,6 +59,10 @@
     .profil {
         margin-top: 20px;
         width: 90%;
+        &-img {
+            max-width: 200px;
+            max-height: 250px;
+        }
         &-block {
             flex-direction: column;
             align-items: center;
