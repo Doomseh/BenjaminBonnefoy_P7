@@ -7,7 +7,7 @@
 Exemple :
 
     CREATE DATABASE groupomania;
-    CREATE USER 'user'@'localhost' IDENTIFIER by 'mdp';
+    CREATE USER 'user'@'localhost' IDENTIFIED by 'mdp';
     GRANT ALL PRIVILEGES ON groupomania.* TO 'user'@'localhost';
 
 Vous pouvez changer les valeurs de : groupomania / user / mdp
@@ -24,6 +24,7 @@ Ajouter un fichier .env dans le dossier ``backend`` Exemple :
 
 Si vous avez choisi d'autre valeurs lors de la création de la base de donnée il faudra renseigner vos valeurs.  
 Vous pouvez laisser le TOKEN avec cette valeur cela n'a pas d'impact avec la base de donnée.
+Lorsque vous lancerez le server Sequelize va créer tout les tables nécéssaires automatiquement.
 
 * ### 3  Installation des modules :
 
