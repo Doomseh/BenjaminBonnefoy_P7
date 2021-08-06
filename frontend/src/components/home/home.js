@@ -9,9 +9,9 @@ function Home() {
 
     // Appel de useSWR pour récupérer les informations de la base de donnée
     const { data, error } = useSWR("http://localhost:3000/api/posts/");
-    
     // Fonction pour retourner tout les posts présent dans la base de donnée
     const renderPosts = (posts) => {
+        if (posts.length === 0) return <div className="error">Aucune publication trouvée...</div>
         return posts.map(({ id, title, message, userId, postUrl ,createdAt }) => <Post key={id} id={id} title={title} message={message} userId={userId} postUrl={postUrl} createdAt={createdAt} button={true}/>
     )}
     
