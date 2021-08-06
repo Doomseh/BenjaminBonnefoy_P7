@@ -1,12 +1,16 @@
+// Import de useState/useLocation de react et du logo de groupomania
 import logoWhite from "../../assets/groupomania-w.png";
 import { useState } from "react";
 import {useLocation} from "react-router-dom";
+// Récupération du fichier de fonction
 const fnc = require('../../components/function');
 
-
+// Création du composant Signup
 function Signup() {
 
+    // Déclaration de useState pour la gestion des messages d'erreur
     const [errorMessage, setErrorMessage] = useState('')
+    // Utilisation de useLocation pour nommé le button
     const location = useLocation().pathname;
     const btnName = location.substring(1);
     const postUser = fnc.postUser    
@@ -37,8 +41,6 @@ function Signup() {
             <img src={logoWhite} alt="Logo de l'Entreprise Groupomania" className="logImg"></img>
         </div>
     )
-
-    
 }
 
 export default Signup;

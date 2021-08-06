@@ -1,19 +1,25 @@
+// Import de useSWR et useState
 import useSWR from "swr";
 import { useState } from "react";
+// Récupération du token/user_Id/isAdmin/postId et du fichier fonction
 const token = localStorage.getItem("token");
 const user_Id = parseInt(localStorage.getItem("userId"));
 const isAdmin = localStorage.getItem("isAdmin");
 const url = new URL(window.location);
-const urlId = url.searchParams.get("id");
+const postId = url.searchParams.get("id");
 const fnc = require('../../components/function');
 
+// Création du composant UpdatePost
 function UpdatePost() {
 
+    // Appel de useSWR pour récupérer les informations de la base de donnée
+    const { data, error } = useSWR("http://localhost:3000/api/posts/" + postId);
+
     const updatePost = fnc.updatePost;
+    // Déclaration de useState pour la gestion des messages d'erreur
     const [errorMessage, setErrorMessage] = useState('')
 
-    const { data, error } = useSWR("http://localhost:3000/api/posts/" + urlId);
-    console.log(data)
+    // Gestion des différentes conditions pour afficher le résultat
     if (error) return <div className="error">Failed to load</div>
     if (!data) return <div className="error">Aucune publication trouvée...</div>
     if (!token) return <div className="error">Vous n'êtes pas connecté !</div>

@@ -1,11 +1,14 @@
+// Import de NavLink de react et le logo de groupomania
 import {NavLink} from 'react-router-dom';
 import logoNav from "../../assets/left-groupomania.png";
-const fnc = require('../../components/function');
+// Récupération du token/userId et du fichier fonction
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
+const fnc = require('../../components/function');
+// Constante pour vérifier si l'utilisateur est connecté ou non avec grâce au token
 const isLogged = token != null ? true : false
-console.log(isLogged)
 
+// Création du composant Navigation
 function Navigation() {
 
     const logOut = fnc.logOut;

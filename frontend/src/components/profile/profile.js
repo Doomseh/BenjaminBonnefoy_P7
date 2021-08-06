@@ -1,16 +1,24 @@
+// Import de useSWR et useState
 import useSWR from "swr";
 import { useState } from "react";
+// Récupération du token/userId et du fichier fonction
 const token = localStorage.getItem("token");
-const userId = localStorage.getItem("userId");
+const user_Id = localStorage.getItem("userId");
 const fnc = require('../../components/function');
 
+// Création du composant Profile
 function Profile() {
 
-    const { data, error } = useSWR('http://localhost:3000/api/users/' + userId)
+    // Appel de useSWR pour récupérer les informations de la base de donnée
+    const { data, error } = useSWR('http://localhost:3000/api/users/' + user_Id)
+    
+    // Déclaration de useState pour la gestion des messages d'erreur
     const [errorMessage, setErrorMessage] = useState('');
     const modifyUser = fnc.modifyUser;
     const deleteAccount = fnc.deleteAccount; 
-
+    console.log(data)
+    
+    // Gestion des différentes conditions pour afficher le résultat
     if (!token) return <div className="error">Vous n'êtes pas connecté !</div>
     if (error) return <div className="error">Failed to load</div>
     if (!data) return <div className="error">Utilisateur non trouvé...</div>

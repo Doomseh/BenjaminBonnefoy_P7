@@ -1,3 +1,4 @@
+// Récupération de toutes les routes
 import Accueil from "./components/accueil/Accueil";
 import Login from "./components/login-signup/Login";
 import Signup from "./components/login-signup/Signup";
@@ -9,6 +10,8 @@ import UpdatePost from "./components/newpost/UpdatePost";
 import Home from "./components/home/Home";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
+
+// Mise en place de l'application avec le router
 function App() {
   return  (<div>
     <Router>

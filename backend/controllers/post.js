@@ -153,7 +153,7 @@ exports.modifyPost = (req, res, next) => {
                 if (post.userId == user_Id || isAdmin === true) {
                     
                     // Condition pour vérifier si une image est présente
-                    if (post.postUrl) {
+                    if (req.file && post.postUrl) {
                         const filename = post.postUrl.split('/images/')[1]; // Récupération du fichier image
                         fs.unlink(`images/${filename}`, () => { // Suppréssion de l'image
                         updatePost();

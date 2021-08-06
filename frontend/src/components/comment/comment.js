@@ -1,18 +1,26 @@
+// Import de useSWR et useState
 import useSWR from "swr";
 import { useState } from "react";
+// Récupération du userId/isAdmin et du fichier fonction
 const user_Id = parseInt(localStorage.getItem("userId"));
 const isAdmin = localStorage.getItem("isAdmin");
 const fnc = require('../../components/function');
 
+// Création du composant Commentaire
 function Commentaire({postId}) {
+
+     // Appel de useSWR pour récupérer les informations de la base de donnée
     const { data, error } = useSWR("http://localhost:3000/api/comments/post/" + postId);  
 
     const newComment = fnc.newComment;
     const deleteComment = fnc.deleteComment; 
     const updateComment = fnc.updateComment;
+
+    // Déclaration de useState pour la gestion des messages d'erreur
     const [errorMessage, setErrorMessage] = useState('');
     const [errorUpdateMessage, setErrorUpdateMessage] = useState(''); 
 
+    // Fonction pour retourner tout les commentaires de la publication présents dans la base de donnée
     const renderComments = (comments) => {
         return comments.map(({ id,  message, createdAt, userName, userId }) =>  
         <div className="comment-user" key={id}>
@@ -33,6 +41,7 @@ function Commentaire({postId}) {
         </div>
     )}
 
+    // Gestion des différentes conditions pour afficher le résultat
     if (error) return <div className="error">Failed to load</div>
     if (!data) return <div className="error">Commentaire trouvé...</div>
     return (

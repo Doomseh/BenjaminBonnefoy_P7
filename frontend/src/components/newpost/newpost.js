@@ -1,12 +1,17 @@
+// Import de useState
 import { useState } from 'react';
+// Récupération du token et du fichier fonction
 const token = localStorage.getItem("token");
 const fnc = require('../../components/function');
 
+// Création du composant NewPost
 function NewPost() {
 
     const newPost = fnc.newPost;
+    // Déclaration de useState pour la gestion des messages d'erreur
     const [errorMessage, setErrorMessage] = useState('')
 
+    // Condition pour vérifier si l'utilisateur est connecté ou non
     if (!token) return <div className="error">Vous n'êtes pas connecté !</div>
     return (
         <div className="newpost">

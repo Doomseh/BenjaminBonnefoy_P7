@@ -1,7 +1,10 @@
+// Import de useHistory de react
 import { useHistory } from "react-router-dom";
 
+// Création du composant Accueil
 function Accueil() {
-
+    
+    // Déclaration du useHistory
     let history = useHistory();
 
     return (

@@ -208,8 +208,6 @@ exports.modifyUser = (req, res, next) => {
         lastname: Joi.string().pattern(regexNoScript).min(3).max(30).required().messages({'string.pattern.base': "Certains caractères spéciaux ne peuvent pas être utiliser"}),
         
     });
-
-    
     
     const userObject = req.file ? {
         firstname: firstname,
