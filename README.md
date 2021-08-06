@@ -14,7 +14,7 @@ Vous pouvez changer les valeurs de : groupomania / user / mdp
 
 * ### 2 Connecter la base de donnée :
 
-Ajouter un fichier .env dans le dossier *backend* Exemple :
+Ajouter un fichier .env dans le dossier ``backend`` Exemple :
     
     TOKEN="Abfdof231059fesfnbtiqpgmgej23105Fez20G9BFS8FEZQLKF2F34G"
     HOST=localhost
@@ -22,25 +22,26 @@ Ajouter un fichier .env dans le dossier *backend* Exemple :
     PASSWORD=mdp
     DATABASE=groupomania
 
-Si vous avez choisi d'autre valeurs lors de la création de la base de donnée il faudra renseigner vos valeurs.
+Si vous avez choisi d'autre valeurs lors de la création de la base de donnée il faudra renseigner vos valeurs.  
 Vous pouvez laisser le TOKEN avec cette valeur cela n'a pas d'impact avec la base de donnée.
 
 * ### 3  Installation des modules :
 
-Dans le dossier backend lancer les commandes : ``npm install`` puis ``nodemon`` pour lancer le serveur.
+Dans le dossier ``backend`` lancer les commandes : ``npm install`` puis ``nodemon`` pour lancer le serveur.
 
-Dans le dossier frontend lancer les commandes : ``npm install`` puis ``npm start`` pour lancer l'application
+Dans le dossier ``frontend`` lancer les commandes : ``npm install`` puis ``npm start`` pour lancer l'application
 
 Puis attendre le lancement automatique de votre navigateur sur l'adresse *`localhost:4800`*
 
 ## Créer un compte administrateur sur l'application :
 
-Une fois sur l'application inscrivez-vous.
+Une fois sur l'application inscrivez-vous.  
 La base de donnée étant vierge vous serez donc le premier utilisateur avec l'id 1.
 
 Dans l'invite de commandes mysql :
-``USE groupomania``
-``UPDATE Users SET isAdmin=true WHERE id=1;``
+
+    USE groupomania
+    UPDATE Users SET isAdmin=true WHERE id=1;
 
 Votre compte sera maintenant admin !
 
