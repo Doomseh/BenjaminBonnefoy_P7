@@ -7,7 +7,7 @@
 Exemple :
 
     CREATE DATABASE groupomania;
-    CREATE USER 'user'@'localhost' IDENTIFIED by 'mdp';
+    CREATE USER 'benjamin'@'localhost' IDENTIFIED by 'mdp';
     GRANT ALL PRIVILEGES ON groupomania.* TO 'user'@'localhost';
 
 Vous pouvez changer les valeurs de : groupomania / user / mdp
@@ -18,7 +18,7 @@ Ajouter un fichier .env dans le dossier ``backend`` Exemple :
     
     TOKEN="Abfdof231059fesfnbtiqpgmgej23105Fez20G9BFS8FEZQLKF2F34G"
     HOST=localhost
-    USER=user
+    USER=benjamin
     PASSWORD=mdp
     DATABASE=groupomania
 
