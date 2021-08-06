@@ -1,0 +1,132 @@
+.comment {
+    background-color: $bloc-color;
+    width: 80%;
+    margin: 20px;
+    border-radius: 10px;
+    color: black;
+    box-shadow: inset 0px 0px 8px rgb(0, 0, 0);
+    box-shadow:  0px 0px 4px rgb(250, 250, 250);
+    &-form {
+        display: flex;
+        align-items: center;
+    }
+    &-btn {
+        background-color: $btn-color;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        margin-right: 10px;
+        font-weight: bold;
+    }
+    &-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    &-title {
+        border: 2px solid white;
+        border-radius: 20px;
+        padding: 10px 20px;
+        margin: 20px 0px;
+        box-shadow:  0px 0px 8px rgb(0, 0, 0);
+        border-bottom: 2px solid black;
+    }
+    &-user {
+        background-color: white;
+        width: 95%;
+        border-radius: 10px;
+        margin: 20px;
+        box-shadow: 0px 3px 8px rgb(0, 0, 0);
+    }
+    &-info {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 10px 0px 10px;
+        align-items: center;
+    }
+    &-name {
+        font-weight: bold;
+        margin: 0;
+    }
+    &-date {
+        margin: 0;
+        font-weight: bold;
+        opacity: 0.6;
+    }
+    &-text {
+        margin: 10px;
+        border: 2px solid black;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: lightgray;
+    }
+    &-button {
+       display: flex;
+       justify-content: space-around;
+       width: 100%;
+    }
+    &-delete, &-update {
+        margin: 0px 20px 5px 20px;
+        width: 30%;
+        height: 30px;
+        border-radius: 10px;
+        font-weight: bold;
+        font-size: 15px;
+        color: white;
+        cursor: pointer;
+    }
+    &-update {
+        background-color: $btn-color;
+    }
+    &-delete {
+        background-color: darkred;
+    }
+    .update {
+        &-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0px 10px;
+        }
+        &-text {
+            width: 97%;
+            font-size: 17px;
+            border: 2px solid black;
+            border-radius: 5px;
+            margin: 10px 0px 5px 0px;
+            padding: 10px;
+            background-color: white;
+        }
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .comment {
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &-form {
+            flex-direction: column;
+            align-items: center;
+            width: 90%;
+        }
+        &-btn {
+            padding: 10px 30px;
+        }
+        &-block {
+            width: 95%;
+        }
+        &-user {
+            margin-top: 0;
+        }
+        &-delete, &-update {
+            width: 40%;
+        }
+        .update-text {
+            width: 93%;
+        }
+    }
+    
+}
