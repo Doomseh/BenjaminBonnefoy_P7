@@ -16,7 +16,6 @@ function Profile() {
     const [errorMessage, setErrorMessage] = useState('');
     const modifyUser = fnc.modifyUser;
     const deleteAccount = fnc.deleteAccount; 
-    console.log(data)
     
     // Gestion des différentes conditions pour afficher le résultat
     if (!token) return <div className="error">Vous n'êtes pas connecté !</div>

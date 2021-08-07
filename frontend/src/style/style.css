@@ -236,15 +236,31 @@ body {
   opacity: 0.6;
   border-top: 2px solid black;
 }
+.post-userBlock {
+  display: flex;
+  align-items: center;
+}
+.post-userImg {
+  border: 2px solid black;
+  border-radius: 10px;
+  max-width: 50px;
+  max-height: 50px;
+  margin: 10px;
+}
+.post-time {
+  display: flex;
+  align-items: center;
+}
 .post-title {
   border: 2px solid white;
   max-width: 80%;
-  border-radius: 20px;
+  border-radius: 15px;
   background-color: white;
   padding: 10px 20px;
   margin: 20px 0px;
   box-shadow: 0px 0px 8px black;
   border-bottom: 2px solid black;
+  border-top: 2px solid black;
 }
 .post-message {
   width: 80%;
@@ -297,7 +313,7 @@ body {
   .post-link {
     width: 90%;
   }
-  .post-name, .post-time {
+  .post-userName, .post-time {
     font-size: 15px;
     text-align: center;
   }

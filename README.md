@@ -10,13 +10,13 @@ Exemple :
 
     CREATE DATABASE groupomania;
     CREATE USER 'benjamin'@'localhost' IDENTIFIED by 'mdp';
-    GRANT ALL PRIVILEGES ON groupomania.* TO 'user'@'localhost';
+    GRANT ALL PRIVILEGES ON groupomania.* TO 'benjamin'@'localhost';
 
-Vous pouvez changer les valeurs de : groupomania / user / mdp
+Vous pouvez changer les valeurs : groupomania / benjamin / mdp
 
 * ### 2 Connecter la base de donnée :
 
-Ajouter un fichier .env dans le dossier ``backend`` Exemple :
+Ajouter un fichier .env dans le dossier ``backend`` et ajoutez-y les variables suivante :
     
     TOKEN="Abfdof231059fesfnbtiqpgmgej23105Fez20G9BFS8FEZQLKF2F34G"
     HOST=localhost

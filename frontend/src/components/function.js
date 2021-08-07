@@ -242,7 +242,7 @@ exports.newPost = (setErrorMessage) => {
             const formData = new FormData();
             formData.append("image", file);
             formData.append("title", title.value);
-            formData.append("message", title.message);
+            formData.append("message", message.value);
             fetch("http://localhost:3000/api/posts/" + id, {
                 method: "PUT",
                 headers: {"Authorization": "Bearer " + token},
@@ -359,7 +359,7 @@ exports.updatePost = (setErrorMessage) => {
                 const formData = new FormData();
                 formData.append("image", file);
                 formData.append("title", title.value);
-                formData.append("message", title.message);
+                formData.append("message", message.value);
                 fetch("http://localhost:3000/api/posts/" + postId, {
                     method: "PUT",
                     headers: {"Authorization": "Bearer " + token},

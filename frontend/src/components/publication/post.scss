@@ -25,15 +25,31 @@
         opacity: 0.6;
         border-top: 2px solid black;
     }
+    &-userBlock {
+        display: flex;
+        align-items: center;
+    }
+    &-userImg {
+        border: 2px solid black;
+        border-radius: 10px;
+        max-width: 50px;
+        max-height: 50px;
+        margin: 10px;
+    }
+    &-time {
+        display: flex;
+        align-items: center;
+    }
     &-title {
         border: 2px solid white;
         max-width: 80%;
-        border-radius: 20px;
+        border-radius: 15px;
         background-color: white;
         padding: 10px 20px;
         margin: 20px 0px;
         box-shadow:  0px 0px 8px rgb(0, 0, 0);
         border-bottom: 2px solid black;
+        border-top: 2px solid black;
     }
     &-message {
         width: 80%;
@@ -86,7 +102,7 @@
         &-link {
             width: 90%;
         }
-        &-name, &-time {
+        &-userName, &-time {
             font-size: 15px;
             text-align: center;
         }
