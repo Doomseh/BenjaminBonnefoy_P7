@@ -29,10 +29,6 @@ function Profile() {
             <h1 className="title">Votre profil</h1>
             <form className="profil" id="profilForm">
                 <div className="form-block">
-                    <label htmlFor="email">Email :</label>
-                    <input type="text" disabled="disabled" className="form-input" defaultValue={data.email}/>
-                </div>
-                <div className="form-block">
                     <label htmlFor="firstname">Prénom :</label>
                     <input type="text" id="firstname" className="form-input" defaultValue={data.firstname}/>
                 </div>

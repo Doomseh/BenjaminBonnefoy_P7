@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const Joi = require('joi');
+const sha256 = require('sha256');
 // Récupération des models et des utils de gestion du TOKEN
 const db = require("../models");
 const jwtUtils = require('../utils/jwt.utils');
@@ -12,7 +13,7 @@ exports.signup = (req, res, next) => {
     // éléments de la requète
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
-    const email = req.body.email;
+    const email = sha256.x2(req.body.email);
     const password = req.body.password;
 
     const userSchema = Joi.object({
@@ -23,7 +24,7 @@ exports.signup = (req, res, next) => {
     });
 
     // vérification que tous les champs sont remplis
-    const result = userSchema.validate({ email: email, firstname: firstname, lastname: lastname, password: password})
+    const result = userSchema.validate({ email: req.body.email, firstname: firstname, lastname: lastname, password: password})
     
     if (result.error) {
         const validateError = result.error.details[0].message
@@ -80,6 +81,8 @@ exports.signup = (req, res, next) => {
 // FONCTION LOGIN
 exports.login = (req, res) => {
 
+    const email = sha256.x2(req.body.email);
+
     const userSchema = Joi.object({
         email: Joi.string().email({minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr'] }}).required(),
         password: Joi.string().required()
@@ -94,7 +97,7 @@ exports.login = (req, res) => {
         // Recherche de l'utilisateur en fonction de son email
         db.users.findOne({
                 where: {
-                    email: req.body.email
+                    email: email
                 }
             })
             .then(user => {

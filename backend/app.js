@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const helmet = require('helmet')
 
 // Recupération des routes
 const userRoutes = require('./routes/user');
@@ -18,6 +19,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+app.use(helmet());
 
 app.use('/images', express.static(path.join(__dirname, 'images'))); 
 
